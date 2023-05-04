@@ -1,57 +1,67 @@
-#ifndef DA_RAILWAYS_GRAPH_H
-#define DA_RAILWAYS_GRAPH_H
+#ifndef DA2_GRAPH_H
+#define DA2_GRAPH_H
 
 #include <iostream>
+#include <string>
 #include <utility>
 #include <list>
 #include <unordered_map>
-#include <queue>
-#include <string>
-#include <vector>
-#include <algorithm>
 
 using namespace std;
 
+/**
+ * @details The Graph class configures the attributes of a graph and the more complicated functions developed
+ */
 class Graph {
 private:
     /**
-     * Represents the edges of the graph/network segments.
+     * Represents the edges of the graph
      */
     struct Edge {
         /**
-         * Origin Station's Name
+         * Origin Node's Id
          */
-        string origin;
+        int origin;
         /**
-         * Destination Station's Name
+         * Destination Node's Id
          */
-        string dest;
+        int dest;
         /**
-         * Type of service provided (STANDARD or ALFA PENDULAR)
+         * Distance between the two nodes in the edge
          */
-        string service;
-        /**
-         * Number of trains that can simultaneously travel on the respective network segment
-         */
-         int capacity;
-        /**
-         * Flow
-         */
-         int flow = 0;
+        float distance;
     };
     /**
-     * Represents the content of each node.
+     * Represents the content of each node
      */
     struct Node {
-        //TODO
-        //Ships not here
         /**
-         * List of outgoing edges, to adjacent nodes.
+         * Node's Id
          */
-        list<Edge*> edges = {};
+        int Id;
         /**
-         * Verifies if the node has been visited on a previous search.
-         * @details This variable set to True means that the node has been visited and False otherwise.
+         * Node's latitude
+         */
+        double latitude;
+        /**
+         * Node's longitude
+         */
+        double longitude;
+        /**
+         * Node's name (only used for the Tourism Toy Graph really
+         */
+        string name;
+        /**
+         * List of outgoing edges, to adjacent nodes
+         */
+        list<Edge*> edgesOut = {};
+        /**
+         * List of edges incoming from adjacent nodes
+         */
+        list<Edge*> edgesIn = {};
+        /**
+         * Verifies if the node has been visited on a previous search
+         * @details This variable set to True means that the node has been visited and False otherwise
          */
         bool visited = false;
         /**
@@ -59,21 +69,57 @@ private:
          */
         Edge* path = nullptr;
         /**
-         * Cost from source to the vertex
+         * Distance between the this node and the src
          */
-        int distance = 0;
+        double distanceSrc;
     };
     /**
-     * A hash table.
-     * @details When searching the Time Complexity is O(1).
+     * A hash table
+     * @details When searching the Time Complexity is O(1)
      */
-    unordered_map<string, Node*> nodes;
+    unordered_map<int, Node*> nodes;
 public:
     /**
-     * Creates a new Graph.
-     * @details Constructor of the Graph class.
+     * Graph class constructor
+     * @details Creates a default Graph
      */
     Graph();
+    /**
+     * Void method that deletes all nodes and edges of a graph
+     * @details Time Complexity - O((V * E))
+     * @details With V being the amount of nodes and E being the amount of edges of the graph
+     */
+    void deleteGraph();
+    /**
+     * Add a node to the Graph
+     * @details Time Complexity - O(V)
+     * @details V is the number of nodes
+     * @param id The node's id
+     * @param lon The node's longitude
+     * @param lat The node's latitude
+     */
+    void addNode(int id, double lon, double lat);
+    /**
+     * Add an edge from a source node to a target node
+     * @details Time Complexity - O(1)
+     * @param org The source node
+     * @param destination The target node
+     * @param dist Distance between the source and target nodes
+     */
+    void addEdge(int org, int destination, float dist);
+    /**
+     * Getter for the object nodes
+     * @details Time Complexity: O(1)
+     * @return The object nodes
+     */
+    unordered_map<int, Node*> getNodes();
+    /**
+     * Getter for the object edges of a certain node
+     * @details Time Complexity: O(1)
+     * @param id Id of the node that has the edges you are looking for
+     * @return The object edges of said node
+     */
+    list<Edge*> getEdges(int id);
 };
 
-#endif //DA_RAILWAYS_GRAPH_H
+#endif //DA2_GRAPH_H

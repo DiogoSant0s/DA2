@@ -7,6 +7,9 @@
 
 using namespace std;
 
+/**
+ * @details The Data class is responsible for reading all the provided data and connecting the Menu class to the Graph class
+ */
 class Data {
 private:
     Graph Network1;
@@ -18,13 +21,13 @@ private:
 public:
     /**
      * Data class constructor
-     * @details Creates a new Graph and reads all the data from the files.
+     * @details Calls the Graph constructor for each graph in this class and reads all the data from the files.
      */
     Data();
     /**
      * Reads all the data saved in the files and stores them in the correct structures.
-     * @details Time Complexity - O((V * E)^4)
-     * @details With V being the amount of nodes and E being the amount of edges of each set of files
+     * @details Time Complexity - O((V * E))
+     * @details With V being the amount of nodes and E being the amount of edges of all graphs
      */
     void readFiles();
     /**
@@ -57,6 +60,12 @@ public:
      * @return The third toy graph - Tourism
      */
     Graph getToyGraph3();
+    /**
+     * Void method that deletes all graphs, cleaning the memory
+     * @details Time Complexity - O((V * E))
+     * @details With V being the amount of nodes and E being the amount of edges of all graphs
+     */
+    void deleteData();
 };
 
 #endif //DA2_DATA_H

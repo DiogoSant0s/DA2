@@ -3,13 +3,14 @@
 
 #include <sstream>
 #include <iostream>
+#include <vector>
+#include "algorithm"
 #include "Data.h"
 
 using namespace std;
 
 /**
- * Class Menu
- * @details The class Menu configures the User Interface, dealing with all inputs and outputs, and connects to the project's data through the attribute data
+ * @details The Menu class configures the User Interface, dealing with all inputs and outputs, and connects to the project's data through the attribute data
  */
 class Menu {
     Data data;
@@ -55,6 +56,11 @@ public:
      * @details Complexity: O(1)
      */
     void MainMenu();
+    /**
+     * Void method that is called to close the program
+     * @see The function deleteData in Data.h
+     */
+    void exitMenu();
 };
 
 #endif //DA2_MENU_H

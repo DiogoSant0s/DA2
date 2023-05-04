@@ -29,11 +29,13 @@ void Data::readFiles() {
         getline(input, Destination, ',');
         getline(input, Distance, '\r');
 
-        int org = stoi(Origin);
+        int origin = stoi(Origin);
         int dest = stoi(Destination);
-        float dist = stof(Distance);
+        float distance = stof(Distance);
 
-
+        Shipping.addNode(origin, 0, 0);
+        Shipping.addNode(dest, 0, 0);
+        Shipping.addEdge(origin, dest, distance);
     }
     while (getline(stadiums, textLine)) {
         stringstream input(textLine);
@@ -43,11 +45,13 @@ void Data::readFiles() {
         getline(input, Destination, ',');
         getline(input, Distance, '\r');
 
-        int org = stoi(Origin);
+        int origin = stoi(Origin);
         int dest = stoi(Destination);
-        float dist = stof(Distance);
+        float distance = stof(Distance);
 
-
+        Stadiums.addNode(origin, 0, 0);
+        Stadiums.addNode(dest, 0, 0);
+        Stadiums.addEdge(origin, dest, distance);
     }
     while (getline(tourism, textLine)) {
         stringstream input(textLine);
@@ -59,11 +63,16 @@ void Data::readFiles() {
         getline(input, OriginName, ',');
         getline(input, DestinationName, '\r');
 
-        int org = stoi(Origin);
+        int origin = stoi(Origin);
         int dest = stoi(Destination);
-        int dist = stoi(Distance);
+        float distance = stof(Distance);
 
+        Tourism.addNode(origin, 0, 0);
+        Tourism.addNode(dest, 0, 0);
+        Tourism.addEdge(origin, dest, distance);
 
+        Tourism.getNodes().find(origin)->second->name = OriginName;
+        Tourism.getNodes().find(dest)->second->name = DestinationName;
     }
 
     for (int i = 1; i < 4; i++) {
@@ -85,7 +94,16 @@ void Data::readFiles() {
             double longitude = stod(Longitude);
             double latitude = stod(Latitude);
 
-
+            switch (i) {
+                case 1:
+                    Network1.addNode(id, longitude, latitude);
+                case 2:
+                    Network2.addNode(id, longitude, latitude);
+                case 3:
+                    Network3.addNode(id, longitude, latitude);
+                default:
+                    break;
+            }
         }
         while (getline(edges, textLine)) {
             stringstream input(textLine);
@@ -95,11 +113,29 @@ void Data::readFiles() {
             getline(input, Destination, ',');
             getline(input, Distance, '\r');
 
-            int org = stoi(Origin);
+            int origin = stoi(Origin);
             int dest = stoi(Destination);
-            float dist = stof(Distance);
+            float distance = stof(Distance);
 
-
+            switch (i) {
+                case 1:
+                    Network1.addEdge(origin, dest, distance);
+                case 2:
+                    Network2.addEdge(origin, dest, distance);
+                case 3:
+                    Network3.addEdge(origin, dest, distance);
+                default:
+                    break;
+            }
         }
     }
+}
+
+void Data::deleteData() {
+    Network1.deleteGraph();
+    Network2.deleteGraph();
+    Network3.deleteGraph();
+    Stadiums.deleteGraph();
+    Stadiums.deleteGraph();
+    Tourism.deleteGraph();
 }

@@ -40,7 +40,7 @@ int Menu::getUserInput(vector<int> inputs) {
         cin.clear();
     }
     cin >> input;
-    while (cin.fail() || (find(inputs.begin(), inputs.end(), input) == inputs.end())) {
+    while (cin.fail() || find(inputs.begin(), inputs.end(), input) == inputs.end()) {
         if (cin.eof() || input == 0) {
             cout << "\nExiting\n\n";
             exit(0);
@@ -71,8 +71,35 @@ string Menu::getUserTextInput() {
     return input;
 }
 
+void Menu::exitMenu() {
+    data.deleteData();
+    exit(0);
+}
+
 void Menu::MainMenu() {
     printTitle();
+    cout << "\n";
+    cout << "\tMain Menu\n";
+    cout << "(1) \n";
+    cout << "(2) \n";
+    cout << "(3) \n";
+    cout << "(0) Exit\n";
+    cout << " > ";
 
+    int input = getUserInput({0, 1, 2, 3});
+    switch (input) {
+        case 1:
+            clearScreen();
 
+        case 2:
+            clearScreen();
+
+        case 3:
+            clearScreen();
+
+        case 0:
+            exitMenu();
+        default:
+            break;
+    }
 }
