@@ -8,52 +8,50 @@
 using namespace std;
 
 /**
- * Classe Menu
- * @details A classe Menu relaciona-se diretamente com a classe Data,
- * por meio do atributo data. Esta classe configura a UI do programa e toda a lógica do menu
+ * Class Menu
+ * @details The class Menu configures the User Interface, dealing with all inputs and outputs, and connects to the project's data through the attribute data
  */
 class Menu {
     Data data;
 public:
     /**
-     * Construtor da classe.
-     * @see Data
+     * Menu class constructor
      * @details Complexity: O(n)
+     * @details Calls the Data class constructor and initializes the Main Menu
      */
     Menu();
     /**
-     * Método void que apresenta o título do menu
+     * Void method that shows the projects' title
      * @details Complexity: O(1)
      */
     static void printTitle();
     /**
-     * Método normal que verifica se o input do utilizador é válido.
+     * Void method that ensures the user's input integer is valid
      * @details Complexity: O(1)
-     * @param inputs vetor de inteiros
-     * @return inteiro input do utilizador
+     * @param inputs Integer vector
+     * @return The integer provided by the user, verified to be valid
      */
     static int getUserInput(vector<int> inputs);
     /**
-     * Método normal que verifica se o input do utilizador é válido,
-     * para um número indefinido de inputs possíveis.
+     * Void method that returns the string provided by the user
      * @details Complexity: O(1)
-     * @return string input do utilizador
+     * @return The string provided by the user,
      */
     static string getUserTextInput();
     /**
      * Complexity: O(1)
-     * Método void que "limpa" o ecrã
+     * Void method that clears the screen
      */
     static void clearScreen();
     /**
-     * Método void que formata uma string segundo um tamanho definido para apresentar no ecrã nas listagens.
+     * Void method that outputs a string in a table block
      * @details Complexity: O(1)
-     * @param s string
-     * @param length inteiro
+     * @param s String to print
+     * @param length Space given to the string in the table
      */
     static void Print(const string &s, int length);
     /**
-     * Método void utilizado para apresentar no ecrã as opções do menu principal ao utilizador.
+     * Void method used to start the interaction between the user and this projects' data
      * @details Complexity: O(1)
      */
     void MainMenu();

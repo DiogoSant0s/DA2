@@ -1,6 +1,8 @@
 #include "Menu.h"
 
-Menu::Menu() : data(Data()) {}
+Menu::Menu() : data(Data()) {
+    MainMenu();
+}
 
 void Menu::printTitle() {
     cout << R"(
@@ -70,5 +72,7 @@ string Menu::getUserTextInput() {
 }
 
 void Menu::MainMenu() {
+    printTitle();
+
 
 }
