@@ -2,18 +2,6 @@
 
 Graph::Graph() = default;
 
-void Graph::deleteGraph() {
-    for (auto it : nodes) {
-        for (auto edges : it.second->edgesOut) {
-            delete edges;
-        }
-        for (auto edges : it.second->edgesIn) {
-            delete edges;
-        }
-        delete it.second;
-    }
-}
-
 void Graph::addNode(int id, double lon, double lat) {
     bool unique = true;
     if (!nodes.empty()) {

@@ -130,12 +130,3 @@ void Data::readFiles() {
         }
     }
 }
-
-void Data::deleteData() {
-    Network1.deleteGraph();
-    Network2.deleteGraph();
-    Network3.deleteGraph();
-    Stadiums.deleteGraph();
-    Stadiums.deleteGraph();
-    Tourism.deleteGraph();
-}

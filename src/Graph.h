@@ -85,12 +85,6 @@ public:
      */
     Graph();
     /**
-     * Void method that deletes all nodes and edges of a graph
-     * @details Time Complexity - O((V * E))
-     * @details With V being the amount of nodes and E being the amount of edges of the graph
-     */
-    void deleteGraph();
-    /**
      * Add a node to the Graph
      * @details Time Complexity - O(V)
      * @details V is the number of nodes

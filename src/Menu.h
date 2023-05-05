@@ -56,11 +56,6 @@ public:
      * @details Complexity: O(1)
      */
     void MainMenu();
-    /**
-     * Void method that is called to close the program
-     * @see The function deleteData in Data.h
-     */
-    void exitMenu();
 };
 
 #endif //DA2_MENU_H

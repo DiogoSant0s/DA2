@@ -71,11 +71,6 @@ string Menu::getUserTextInput() {
     return input;
 }
 
-void Menu::exitMenu() {
-    data.deleteData();
-    exit(0);
-}
-
 void Menu::MainMenu() {
     printTitle();
     cout << "\n";
@@ -98,7 +93,7 @@ void Menu::MainMenu() {
             clearScreen();
 
         case 0:
-            exitMenu();
+            exit(0);
         default:
             break;
     }

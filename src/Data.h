@@ -60,12 +60,6 @@ public:
      * @return The third toy graph - Tourism
      */
     Graph getToyGraph3();
-    /**
-     * Void method that deletes all graphs, cleaning the memory
-     * @details Time Complexity - O((V * E))
-     * @details With V being the amount of nodes and E being the amount of edges of all graphs
-     */
-    void deleteData();
 };
 
 #endif //DA2_DATA_H
