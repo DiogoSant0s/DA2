@@ -45,8 +45,7 @@ public:
     static void Print(const string &s, int length);
     /**
      * Void method used to start the interaction between the user and this projects' data
-     * @details Time Complexity - O((V * E))
-     * @details With V being the amount of nodes and E being the amount of edges of all graphs
+     * @details Complexity: O(1)
      */
     void MainMenu();
     /**
