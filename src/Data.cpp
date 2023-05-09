@@ -35,7 +35,7 @@ void Data::readFiles() {
 
         Shipping.addNode(origin, 0, 0);
         Shipping.addNode(dest, 0, 0);
-        Shipping.addEdge(origin, dest, distance);
+        Shipping.addEdge(origin, dest, distance, Distance);
     }
     while (getline(stadiums, textLine)) {
         stringstream input(textLine);
@@ -51,7 +51,7 @@ void Data::readFiles() {
 
         Stadiums.addNode(origin, 0, 0);
         Stadiums.addNode(dest, 0, 0);
-        Stadiums.addEdge(origin, dest, distance);
+        Stadiums.addEdge(origin, dest, distance, Distance);
     }
     while (getline(tourism, textLine)) {
         stringstream input(textLine);
@@ -69,7 +69,7 @@ void Data::readFiles() {
 
         Tourism.addNode(origin, 0, 0);
         Tourism.addNode(dest, 0, 0);
-        Tourism.addEdge(origin, dest, distance);
+        Tourism.addEdge(origin, dest, distance, Distance);
 
         Tourism.getNodes().find(origin)->second->name = OriginName;
         Tourism.getNodes().find(dest)->second->name = DestinationName;
@@ -119,11 +119,11 @@ void Data::readFiles() {
 
             switch (i) {
                 case 1:
-                    Network1.addEdge(origin, dest, distance);
+                    Network1.addEdge(origin, dest, distance, Distance);
                 case 2:
-                    Network2.addEdge(origin, dest, distance);
+                    Network2.addEdge(origin, dest, distance, Distance);
                 case 3:
-                    Network3.addEdge(origin, dest, distance);
+                    Network3.addEdge(origin, dest, distance, Distance);
                 default:
                     break;
             }

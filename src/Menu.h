@@ -1,9 +1,7 @@
 #ifndef DA2_MENU_H
 #define DA2_MENU_H
 
-#include <sstream>
-#include <iostream>
-#include <vector>
+#include <iomanip>
 #include "algorithm"
 #include "Data.h"
 
@@ -34,12 +32,6 @@ public:
      */
     static int getUserInput(vector<int> inputs);
     /**
-     * Void method that returns the string provided by the user
-     * @details Complexity: O(1)
-     * @return The string provided by the user,
-     */
-    static string getUserTextInput();
-    /**
      * Complexity: O(1)
      * Void method that clears the screen
      */
@@ -53,9 +45,25 @@ public:
     static void Print(const string &s, int length);
     /**
      * Void method used to start the interaction between the user and this projects' data
-     * @details Complexity: O(1)
+     * @details Time Complexity - O((V * E))
+     * @details With V being the amount of nodes and E being the amount of edges of all graphs
      */
     void MainMenu();
+    /**
+     * Void method used to continue the interaction between the user and this projects' data
+     * @details Complexity: O(1)
+     */
+    void InfoMenu();
+    /**
+     * Void method used to print all information about a specific graph
+     * @details Complexity: O(1)
+     */
+    void GraphNodes();
+    /**
+     * Void method used to print all information about a specific node of a graph
+     * @details Complexity: O(1)
+     */
+    void NodeEdges();
 };
 
 #endif //DA2_MENU_H

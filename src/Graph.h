@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <utility>
-#include <list>
+#include <vector>
 #include <unordered_map>
 
 using namespace std;
@@ -30,6 +30,10 @@ private:
          * Distance between the two nodes in the edge
          */
         float distance;
+        /**
+         * Distance between the two nodes in the edge as a string (used only by the printing function)
+         */
+        string distanceStr;
     };
     /**
      * Represents the content of each node
@@ -54,11 +58,11 @@ private:
         /**
          * List of outgoing edges, to adjacent nodes
          */
-        list<Edge*> edgesOut = {};
+        vector<Edge*> edgesOut = {};
         /**
          * List of edges incoming from adjacent nodes
          */
-        list<Edge*> edgesIn = {};
+        vector<Edge*> edgesIn = {};
         /**
          * Verifies if the node has been visited on a previous search
          * @details This variable set to True means that the node has been visited and False otherwise
@@ -99,8 +103,9 @@ public:
      * @param org The source node
      * @param destination The target node
      * @param dist Distance between the source and target nodes
+     * @param distance Distance between the source and target nodes as a string
      */
-    void addEdge(int org, int destination, float dist);
+    void addEdge(int org, int destination, float dist, const string& distance);
     /**
      * Getter for the object nodes
      * @details Time Complexity: O(1)
@@ -113,7 +118,7 @@ public:
      * @param id Id of the node that has the edges you are looking for
      * @return The object edges of said node
      */
-    list<Edge*> getEdges(int id);
+    vector<Edge*> getEdges(int id);
 };
 
 #endif //DA2_GRAPH_H

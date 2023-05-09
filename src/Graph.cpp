@@ -16,22 +16,22 @@ void Graph::addNode(int id, double lon, double lat) {
     }
 }
 
-void Graph::addEdge(int org, int destination, float dist) {
+void Graph::addEdge(int org, int destination, float dist, const string& distance) {
     auto itSrc = nodes.find(org);
     auto itTar = nodes.find(destination);
     if (itSrc == nodes.end() || itTar == nodes.end() || itSrc == itTar) {
         return;
     }
-    itSrc->second->edgesIn.push_back(new Edge{destination, org, dist});
-    itTar->second->edgesIn.push_back(new Edge{org, destination, dist});
-    itSrc->second->edgesOut.push_back(new Edge{org, destination, dist});
-    itTar->second->edgesOut.push_back(new Edge{destination, org, dist});
+    itSrc->second->edgesIn.push_back(new Edge{destination, org, dist, distance});
+    itTar->second->edgesIn.push_back(new Edge{org, destination, dist, distance});
+    itSrc->second->edgesOut.push_back(new Edge{org, destination, dist, distance});
+    itTar->second->edgesOut.push_back(new Edge{destination, org, dist, distance});
 }
 
 unordered_map<int, Graph::Node*> Graph::getNodes() {
     return nodes;
 }
 
-list<Graph::Edge*> Graph::getEdges(int id) {
+vector<Graph::Edge*> Graph::getEdges(int id) {
     return nodes.find(id)->second->edgesOut;
 }
