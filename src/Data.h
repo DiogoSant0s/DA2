@@ -5,8 +5,6 @@
 #include <sstream>
 #include "Graph.h"
 
-using namespace std;
-
 /**
  * @details The Data class is responsible for reading all the provided data and connecting the Menu class to the Graph class
  */

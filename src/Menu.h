@@ -5,8 +5,6 @@
 #include "algorithm"
 #include "Data.h"
 
-using namespace std;
-
 /**
  * @details The Menu class configures the User Interface, dealing with all inputs and outputs, and connects to the project's data through the attribute data
  */

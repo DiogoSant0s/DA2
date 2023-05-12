@@ -52,7 +52,7 @@ private:
          */
         double longitude;
         /**
-         * Node's name (only used for the Tourism Toy Graph really
+         * Node's name (only used for the Tourism Toy Graph really)
          */
         string name;
         /**
@@ -73,7 +73,7 @@ private:
          */
         Edge* path = nullptr;
         /**
-         * Distance between the this node and the src
+         * Distance between this node and the src
          */
         double distanceSrc;
     };
@@ -113,12 +113,19 @@ public:
      */
     unordered_map<int, Node*> getNodes();
     /**
-     * Getter for the object edges of a certain node
+     * Getter for the outgoing edges of a certain node
      * @details Time Complexity: O(1)
      * @param id Id of the node that has the edges you are looking for
-     * @return The object edges of said node
+     * @return The object edgesOut of said node
      */
     vector<Edge*> getEdges(int id);
+    /**
+     * Function used to do a Depth-First Search (aka DFS)
+     * @details Time Complexity - O(|V| + |E|)
+     * @details V is the number of nodes and E is the number of edges
+     * @param nodeId The Id of the node to be searched
+     */
+    void dfs(int nodeId);
 };
 
 #endif //DA2_GRAPH_H

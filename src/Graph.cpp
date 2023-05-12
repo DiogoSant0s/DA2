@@ -35,3 +35,14 @@ unordered_map<int, Graph::Node*> Graph::getNodes() {
 vector<Graph::Edge*> Graph::getEdges(int id) {
     return nodes.find(id)->second->edgesOut;
 }
+
+void Graph::dfs(int nodeId) {
+    auto it = nodes.find(nodeId);
+    it->second->visited = true;
+    for (const auto &e: it->second->edgesOut) {
+        auto target_node = nodes.find(e->dest);
+        if (!target_node->second->visited) {
+            dfs(e->dest);
+        }
+    }
+}
