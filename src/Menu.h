@@ -42,6 +42,11 @@ public:
      */
     static void Print(const string &s, int length);
     /**
+     * Void method used to choose which graph to read from the datasets
+     * @details Complexity: O(1)
+     */
+    void SelectGraphMenu();
+    /**
      * Void method used to start the interaction between the user and this projects' data
      * @details Complexity: O(1)
      */
@@ -51,16 +56,6 @@ public:
      * @details Complexity: O(1)
      */
     void InfoMenu();
-    /**
-     * Void method used to print all information about a specific graph
-     * @details Complexity: O(1)
-     */
-    void GraphNodes();
-    /**
-     * Void method used to print all information about a specific node of a graph
-     * @details Complexity: O(1)
-     */
-    void NodeEdges();
 };
 
 #endif //DA2_MENU_H

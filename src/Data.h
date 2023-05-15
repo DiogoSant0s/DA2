@@ -10,12 +10,10 @@
  */
 class Data {
 private:
-    Graph Network1;
-    Graph Network2;
-    Graph Network3;
-    Graph Shipping;
-    Graph Stadiums;
-    Graph Tourism;
+    Graph graph;
+    bool realGraph;
+    bool hasName;
+    bool extraGraph;
 public:
     /**
      * Data class constructor
@@ -23,41 +21,46 @@ public:
      */
     Data();
     /**
-     * Reads all the data saved in the files and stores them in the correct structures.
-     * @details Time Complexity - O((V * E))
-     * @details With V being the amount of nodes and E being the amount of edges of all graphs
+     * Reads the data in the nodes and edges files from the real graph corresponding to the given graphNumber and stores it in the correct structures.
+     * @details Time Complexity - O(V * E)
+     * @details With V being the amount of nodes and E being the amount of edges of the graph
+     * @param graphNumber Number of the graph to be read
      */
-    void readFiles();
+    void readRealGraphs(int graphNumber);
     /**
-     * Graph method to get the first real graph
-     * @return The first graph - Network1
+     * Reads the data in the nodes and edges files from the toy graph corresponding to the given graphName and stores it in the correct structures.
+     * @details Time Complexity - O(E)
+     * @details With E being the amount of edges of the graph
+     * @param graphName Name of the graph to be read
      */
-    Graph getGraph1();
+    void readToyGraphs(const string& graphName);
     /**
-     * Graph method to get the second real graph
-     * @return The second graph - Network2
+     * Reads the data in the nodes and edges files from the extra graph corresponding to the given graphNumber and stores it in the correct structures.
+     * @details Time Complexity - O(E)
+     * @details With E being the amount of edges of the graph
+     * @param graphNumber Number of the graph to be read
      */
-    Graph getGraph2();
+    void readExtraGraphs(int graphNumber);
     /**
-     * Graph method to get the third real graph
-     * @return The third graph - Network3
+     * Graph method to get the Graph graph
+     * @return graph
      */
-    Graph getGraph3();
+    Graph getGraph();
     /**
-     * Graph method to get the first toy graph
-     * @return The first toy graph - Shipping
+     * Bool method to get the boolean realGraph
+     * @return realGraph
      */
-    Graph getToyGraph1();
+    bool getRealGraph() const;
     /**
-     * Graph method to get the second toy graph
-     * @return The second toy graph - Stadiums
+     * Bool method to get the boolean extraGraph
+     * @return extraGraph
      */
-    Graph getToyGraph2();
+    bool getExtraGraph() const;
     /**
-     * Graph method to get the third toy graph
-     * @return The third toy graph - Tourism
+     * Bool method to get the boolean hasName
+     * @return hasName
      */
-    Graph getToyGraph3();
+    bool getHasName() const;
 };
 
 #endif //DA2_DATA_H

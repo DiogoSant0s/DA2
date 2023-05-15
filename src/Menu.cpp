@@ -1,7 +1,7 @@
 #include "Menu.h"
 
 Menu::Menu() : data(Data()) {
-    MainMenu();
+    SelectGraphMenu();
 }
 
 void Menu::printTitle() {
@@ -54,7 +54,156 @@ int Menu::getUserInput(vector<int> inputs) {
     return input;
 }
 
+void Menu::SelectGraphMenu() {
+    printTitle();
+    cout << "\n";
+    cout << "\tSelect Menu\n";
+    cout << "(1) Real Graphs\n";
+    cout << "(2) Extra Graphs\n";
+    cout << "(3) Toy Graphs\n";
+    cout << "(0) Exit\n";
+    cout << " > ";
+
+    int input = getUserInput({0, 1, 2, 3});
+    switch (input) {
+        case 1:
+            clearScreen();
+            printTitle();
+            cout << "\n";
+            cout << "\tReal Graphs Menu\n";
+            cout << "(1) Graph 1\n";
+            cout << "(2) Graph 2\n";
+            cout << "(3) Graph 3\n";
+            cout << "(4) Go back\n";
+            cout << "(0) Exit\n";
+            cout << " > ";
+
+            input = getUserInput({0, 1, 2, 3, 4});
+            switch (input) {
+                case 1:
+                    data.readRealGraphs(1);
+                    MainMenu();
+                case 2:
+                    data.readRealGraphs(2);
+                    MainMenu();
+                case 3:
+                    data.readRealGraphs(3);
+                    MainMenu();
+                case 4:
+                    clearScreen();
+                    SelectGraphMenu();
+                case 0:
+                    exit(0);
+                default:
+                    break;
+            }
+        case 2:
+            clearScreen();
+            printTitle();
+            cout << "\n";
+            cout << "\tExtra Graphs Menu\n";
+            cout << "(1) 25\n";
+            cout << "(2) 50\n";
+            cout << "(3) 75\n";
+            cout << "(4) 100\n";
+            cout << "(5) 200\n";
+            cout << "(6) 300\n";
+            cout << "(7) 400\n";
+            cout << "(8) 500\n";
+            cout << "(9) 600\n";
+            cout << "(10) 700\n";
+            cout << "(11) 800\n";
+            cout << "(12) 900\n";
+            cout << "(13) Go back\n";
+            cout << "(0) Exit\n";
+            cout << " > ";
+
+            input = getUserInput({0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13});
+            switch (input) {
+                case 1:
+                    data.readExtraGraphs(25);
+                    MainMenu();
+                case 2:
+                    data.readExtraGraphs(50);
+                    MainMenu();
+                case 3:
+                    data.readExtraGraphs(75);
+                    MainMenu();
+                case 4:
+                    data.readExtraGraphs(100);
+                    MainMenu();
+                case 5:
+                    data.readExtraGraphs(200);
+                    MainMenu();
+                case 6:
+                    data.readExtraGraphs(300);
+                    MainMenu();
+                case 7:
+                    data.readExtraGraphs(400);
+                    MainMenu();
+                case 8:
+                    data.readExtraGraphs(500);
+                    MainMenu();
+                case 9:
+                    data.readExtraGraphs(600);
+                    MainMenu();
+                case 10:
+                    data.readExtraGraphs(700);
+                    MainMenu();
+                case 11:
+                    data.readExtraGraphs(800);
+                    MainMenu();
+                case 12:
+                    data.readExtraGraphs(900);
+                    MainMenu();
+                case 13:
+                    clearScreen();
+                    SelectGraphMenu();
+                case 0:
+                    exit(0);
+                default:
+                    break;
+            }
+        case 3:
+            clearScreen();
+            printTitle();
+            cout << "\n";
+            cout << "\tToy Graphs Menu\n";
+            cout << "(1) Shipping\n";
+            cout << "(2) Stadiums\n";
+            cout << "(3) Tourism\n";
+            cout << "(4) Go back\n";
+            cout << "(0) Exit\n";
+            cout << " > ";
+
+            input = getUserInput({0, 1, 2, 3, 4});
+            switch (input) {
+                case 1:
+                    data.readToyGraphs("shipping");
+                    MainMenu();
+                case 2:
+                    data.readToyGraphs("stadiums");
+                    MainMenu();
+                case 3:
+                    data.readToyGraphs("tourism");
+                    MainMenu();
+                case 4:
+                    clearScreen();
+                    SelectGraphMenu();
+                case 0:
+                    exit(0);
+                default:
+                    break;
+            }
+        case 0:
+            exit(0);
+        default:
+            break;
+    }
+}
+
 void Menu::MainMenu() {
+    clearScreen();
     printTitle();
     cout << "\n";
     cout << "\tMain Menu\n";
@@ -67,13 +216,10 @@ void Menu::MainMenu() {
     int input = getUserInput({0, 1, 2, 3});
     switch (input) {
         case 1:
-            clearScreen();
             InfoMenu();
         case 2:
-            clearScreen();
             
         case 3:
-            clearScreen();
 
         case 0:
             exit(0);
@@ -83,6 +229,7 @@ void Menu::MainMenu() {
 }
 
 void Menu::InfoMenu() {
+    clearScreen();
     printTitle();
     cout << "\n";
     cout << "\tGraph Information Menu\n";
@@ -95,389 +242,124 @@ void Menu::InfoMenu() {
     int input = getUserInput({0, 1, 2, 3});
     switch (input) {
         case 1:
-            clearScreen();
-            GraphNodes();
+            if (!data.getGraph().getNodes().empty()) {
+                if (data.getRealGraph()) {
+                    cout << "\nDue to the number of nodes of this graph, choose the amout of entries about to be shown to you from 1 to " +
+                            to_string(data.getGraph().getNodes().size()) + "\n" + " > ";
+                    vector<int> inputs;
+                    for (int i = 1; i <= data.getGraph().getNodes().size(); i++) inputs.push_back(i);
+                    int size = getUserInput(inputs);
+                    cout << "\n\n";
+                    for (int i = 0; i < 56; i++) cout << "-";
+                    cout << "\n";
+                    Print("Node Id", 10);
+                    Print("Longitude", 21);
+                    Print("Latitude", 21);
+                    cout << "|\n";
+                    for (int i = 0; i < 56; i++) cout << "-";
+                    cout << "\n";
+                    for (int i = 0; i < size; i++) {
+                        Print(to_string(data.getGraph().getNodes().at(i)->Id), 10);
+                        cout << "| " << fixed << setprecision(15) << data.getGraph().getNodes().at(i)->longitude << " ";
+                        cout << "| " << fixed << setprecision(15) << data.getGraph().getNodes().at(i)->latitude << " ";
+                        cout << "|\n";
+                    }
+                    for (int i = 0; i < 56; i++) cout << "-";
+                } else if (data.getExtraGraph()) {
+                    int size = (int) data.getGraph().getNodes().size();
+                    if (size > 100) {
+                        cout <<
+                             "\nDue to the number of nodes of this graph, choose the amout of entries about to be shown to you from 1 to " +
+                             to_string(data.getGraph().getNodes().size()) + "\n" + " > ";
+                        vector<int> inputs;
+                        for (int i = 1; i <= data.getGraph().getNodes().size(); i++) inputs.push_back(i);
+                        size = getUserInput(inputs);
+                    }
+                    cout << "\n\n";
+                    for (int i = 0; i < 12; i++) cout << "-";
+                    cout << "\n";
+                    Print("Node Id", 10);
+                    cout << "|\n";
+                    for (int i = 0; i < 12; i++) cout << "-";
+                    cout << "\n";
+                    for (int i = 0; i < size; i++) {
+                        Print(to_string(data.getGraph().getNodes().at(i)->Id), 10);
+                        cout << "|\n";
+                    }
+                    for (int i = 0; i < 12; i++) cout << "-";
+                } else {
+                    if (data.getHasName()) {
+                        cout << "\n\n";
+                        for (int i = 0; i < 23; i++) cout << "-";
+                        cout << "\n";
+                        Print("Node Id", 9);
+                        Print("Node Name", 11);
+                        cout << "|\n";
+                        for (int i = 0; i < 23; i++) cout << "-";
+                        cout << "\n";
+                        for (int i = 0; i < data.getGraph().getNodes().size(); i++) {
+                            Print(to_string(data.getGraph().getNodes().at(i)->Id), 9);
+                            Print(data.getGraph().getNodes().at(i)->name, 11);
+                            cout << "|\n";
+                        }
+                        for (int i = 0; i < 23; i++) cout << "-";
+                    } else {
+                        cout << "\n\n";
+                        for (int i = 0; i < 12; i++) cout << "-";
+                        cout << "\n";
+                        Print("Node Id", 10);
+                        cout << "|\n";
+                        for (int i = 0; i < 12; i++) cout << "-";
+                        cout << "\n";
+                        for (int i = 0; i < data.getGraph().getNodes().size(); i++) {
+                            Print(to_string(data.getGraph().getNodes().at(i)->Id), 10);
+                            cout << "|\n";
+                        }
+                        for (int i = 0; i < 12; i++) cout << "-";
+                    }
+                }
+            }
+            cout << "\n\n";
+            cout << "Press 7 to continue\n";
+            getUserInput({7});
+            InfoMenu();
         case 2:
-            clearScreen();
-            NodeEdges();
+            if (!data.getGraph().getNodes().empty()) {
+                cout << "\nChoose the node id. It has to be between 0 and " + to_string(data.getGraph().getNodes().size() - 1) + "\n" + " > ";
+                vector<int> inputs;
+                for (int i = 0; i < data.getGraph().getNodes().size(); i++) inputs.push_back(i);
+                int Id = getUserInput(inputs);
+                int size = (int) data.getGraph().getEdges(Id).size();
+                if (size > 100) {
+                    vector<int> inputs1;
+                    cout << "\nDue to the number of edges of this node, choose the amout of entries about to be shown to you from 1 to " +
+                            to_string(data.getGraph().getEdges(Id).size()) + "\n" + " > ";
+                    for (int i = 1; i <= data.getGraph().getEdges(Id).size(); i++) inputs1.push_back(i);
+                    size = getUserInput(inputs1);
+                }
+                cout << "\n\n";
+                for (int i = 0; i < 35; i++) cout << "-";
+                cout << "\n";
+                Print("Origin", 8);
+                Print("Destination", 13);
+                Print("Distance", 10);
+                cout << "|\n";
+                for (int i = 0; i < 35; i++) cout << "-";
+                cout << "\n";
+                for (int i = 0; i < size; i++) {
+                    Print(to_string(data.getGraph().getEdges(Id).at(i)->origin), 8);
+                    Print(to_string(data.getGraph().getEdges(Id).at(i)->dest), 13);
+                    Print(data.getGraph().getEdges(Id).at(i)->distanceStr, 10);
+                    cout << "|\n";
+                }
+                for (int i = 0; i < 35; i++) cout << "-";
+            }
+            cout << "\n\n";
+            cout << "Press 7 to continue\n";
+            getUserInput({7});
+            InfoMenu();
         case 3:
-            clearScreen();
             MainMenu();
-        case 0:
-            exit(0);
-        default:
-            break;
-    }
-}
-
-void Menu::GraphNodes() {
-    printTitle();
-    cout << "\n";
-    cout << "\t\tChoose a graph\n";
-    cout << "(1) The 1st Real Graph\n";
-    cout << "(2) The 2nd Real Graph\n";
-    cout << "(3) The 3rd Real Graph\n";
-    cout << "(4) The 1st Toy Graph\n";
-    cout << "(5) The 2nd Toy Graph\n";
-    cout << "(6) The 3rd Toy Graph\n";
-    cout << "(7) Go back to the Graph Information Menu\n";
-    cout << "(0) Exit\n";
-    cout << " > ";
-
-    int input = getUserInput({0, 1, 2, 3, 4, 5, 6, 7});
-    switch (input) {
-        case 1:
-            if (!data.getGraph1().getNodes().empty()) {
-                cout << "\nDue to the number of nodes of this graph, choose the amout of entries about to be shown to you from 1 to " +
-                        to_string(data.getGraph1().getNodes().size()) + "\n" + " > ";
-                vector<int> inputs;
-                for (int i = 1; i <= data.getGraph1().getNodes().size(); i++) inputs.push_back(i);
-                int size = getUserInput(inputs);
-                cout << "\n\n";
-                for (int i = 0; i < 56; i++) cout << "-";
-                cout << "\n";
-                Print("Node Id", 10);
-                Print("Longitude", 21);
-                Print("Latitude", 21);
-                cout << "|\n";
-                for (int i = 0; i < 56; i++) cout << "-";
-                cout << "\n";
-                for (int i = 0; i < size; i++) {
-                    Print(to_string(data.getGraph1().getNodes().at(i)->Id), 10);
-                    cout << "| " << fixed << setprecision(15) << data.getGraph1().getNodes().at(i)->longitude << " ";
-                    cout << "| " << fixed << setprecision(15) << data.getGraph1().getNodes().at(i)->latitude << " ";
-                    cout << "|\n";
-                }
-                for (int i = 0; i < 56; ++i) cout << "-";
-                cout << "\n\n";
-                cout << "Press 7 to continue\n";
-                getUserInput({7});
-                GraphNodes();
-            }
-        case 2:
-            if (!data.getGraph2().getNodes().empty()) {
-                cout << "\nDue to the number of nodes of this graph, choose the amout of entries about to be shown to you from 1 to " +
-                        to_string(data.getGraph2().getNodes().size()) + "\n" + " > ";
-                vector<int> inputs;
-                for (int i = 1; i <= data.getGraph2().getNodes().size(); i++) inputs.push_back(i);
-                int size = getUserInput(inputs);
-                cout << "\n\n";
-                for (int i = 0; i < 56; i++) cout << "-";
-                cout << "\n";
-                Print("Node Id", 10);
-                Print("Longitude", 21);
-                Print("Latitude", 21);
-                cout << "|\n";
-                for (int i = 0; i < 56; i++) cout << "-";
-                cout << "\n";
-                for (int i = 0; i < size; i++) {
-                    Print(to_string(data.getGraph2().getNodes().at(i)->Id), 10);
-                    cout << "| " << fixed << setprecision(15) << data.getGraph2().getNodes().at(i)->longitude << " ";
-                    cout << "| " << fixed << setprecision(15) << data.getGraph2().getNodes().at(i)->latitude << " ";
-                    cout << "|\n";
-                }
-                for (int i = 0; i < 56; ++i) cout << "-";
-                cout << "\n\n";
-                cout << "Press 7 to continue\n";
-                getUserInput({7});
-                GraphNodes();
-            }
-        case 3:
-            if (!data.getGraph3().getNodes().empty()) {
-                cout << "\nDue to the number of nodes of this graph, choose the amout of entries about to be shown to you from 1 to " +
-                        to_string(data.getGraph3().getNodes().size()) + "\n" + " > ";
-                vector<int> inputs;
-                for (int i = 1; i <= data.getGraph3().getNodes().size(); i++) inputs.push_back(i);
-                int size = getUserInput(inputs);
-                cout << "\n\n";
-                for (int i = 0; i < 56; i++) cout << "-";
-                cout << "\n";
-                Print("Node Id", 10);
-                Print("Longitude", 21);
-                Print("Latitude", 21);
-                cout << "|\n";
-                for (int i = 0; i < 56; i++) cout << "-";
-                cout << "\n";
-                for (int i = 0; i < size; i++) {
-                    Print(to_string(data.getGraph3().getNodes().at(i)->Id), 10);
-                    cout << "| " << fixed << setprecision(15) << data.getGraph3().getNodes().at(i)->longitude << " ";
-                    cout << "| " << fixed << setprecision(15) << data.getGraph3().getNodes().at(i)->latitude << " ";
-                    cout << "|\n";
-                }
-                for (int i = 0; i < 56; ++i) cout << "-";
-                cout << "\n\n";
-                cout << "Press 7 to continue\n";
-                getUserInput({7});
-                GraphNodes();
-            }
-        case 4:
-            cout << "\n\n";
-            for (int i = 0; i < 12; i++) cout << "-";
-            cout << "\n";
-            Print("Node Id", 10);
-            cout << "|\n";
-            for (int i = 0; i < 12; i++) cout << "-";
-            cout << "\n";
-            for (int i = 0; i < data.getToyGraph1().getNodes().size(); ++i) {
-                Print(to_string(data.getToyGraph1().getNodes().at(i)->Id), 10);
-                cout << "|\n";
-            }
-            for (int i = 0; i < 12; ++i) cout << "-";
-            cout << "\n\n";
-            cout << "Press 7 to continue\n";
-            getUserInput({7});
-            GraphNodes();
-        case 5:
-            cout << "\n\n";
-            for (int i = 0; i < 12; i++) cout << "-";
-            cout << "\n";
-            Print("Node Id", 10);
-            cout << "|\n";
-            for (int i = 0; i < 12; i++) cout << "-";
-            cout << "\n";
-            for (int i = 0; i < data.getToyGraph2().getNodes().size(); ++i) {
-                Print(to_string(data.getToyGraph2().getNodes().at(i)->Id), 10);
-                cout << "|\n";
-            }
-            for (int i = 0; i < 12; ++i) cout << "-";
-            cout << "\n\n";
-            cout << "Press 7 to continue\n";
-            getUserInput({7});
-            GraphNodes();
-        case 6:
-            cout << "\n\n";
-            for (int i = 0; i < 23; i++) cout << "-";
-            cout << "\n";
-            Print("Node Id", 9);
-            Print("Node Name", 11);
-            cout << "|\n";
-            for (int i = 0; i < 23; i++) cout << "-";
-            cout << "\n";
-            for (int i = 0; i < data.getToyGraph3().getNodes().size(); ++i) {
-                Print(to_string(data.getToyGraph3().getNodes().at(i)->Id), 9);
-                Print(data.getToyGraph3().getNodes().at(i)->name, 11);
-                cout << "|\n";
-            }
-            for (int i = 0; i < 23; i++) cout << "-";
-            cout << "\n\n";
-            cout << "Press 7 to continue\n";
-            getUserInput({7});
-            GraphNodes();
-        case 7:
-            clearScreen();
-            InfoMenu();
-        case 0:
-            exit(0);
-        default:
-            break;
-    }
-}
-
-void Menu::NodeEdges() {
-    printTitle();
-    cout << "\n";
-    cout << "\t\tChoose a graph\n";
-    cout << "(1) The 1st Real Graph\n";
-    cout << "(2) The 2nd Real Graph\n";
-    cout << "(3) The 3rd Real Graph\n";
-    cout << "(4) The 1st Toy Graph\n";
-    cout << "(5) The 2nd Toy Graph\n";
-    cout << "(6) The 3rd Toy Graph\n";
-    cout << "(7) Go back to the Graph Information Menu\n";
-    cout << "(0) Exit\n";
-    cout << " > ";
-
-    int input = getUserInput({0, 1, 2, 3, 4, 5, 6, 7});
-    switch (input) {
-        case 1:
-            if (!data.getGraph1().getNodes().empty()) {
-                cout << "\nChoose the node id. It has to be between 0 and " + to_string(data.getGraph1().getNodes().size() - 1) + "\n" + " > ";
-                vector<int> inputs;
-                for (int i = 0; i < data.getGraph1().getNodes().size(); i++) inputs.push_back(i);
-                int Id = getUserInput(inputs);
-                int size = 100;
-                if (data.getGraph1().getEdges(Id).size() > 100) {
-                    vector<int> inputs1;
-                    cout << "\nDue to the number of edges of this node, choose the amout of entries about to be shown to you from 1 to " +
-                            to_string(data.getGraph1().getEdges(Id).size()) + "\n" + " > ";
-                    for (int i = 1; i <= data.getGraph1().getEdges(Id).size(); i++) inputs1.push_back(i);
-                    size = getUserInput(inputs1);
-                }
-                cout << "\n\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                Print("Origin", 8);
-                Print("Destination", 13);
-                Print("Distance", 10);
-                cout << "|\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                for (int i = 0; i < size; i++) {
-                    Print(to_string(data.getGraph1().getEdges(Id).at(i)->origin), 8);
-                    Print(to_string(data.getGraph1().getEdges(Id).at(i)->dest), 13);
-                    Print(data.getGraph1().getEdges(Id).at(i)->distanceStr, 10);
-                    cout << "|\n";
-                }
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n\n";
-                cout << "Press 7 to continue\n";
-                getUserInput({7});
-                NodeEdges();
-            }
-        case 2:
-            if (!data.getGraph2().getNodes().empty()) {
-                cout << "\nChoose the node id. It has to be between 0 and " + to_string(data.getGraph2().getNodes().size() - 1) + "\n" + " > ";
-                vector<int> inputs;
-                for (int i = 0; i < data.getGraph2().getNodes().size(); i++) inputs.push_back(i);
-                int Id = getUserInput(inputs);
-                int size = 100;
-                if (data.getGraph2().getEdges(Id).size() > 100) {
-                    vector<int> inputs1;
-                    cout << "\nDue to the number of edges of this node, choose the amout of entries about to be shown to you from 1 to " +
-                            to_string(data.getGraph2().getEdges(Id).size()) + "\n" + " > ";
-                    for (int i = 1; i <= data.getGraph2().getEdges(Id).size(); i++) inputs1.push_back(i);
-                    size = getUserInput(inputs1);
-                }
-                cout << "\n\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                Print("Origin", 8);
-                Print("Destination", 13);
-                Print("Distance", 10);
-                cout << "|\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                for (int i = 0; i < size; i++) {
-                    Print(to_string(data.getGraph2().getEdges(Id).at(i)->origin), 8);
-                    Print(to_string(data.getGraph2().getEdges(Id).at(i)->dest), 13);
-                    Print(data.getGraph2().getEdges(Id).at(i)->distanceStr, 10);
-                    cout << "|\n";
-                }
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n\n";
-                cout << "Press 7 to continue\n";
-                getUserInput({7});
-                NodeEdges();
-            }
-        case 3:
-            if (!data.getGraph3().getNodes().empty()) {
-                cout << "\nChoose the node id. It has to be between 0 and " + to_string(data.getGraph3().getNodes().size() - 1) + "\n" + " > ";
-                vector<int> inputs;
-                for (int i = 0; i < data.getGraph3().getNodes().size(); i++) inputs.push_back(i);
-                int Id = getUserInput(inputs);
-                int size = 100;
-                if (data.getGraph3().getEdges(Id).size() > 100) {
-                    vector<int> inputs1;
-                    cout << "\nDue to the number of edges of this node, choose the amout of entries about to be shown to you from 1 to " +
-                            to_string(data.getGraph3().getEdges(Id).size()) + "\n" + " > ";
-                    for (int i = 1; i <= data.getGraph3().getEdges(Id).size(); i++) inputs1.push_back(i);
-                    size = getUserInput(inputs1);
-                }
-                cout << "\n\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                Print("Origin", 8);
-                Print("Destination", 13);
-                Print("Distance", 10);
-                cout << "|\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                for (int i = 0; i < size; i++) {
-                    Print(to_string(data.getGraph3().getEdges(Id).at(i)->origin), 8);
-                    Print(to_string(data.getGraph3().getEdges(Id).at(i)->dest), 13);
-                    Print(data.getGraph3().getEdges(Id).at(i)->distanceStr, 10);
-                    cout << "|\n";
-                }
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n\n";
-                cout << "Press 7 to continue\n";
-                getUserInput({7});
-                NodeEdges();
-            }
-        case 4:
-            if (!data.getToyGraph1().getNodes().empty()) {
-                cout << "\nChoose the node id. It has to be between 0 and " + to_string(data.getToyGraph1().getNodes().size() - 1) + "\n" + " > ";
-                vector<int> inputs;
-                for (int i = 0; i < data.getToyGraph1().getNodes().size(); i++) inputs.push_back(i);
-                int Id = getUserInput(inputs);
-                cout << "\n\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                Print("Origin", 8);
-                Print("Destination", 13);
-                Print("Distance", 10);
-                cout << "|\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                for (int i = 0; i < data.getToyGraph1().getEdges(Id).size(); i++) {
-                    Print(to_string(data.getToyGraph1().getEdges(Id).at(i)->origin), 8);
-                    Print(to_string(data.getToyGraph1().getEdges(Id).at(i)->dest), 13);
-                    Print(data.getToyGraph1().getEdges(Id).at(i)->distanceStr, 10);
-                    cout << "|\n";
-                }
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n\n";
-                cout << "Press 7 to continue\n";
-                getUserInput({7});
-                NodeEdges();
-            }
-        case 5:
-            if (!data.getToyGraph2().getNodes().empty()) {
-                cout << "\nChoose the node id. It has to be between 0 and " + to_string(data.getToyGraph2().getNodes().size() - 1) + "\n" + " > ";
-                vector<int> inputs;
-                for (int i = 0; i < data.getToyGraph2().getNodes().size(); i++) inputs.push_back(i);
-                int Id = getUserInput(inputs);
-                cout << "\n\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                Print("Origin", 8);
-                Print("Destination", 13);
-                Print("Distance", 10);
-                cout << "|\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                for (int i = 0; i < data.getToyGraph2().getEdges(Id).size(); i++) {
-                    Print(to_string(data.getToyGraph2().getEdges(Id).at(i)->origin), 8);
-                    Print(to_string(data.getToyGraph2().getEdges(Id).at(i)->dest), 13);
-                    Print(data.getToyGraph2().getEdges(Id).at(i)->distanceStr, 10);
-                    cout << "|\n";
-                }
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n\n";
-                cout << "Press 7 to continue\n";
-                getUserInput({7});
-                NodeEdges();
-            }
-        case 6:
-            if (!data.getToyGraph3().getNodes().empty()) {
-                cout << "\nChoose the node id. It has to be between 0 and " + to_string(data.getToyGraph3().getNodes().size() - 1) + "\n" + " > ";
-                vector<int> inputs;
-                for (int i = 0; i < data.getToyGraph3().getNodes().size(); i++) inputs.push_back(i);
-                int Id = getUserInput(inputs);
-                cout << "\n\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                Print("Origin", 8);
-                Print("Destination", 13);
-                Print("Distance", 10);
-                cout << "|\n";
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n";
-                for (int i = 0; i < data.getToyGraph3().getEdges(Id).size(); i++) {
-                    Print(to_string(data.getToyGraph3().getEdges(Id).at(i)->origin), 8);
-                    Print(to_string(data.getToyGraph3().getEdges(Id).at(i)->dest), 13);
-                    Print(data.getToyGraph3().getEdges(Id).at(i)->distanceStr, 10);
-                    cout << "|\n";
-                }
-                for (int i = 0; i < 35; i++) cout << "-";
-                cout << "\n\n";
-                cout << "Press 7 to continue\n";
-                getUserInput({7});
-                NodeEdges();
-            }
-        case 7:
-            clearScreen();
-            InfoMenu();
         case 0:
             exit(0);
         default:
