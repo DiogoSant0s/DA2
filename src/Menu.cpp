@@ -41,13 +41,13 @@ int Menu::getUserInput(vector<int> inputs) {
     }
     cin >> input;
     while (cin.fail() || find(inputs.begin(), inputs.end(), input) == inputs.end()) {
-        if (cin.eof() || input == 0) {
+        if (cin.eof()) {
             cout << "\nExiting\n\n";
-            exit(0);
+            return 0;
         }
         cin.clear();
         cin.ignore();
-        cerr << "Not a valid input, please input one of the shown options: ";
+        cerr << "\nNot a valid input, please input one of the shown options: ";
         cin >> input;
     }
     cin.ignore(100, '\n');
@@ -102,18 +102,9 @@ void Menu::SelectGraphMenu() {
             printTitle();
             cout << "\n";
             cout << "\t\t\tExtra Graphs Menu\n";
-            cout << "(1) 25\t\t";
-            cout << "(2) 50\t\t";
-            cout << "(3) 75\t\t";
-            cout << "(4) 100\n";
-            cout << "(5) 200\t\t";
-            cout << "(6) 300\t\t";
-            cout << "(7) 400\t\t";
-            cout << "(8) 500\n";
-            cout << "(9) 600\t\t";
-            cout << "(10) 700\t";
-            cout << "(11) 800\t";
-            cout << "(12) 900\n\n";
+            cout << "(1) 25\t\t(2) 50\t\t(3) 75\t\t(4) 100\n";
+            cout << "(5) 200\t\t(6) 300\t\t(7) 400\t\t(8) 500\n";
+            cout << "(9) 600\t\t(10) 700\t(11) 800\t(12) 900\n\n";
             cout << "(13) Go back\t";
             cout << "(0) Exit\n";
             cout << " > ";
@@ -244,7 +235,7 @@ void Menu::InfoMenu() {
         case 1:
             if (!data.getGraph().getNodes().empty()) {
                 if (data.getRealGraph()) {
-                    cout << "\nDue to the number of nodes of this graph, choose the amout of entries about to be shown to you from 1 to " +
+                    cout << "\nDue to the number of nodes of this graph, choose the amount of entries about to be shown to you from 1 to " +
                             to_string(data.getGraph().getNodes().size()) + "\n" + " > ";
                     vector<int> inputs;
                     for (int i = 1; i <= data.getGraph().getNodes().size(); i++) inputs.push_back(i);
@@ -269,7 +260,7 @@ void Menu::InfoMenu() {
                     int size = (int) data.getGraph().getNodes().size();
                     if (size > 100) {
                         cout <<
-                             "\nDue to the number of nodes of this graph, choose the amout of entries about to be shown to you from 1 to " +
+                        "\nDue to the number of nodes of this graph, choose the amount of entries about to be shown to you from 1 to " +
                              to_string(data.getGraph().getNodes().size()) + "\n" + " > ";
                         vector<int> inputs;
                         for (int i = 1; i <= data.getGraph().getNodes().size(); i++) inputs.push_back(i);
@@ -329,12 +320,12 @@ void Menu::InfoMenu() {
                 vector<int> inputs;
                 for (int i = 0; i < data.getGraph().getNodes().size(); i++) inputs.push_back(i);
                 int Id = getUserInput(inputs);
-                int size = (int) data.getGraph().getEdges(Id).size();
+                int size = (int) data.getGraph().getEdgesOut(Id).size();
                 if (size > 100) {
                     vector<int> inputs1;
-                    cout << "\nDue to the number of edges of this node, choose the amout of entries about to be shown to you from 1 to " +
-                            to_string(data.getGraph().getEdges(Id).size()) + "\n" + " > ";
-                    for (int i = 1; i <= data.getGraph().getEdges(Id).size(); i++) inputs1.push_back(i);
+                    cout << "\nDue to the number of edges of this node, choose the amount of entries about to be shown to you from 1 to " +
+                            to_string(data.getGraph().getEdgesOut(Id).size()) + "\n" + " > ";
+                    for (int i = 1; i <= data.getGraph().getEdgesOut(Id).size(); i++) inputs1.push_back(i);
                     size = getUserInput(inputs1);
                 }
                 cout << "\n\n";
@@ -347,9 +338,9 @@ void Menu::InfoMenu() {
                 for (int i = 0; i < 35; i++) cout << "-";
                 cout << "\n";
                 for (int i = 0; i < size; i++) {
-                    Print(to_string(data.getGraph().getEdges(Id).at(i)->origin), 8);
-                    Print(to_string(data.getGraph().getEdges(Id).at(i)->dest), 13);
-                    Print(data.getGraph().getEdges(Id).at(i)->distanceStr, 10);
+                    Print(to_string(data.getGraph().getEdgesOut(Id).at(i)->origin), 8);
+                    Print(to_string(data.getGraph().getEdgesOut(Id).at(i)->dest), 13);
+                    Print(data.getGraph().getEdgesOut(Id).at(i)->distanceStr, 10);
                     cout << "|\n";
                 }
                 for (int i = 0; i < 35; i++) cout << "-";

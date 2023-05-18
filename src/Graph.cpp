@@ -32,7 +32,7 @@ unordered_map<int, Graph::Node*> Graph::getNodes() {
     return nodes;
 }
 
-vector<Graph::Edge*> Graph::getEdges(int id) {
+vector<Graph::Edge*> Graph::getEdgesOut(int id) {
     return nodes.find(id)->second->edgesOut;
 }
 

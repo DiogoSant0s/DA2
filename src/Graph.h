@@ -118,7 +118,7 @@ public:
      * @param id Id of the node that has the edges you are looking for
      * @return The object edgesOut of said node
      */
-    vector<Edge*> getEdges(int id);
+    vector<Edge*> getEdgesOut(int id);
     /**
      * Function used to do a Depth-First Search (aka DFS)
      * @details Time Complexity - O(|V| + |E|)
