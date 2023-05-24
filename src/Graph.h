@@ -5,6 +5,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <queue>
+#include <algorithm>
 #include <unordered_map>
 
 using namespace std;
@@ -120,12 +122,22 @@ public:
      */
     vector<Edge*> getEdgesOut(int id);
     /**
+     *
+     * @return
+     */
+    bool checkIfAllNodesVisited();
+    /**
      * Function used to do a Depth-First Search (aka DFS)
      * @details Time Complexity - O(|V| + |E|)
      * @details V is the number of nodes and E is the number of edges
      * @param nodeId The Id of the node to be searched
      */
     void dfs(int nodeId);
+    /**
+     *
+     * @return
+     */
+    vector<int> bfs();
 };
 
 #endif //DA2_GRAPH_H

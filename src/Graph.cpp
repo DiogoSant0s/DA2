@@ -46,3 +46,30 @@ void Graph::dfs(int nodeId) {
         }
     }
 }
+
+vector<int> Graph::bfs() {
+    vector<int> res;
+    queue<int> temp;
+    auto it = nodes.find(0);
+    temp.push(it->second->Id);
+    res.push_back(it->second->Id);
+    while(!temp.empty()) {
+        int id = temp.front();
+        res.push_back(id);
+        temp.pop();
+        for (auto & edge : getEdgesOut(id)){
+            if (!nodes.find(edge->dest)->second->visited and edge->dest != it->second->Id) {
+                nodes.find(edge->dest)->second->visited = true;
+                temp.push(edge->dest);
+            }
+        }
+    }
+    it->second->visited = true;
+    res.push_back(it->second->Id);
+    vector<int> empty = {0};
+    return checkIfAllNodesVisited() ? res : empty;
+}
+
+bool Graph::checkIfAllNodesVisited() {
+    return all_of(nodes.begin(), nodes.end(), [](pair<const int, Node*> node) {return node.second->visited;});
+}

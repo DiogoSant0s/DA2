@@ -199,7 +199,7 @@ void Menu::MainMenu() {
     cout << "\n";
     cout << "\tMain Menu\n";
     cout << "(1) Graph Information\n";
-    cout << "(2) \n";
+    cout << "(2) bfs\n";
     cout << "(3) \n";
     cout << "(0) Exit\n";
     cout << " > ";
@@ -209,7 +209,13 @@ void Menu::MainMenu() {
         case 1:
             InfoMenu();
         case 2:
-            
+            for (int i : data.getGraph().bfs()) {
+                cout << i << "\n";
+            }
+            cout << "\n\n";
+            cout << "Press 7 to continue\n";
+            getUserInput({7});
+            MainMenu();
         case 3:
 
         case 0:
