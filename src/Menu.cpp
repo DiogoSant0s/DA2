@@ -47,7 +47,7 @@ int Menu::getUserInput(vector<int> inputs) {
         }
         cin.clear();
         cin.ignore();
-        cerr << "\nNot a valid input, please input one of the shown options: ";
+        cerr << "\nNot a valid input<, please input one of the shown options: ";
         cin >> input;
     }
     cin.ignore(100, '\n');
@@ -232,7 +232,8 @@ void Menu::InfoMenu() {
     cout << "\tGraph Information Menu\n";
     cout << "(1) All nodes of a graph\n";
     cout << "(2) Information about a specific node of a graph\n";
-    cout << "(3) Back to the Main Menu\n";
+    cout << "(3) Backtracking TSP\n";
+    cout << "(4) Back to the Main Menu\n";
     cout << "(0) Exit\n";
     cout << " > ";
 
@@ -355,8 +356,27 @@ void Menu::InfoMenu() {
             cout << "Press 7 to continue\n";
             getUserInput({7});
             InfoMenu();
+
         case 3:
+            if (!data.getGraph().getNodes().empty()) {
+                for(auto i :data.getGraph().getNodes()){
+                    i.second->visited=false;
+                }
+                data.getGraph().getNodes().find(0)->second->visited=true;
+                float ans = FLT_MAX;
+                data.getGraph().tsp_backtracking(0,1,0.0,ans);
+                cout<<ans;
+
+            }
+
+            cout << "\n\n";
+            cout << "Press 7 to continue\n";
+            getUserInput({7});
+            InfoMenu();
+
+        case 4:
             MainMenu();
+
         case 0:
             exit(0);
         default:

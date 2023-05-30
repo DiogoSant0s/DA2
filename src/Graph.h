@@ -8,6 +8,8 @@
 #include <queue>
 #include <algorithm>
 #include <unordered_map>
+#include <cfloat>
+
 
 using namespace std;
 
@@ -114,6 +116,7 @@ public:
      * @return The object nodes
      */
     unordered_map<int, Node*> getNodes();
+
     /**
      * Getter for the outgoing edges of a certain node
      * @details Time Complexity: O(1)
@@ -138,6 +141,8 @@ public:
      * @return
      */
     vector<int> bfs();
+
+    void tsp_backtracking(int currPos, int count, float distance, float ans);
 };
 
 #endif //DA2_GRAPH_H
