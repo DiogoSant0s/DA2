@@ -5,14 +5,17 @@
 #include "Data.h"
 
 /**
- * @details The Menu class configures the User Interface, dealing with all inputs and outputs, and connects to the project's data through the attribute data
+ * @details The Menu class configures the User Interface, dealing with all inputs and outputs, and connects to the project's data through the object data
  */
 class Menu {
+    /**
+     * Object of the class Data that connects the user with the project's data
+     */
     Data data;
 public:
     /**
      * Menu class constructor
-     * @details Complexity: O(n)
+     * @details Complexity: O(1)
      * @details Calls the Data class constructor and initializes the Main Menu
      */
     Menu();

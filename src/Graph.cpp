@@ -52,12 +52,11 @@ vector<int> Graph::bfs() {
     queue<int> temp;
     auto it = nodes.find(0);
     temp.push(it->second->Id);
-    res.push_back(it->second->Id);
     while(!temp.empty()) {
         int id = temp.front();
         res.push_back(id);
         temp.pop();
-        for (auto & edge : getEdgesOut(id)){
+        for (auto & edge : getEdgesOut(id)) {
             if (!nodes.find(edge->dest)->second->visited and edge->dest != it->second->Id) {
                 nodes.find(edge->dest)->second->visited = true;
                 temp.push(edge->dest);
