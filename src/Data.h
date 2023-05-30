@@ -10,32 +10,44 @@
  */
 class Data {
 private:
+    /**
+     * The graph
+     */
     Graph graph;
+    /**
+     * Bool used to know if the graph is one of the Real World Graphs
+     */
     bool realGraph;
+    /**
+     * Bool used to know if the graph is the Tourism Toy Graph, the only graph whose nodes have names
+     */
     bool hasName;
+    /**
+     * Bool used to know if the graph is one of the Extra Fully Connected Graphs
+     */
     bool extraGraph;
 public:
     /**
      * Data class constructor
-     * @details Calls the Graph constructor for each graph in this class and reads all the data from the files.
+     * @details Calls the Graph constructor for the graph in this class and initializes all bools to false
      */
     Data();
     /**
-     * Reads the data in the nodes and edges files from the real graph corresponding to the given graphNumber and stores it in the correct structures.
+     * Reads the data in the nodes and edges files from the real graph corresponding to the given graphNumber and stores it in the correct structures
      * @details Time Complexity - O(V * E)
      * @details With V being the amount of nodes and E being the amount of edges of the graph
      * @param graphNumber Number of the graph to be read
      */
     void readRealGraphs(int graphNumber);
     /**
-     * Reads the data in the nodes and edges files from the toy graph corresponding to the given graphName and stores it in the correct structures.
+     * Reads the data in the nodes and edges files from the toy graph corresponding to the given graphName and stores it in the correct structures
      * @details Time Complexity - O(E)
      * @details With E being the amount of edges of the graph
      * @param graphName Name of the graph to be read
      */
     void readToyGraphs(const string& graphName);
     /**
-     * Reads the data in the nodes and edges files from the extra graph corresponding to the given graphNumber and stores it in the correct structures.
+     * Reads the data in the nodes and edges files from the extra graph corresponding to the given graphNumber and stores it in the correct structures
      * @details Time Complexity - O(E)
      * @details With E being the amount of edges of the graph
      * @param graphNumber Number of the graph to be read

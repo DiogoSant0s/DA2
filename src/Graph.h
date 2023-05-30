@@ -125,8 +125,9 @@ public:
      */
     vector<Edge*> getEdgesOut(int id);
     /**
-     *
-     * @return
+     * Bool method used to check if all the nodes of a graph have been visited
+     * @return True if all nodes have been visited
+     * @return False if one or more nodes are unvisited
      */
     bool checkIfAllNodesVisited();
     /**

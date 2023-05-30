@@ -34,7 +34,7 @@ void Menu::clearScreen() {
 
 int Menu::getUserInput(vector<int> inputs) {
     int input;
-    if(!cin){
+    if (!cin) {
         cin.ignore();
         cin.ignore(100,'\n');
         cin.clear();
