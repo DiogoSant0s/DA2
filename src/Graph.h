@@ -8,8 +8,7 @@
 #include <queue>
 #include <algorithm>
 #include <unordered_map>
-#include <cfloat>
-
+#include <unordered_set>
 
 using namespace std;
 
@@ -86,6 +85,15 @@ private:
      * @details When searching the Time Complexity is O(1)
      */
     unordered_map<int, Node*> nodes;
+    /**
+     *
+     * @param currentNode
+     * @param visitedNodes
+     * @param cycle
+     * @param count
+     * @return
+     */
+    bool hamiltonianCycleUtil(Node *currentNode, unordered_set<Graph::Node*> &visitedNodes, vector<int> &cycle, int count);
 public:
     /**
      * Graph class constructor
@@ -116,7 +124,6 @@ public:
      * @return The object nodes
      */
     unordered_map<int, Node*> getNodes();
-
     /**
      * Getter for the outgoing edges of a certain node
      * @details Time Complexity: O(1)
@@ -124,12 +131,6 @@ public:
      * @return The object edgesOut of said node
      */
     vector<Edge*> getEdgesOut(int id);
-    /**
-     * Bool method used to check if all the nodes of a graph have been visited
-     * @return True if all nodes have been visited
-     * @return False if one or more nodes are unvisited
-     */
-    bool checkIfAllNodesVisited();
     /**
      * Function used to do a Depth-First Search (aka DFS)
      * @details Time Complexity - O(|V| + |E|)
@@ -141,9 +142,10 @@ public:
      *
      * @return
      */
-    vector<int> bfs();
+    vector<int> hamiltonianCycle();
 
     void tsp_backtracking(int currPos, int count, float distance, float& ans);
+
 };
 
 #endif //DA2_GRAPH_H

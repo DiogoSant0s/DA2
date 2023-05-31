@@ -2,6 +2,7 @@
 #define DA2_MENU_H
 
 #include <iomanip>
+#include <cfloat>
 #include "Data.h"
 
 /**
