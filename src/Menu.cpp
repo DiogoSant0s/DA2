@@ -199,7 +199,7 @@ void Menu::MainMenu() {
     cout << "\n";
     cout << "\tMain Menu\n";
     cout << "(1) Graph Information\n";
-    cout << "(2) bfs\n";
+    cout << "(2) Backtracking Algorithm\n";
     cout << "(3) \n";
     cout << "(0) Exit\n";
     cout << " > ";
@@ -209,7 +209,10 @@ void Menu::MainMenu() {
         case 1:
             InfoMenu();
         case 2:
-            for (int i : data.getGraph().bfs()) {
+            clearScreen();
+            printTitle();
+            cout << "\nFinding Hamiltonian cycle in the graph. Please wait\n";
+            for (int i : data.getGraph().hamiltonianCycle()) {
                 cout << i << "\n";
             }
             cout << "\n\n";
@@ -232,8 +235,7 @@ void Menu::InfoMenu() {
     cout << "\tGraph Information Menu\n";
     cout << "(1) All nodes of a graph\n";
     cout << "(2) Information about a specific node of a graph\n";
-    cout << "(3) Backtracking TSP\n";
-    cout << "(4) Back to the Main Menu\n";
+    cout << "(3) Back to the Main Menu\n";
     cout << "(0) Exit\n";
     cout << " > ";
 
@@ -356,27 +358,8 @@ void Menu::InfoMenu() {
             cout << "Press 7 to continue\n";
             getUserInput({7});
             InfoMenu();
-
         case 3:
-            if (!data.getGraph().getNodes().empty()) {
-                for(auto i :data.getGraph().getNodes()){
-                    i.second->visited=false;
-                }
-                data.getGraph().getNodes().find(0)->second->visited=true;
-                float ans = FLT_MAX;
-                data.getGraph().tsp_backtracking(0,1,0.0,ans);
-                cout<<ans;
-
-            }
-
-            cout << "\n\n";
-            cout << "Press 7 to continue\n";
-            getUserInput({7});
-            InfoMenu();
-
-        case 4:
             MainMenu();
-
         case 0:
             exit(0);
         default:

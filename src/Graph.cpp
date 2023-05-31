@@ -5,13 +5,13 @@ Graph::Graph() = default;
 void Graph::addNode(int id, double lon, double lat) {
     bool unique = true;
     if (!nodes.empty()) {
-        for (const auto& it : nodes) {
-            if (it.first == id) {
+        for (auto node : nodes) {
+            if (node.first == id) {
                 unique = false;
             }
         }
     }
-    if (nodes.empty() || unique) {
+    if (unique) {
         nodes.insert({id, new Node{id, lat, lon}});
     }
 }
@@ -37,68 +37,49 @@ vector<Graph::Edge*> Graph::getEdgesOut(int id) {
 }
 
 void Graph::dfs(int nodeId) {
-    auto it = nodes.find(nodeId);
-    it->second->visited = true;
-    for (const auto &e: it->second->edgesOut) {
-        auto target_node = nodes.find(e->dest);
-        if (!target_node->second->visited) {
+    Node* it = nodes.find(nodeId)->second;
+    it->visited = true;
+    for (Edge* e: it->edgesOut) {
+        Node* target_node = nodes.find(e->dest)->second;
+        if (!target_node->visited) {
             dfs(e->dest);
         }
     }
 }
 
-vector<int> Graph::bfs() {
-    vector<int> res;
-    queue<int> temp;
-    auto it = nodes.find(0);
-    temp.push(it->second->Id);
-    while(!temp.empty()) {
-        int id = temp.front();
-        res.push_back(id);
-        temp.pop();
-        for (auto & edge : getEdgesOut(id)) {
-            if (!nodes.find(edge->dest)->second->visited and edge->dest != it->second->Id) {
-                nodes.find(edge->dest)->second->visited = true;
-                temp.push(edge->dest);
+vector<int> Graph::hamiltonianCycle() {
+    vector<int> cycle;
+    unordered_set<Node*> visitedNodes;
+    visitedNodes.insert(nodes[0]);
+    cycle.push_back(nodes[0]->Id);
+    nodes[0]->visited = true;
+    if (hamiltonianCycleUtil(nodes[0], visitedNodes, cycle, 1)) {
+        cycle.push_back(nodes[0]->Id);
+        return cycle;
+    }
+    for (auto node : nodes) { // Reset visited flag
+        node.second->visited = false;
+    }
+    return {}; // No Hamiltonian cycle found
+}
+
+bool Graph::hamiltonianCycleUtil(Node* currentNode, unordered_set<Node*>& visitedNodes, vector<int>& cycle, int count) {
+    if (count == nodes.size() && currentNode->edgesOut[0]->dest == 0) {
+        return true;
+    }
+    for (Edge* edge : currentNode->edgesOut) {
+        Node* nextNode = nodes[edge->dest];
+        if (!nextNode->visited) {
+            nextNode->visited = true;
+            visitedNodes.insert(nextNode);
+            cycle.push_back(nextNode->Id);
+            if (hamiltonianCycleUtil(nextNode, visitedNodes, cycle, count + 1)) {
+                return true;
             }
+            visitedNodes.erase(nextNode);
+            cycle.pop_back();
+            nextNode->visited = false;
         }
     }
-    it->second->visited = true;
-    res.push_back(it->second->Id);
-    vector<int> empty = {0};
-    return checkIfAllNodesVisited() ? res : empty;
-}
-
-bool Graph::checkIfAllNodesVisited() {
-    return all_of(nodes.begin(), nodes.end(), [](pair<const int, Node*> node) {return node.second->visited;});
-}
-
-void Graph::tsp_backtracking(int currPos, int count, float distance, float ans) {
-
-
-//THE FIRST TIME SHOULD BE :
-/*currPs=0
- * distance =0
- * count=1
- * ans=flt_max
- * */
-if(count == nodes.size()){
-    for (auto  e: nodes.find(currPos)->second->edgesOut){
-        if(e->dest==0){
-            ans = min(ans, distance + e->distance);
-            return;
-        }
-    }
-}
-
-    for(auto  e:nodes.find(currPos)->second->edgesOut){
-        int nextPos = e->dest;
-        if(!nodes.find(nextPos)->second->visited){
-            nodes.find(nextPos)->second->visited= true;
-            count++;
-            tsp_backtracking(nextPos,count,distance+e->distance,ans);
-            nodes.find(nextPos)->second->visited= false;
-
-        }
-    }
+    return false;
 }
