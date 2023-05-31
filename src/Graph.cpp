@@ -49,34 +49,34 @@ void Graph::dfs(int nodeId) {
 
 vector<int> Graph::hamiltonianCycle() {
     vector<int> cycle;
-    unordered_set<Node*> visitedNodes;
-    visitedNodes.insert(nodes[0]);
     cycle.push_back(nodes[0]->Id);
-    nodes[0]->visited = true;
-    if (hamiltonianCycleUtil(nodes[0], visitedNodes, cycle, 1)) {
+    //nodes[0]->visited = true;
+    nodes[0]->distanceSrc = 0;
+    if (hamiltonianCycleUtil(nodes[0], cycle, 1)) {
         cycle.push_back(nodes[0]->Id);
         return cycle;
     }
-    for (auto node : nodes) { // Reset visited flag
+    for (auto node : nodes) {
         node.second->visited = false;
+        node.second->distanceSrc = 0;
     }
-    return {}; // No Hamiltonian cycle found
+    return {};
 }
 
-bool Graph::hamiltonianCycleUtil(Node* currentNode, unordered_set<Node*>& visitedNodes, vector<int>& cycle, int count) {
+bool Graph::hamiltonianCycleUtil(Node* currentNode, vector<int>& cycle, int count) {
     if (count == nodes.size() && currentNode->edgesOut[0]->dest == 0) {
+        nodes[0]->distanceSrc = currentNode->distanceSrc + currentNode->edgesOut[0]->distance;
         return true;
     }
     for (Edge* edge : currentNode->edgesOut) {
         Node* nextNode = nodes[edge->dest];
         if (!nextNode->visited) {
+            nextNode->distanceSrc = currentNode->distanceSrc + edge->distance;
             nextNode->visited = true;
-            visitedNodes.insert(nextNode);
             cycle.push_back(nextNode->Id);
-            if (hamiltonianCycleUtil(nextNode, visitedNodes, cycle, count + 1)) {
+            if (hamiltonianCycleUtil(nextNode, cycle, count + 1)) {
                 return true;
             }
-            visitedNodes.erase(nextNode);
             cycle.pop_back();
             nextNode->visited = false;
         }
@@ -84,29 +84,23 @@ bool Graph::hamiltonianCycleUtil(Node* currentNode, unordered_set<Node*>& visite
     return false;
 }
 
-void Graph::tsp_backtracking(int currPos, int count, float distance, float& ans) {
-
-
-    if(count == nodes.size()){
-        for (auto&  e: nodes.find(currPos)->second->edgesOut){
-            if(e->dest==0){
-                ans= min(ans, distance + e->distance);
-                return;
+float Graph::tsp_backtracking(int currPos, int count, float distance, float ans) {
+    if (count == nodes.size()) {
+        for (Edge* e : nodes.find(currPos)->second->edgesOut) {
+            if (e->dest == 0){
+                return min(ans, distance + e->distance);
             }
         }
     }
-
-    for(auto&  e:nodes.find(currPos)->second->edgesOut){
+    for (Edge* e : nodes.find(currPos)->second->edgesOut) {
         int nextPos = e->dest;
-        if(!nodes.find(nextPos)->second->visited){
-            nodes.find(nextPos)->second->visited= true;
+        if (!nodes.find(nextPos)->second->visited){
+            nodes.find(nextPos)->second->visited = true;
             count++;
-            tsp_backtracking(nextPos,count,distance+e->distance,ans);
-            nodes.find(nextPos)->second->visited= false;
-
+            tsp_backtracking(nextPos, count,distance + e->distance, ans);
+            nodes.find(nextPos)->second->visited = false;
+            count--;
         }
     }
+    return 0;
 }
-
-
-

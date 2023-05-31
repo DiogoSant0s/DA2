@@ -215,6 +215,7 @@ void Menu::MainMenu() {
             for (int i : data.getGraph().hamiltonianCycle()) {
                 cout << i << "\n";
             }
+            cout << "\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getNodes()[0]->distanceSrc;
             cout << "\n\n";
             cout << "Press 7 to continue\n";
             getUserInput({7});
@@ -241,7 +242,7 @@ void Menu::InfoMenu() {
     cout << "(0) Exit\n";
     cout << " > ";
 
-    int input = getUserInput({0, 1, 2, 3,4});
+    int input = getUserInput({0, 1, 2, 3, 4});
     switch (input) {
         case 1:
             if (!data.getGraph().getNodes().empty()) {
@@ -362,22 +363,16 @@ void Menu::InfoMenu() {
             InfoMenu();
         case 3:
             if (!data.getGraph().getNodes().empty()) {
-                for(auto i :data.getGraph().getNodes()){
-                    i.second->visited=false;
+                for (auto i : data.getGraph().getNodes()) {
+                    i.second->visited = false;
                 }
-                data.getGraph().getNodes().find(0)->second->visited=true;
-                float ans = FLT_MAX;
-
-                data.getGraph().tsp_backtracking(0,1,0.0,ans);
-                cout << ans;
-
+                data.getGraph().getNodes().find(0)->second->visited = true;
+                cout << data.getGraph().tsp_backtracking(0, 1, 0.0, FLT_MAX);
             }
-
             cout << "\n\n";
             cout << "Press 7 to continue\n";
             getUserInput({7});
             InfoMenu();
-
         case 4:
             MainMenu();
         case 0:

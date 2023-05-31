@@ -40,14 +40,14 @@ public:
      */
     void readRealGraphs(int graphNumber);
     /**
-     * Reads the data in the nodes and edges files from the toy graph corresponding to the given graphName and stores it in the correct structures
+     * Reads the data in the edges file from the toy graph corresponding to the given graphName and stores it in the correct structures
      * @details Time Complexity - O(E)
      * @details With E being the amount of edges of the graph
      * @param graphName Name of the graph to be read
      */
     void readToyGraphs(const string& graphName);
     /**
-     * Reads the data in the nodes and edges files from the extra graph corresponding to the given graphNumber and stores it in the correct structures
+     * Reads the data in the edges file from the extra graph corresponding to the given graphNumber and stores it in the correct structures
      * @details Time Complexity - O(E)
      * @details With E being the amount of edges of the graph
      * @param graphNumber Number of the graph to be read

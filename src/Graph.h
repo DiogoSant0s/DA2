@@ -86,14 +86,16 @@ private:
      */
     unordered_map<int, Node*> nodes;
     /**
-     *
-     * @param currentNode
-     * @param visitedNodes
-     * @param cycle
-     * @param count
-     * @return
+     * Backtacking function used to discover if an Hamiltonion Cycle exists in a graph
+     * @param currentNode Node the function is currently on
+     * @param cycle Integer vector that stores the Id's of the nodes currently in the cycle
+     * @param count Integer used to keep count of how many nodes have been visited
+     * @details Time Complexity - O(E)
+     * @details E is the number of edges
+     * @return True if the base case has been found
+     * @return False otherwise
      */
-    bool hamiltonianCycleUtil(Node *currentNode, unordered_set<Graph::Node*> &visitedNodes, vector<int> &cycle, int count);
+    bool hamiltonianCycleUtil(Node *currentNode, vector<int> &cycle, int count);
 public:
     /**
      * Graph class constructor
@@ -139,13 +141,22 @@ public:
      */
     void dfs(int nodeId);
     /**
-     *
-     * @return
+     * Funtion used to call the hamiltonianCycleUtil backtracking function after initializing the cycle variable
+     * @details Time Complexity - O(V)
+     * @details V is the number of nodes
+     * @return Integer vector 'cycle' that stores the Id's of the nodes in the Hamiltonian cycle if one was found
+     * @return An empty vector otherwise
      */
     vector<int> hamiltonianCycle();
-
-    void tsp_backtracking(int currPos, int count, float distance, float& ans);
-
+    /**
+     *
+     * @param currPos
+     * @param count
+     * @param distance
+     * @param ans
+     * @return
+     */
+    float tsp_backtracking(int currPos, int count, float distance, float ans);
 };
 
 #endif //DA2_GRAPH_H
