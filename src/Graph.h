@@ -143,7 +143,7 @@ public:
      */
     vector<int> bfs();
 
-    void tsp_backtracking(int currPos, int count, float distance, float ans);
+    void tsp_backtracking(int currPos, int count, float distance, float& ans);
 };
 
 #endif //DA2_GRAPH_H

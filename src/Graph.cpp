@@ -73,25 +73,19 @@ bool Graph::checkIfAllNodesVisited() {
     return all_of(nodes.begin(), nodes.end(), [](pair<const int, Node*> node) {return node.second->visited;});
 }
 
-void Graph::tsp_backtracking(int currPos, int count, float distance, float ans) {
+void Graph::tsp_backtracking(int currPos, int count, float distance, float& ans) {
 
 
-//THE FIRST TIME SHOULD BE :
-/*currPs=0
- * distance =0
- * count=1
- * ans=flt_max
- * */
 if(count == nodes.size()){
-    for (auto  e: nodes.find(currPos)->second->edgesOut){
+    for (auto&  e: nodes.find(currPos)->second->edgesOut){
         if(e->dest==0){
-            ans = min(ans, distance + e->distance);
+            ans= min(ans, distance + e->distance);
             return;
         }
     }
 }
 
-    for(auto  e:nodes.find(currPos)->second->edgesOut){
+    for(auto&  e:nodes.find(currPos)->second->edgesOut){
         int nextPos = e->dest;
         if(!nodes.find(nextPos)->second->visited){
             nodes.find(nextPos)->second->visited= true;
