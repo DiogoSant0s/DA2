@@ -97,27 +97,6 @@ bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, i
     return foundShorterCycle;
 }
 
-float Graph::tsp_backtracking(int currPos, int count, float distance, float ans) {
-    if (count == nodes.size()) {
-        for (Edge* e : nodes.find(currPos)->second->edgesOut) {
-            if (e->dest == 0){
-                return min(ans, distance + e->distance);
-            }
-        }
-    }
-    for (Edge* e : nodes.find(currPos)->second->edgesOut) {
-        int nextPos = e->dest;
-        if (!nodes.find(nextPos)->second->visited){
-            nodes.find(nextPos)->second->visited = true;
-            count++;
-            tsp_backtracking(nextPos, count,distance + e->distance, ans);
-            nodes.find(nextPos)->second->visited = false;
-            count--;
-        }
-    }
-    return 0;
-}
-
 double Graph::distance_between_nodes(double long1 , double lat1 , double long2 , double lat2) {
     return sqrt(pow(long1 - long2,2) + pow(lat1 - lat2,2));
 }
