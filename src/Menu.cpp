@@ -202,7 +202,8 @@ void Menu::MainMenu() {
     cout << "\tMain Menu\n";
     cout << "(1) Graph Information\n";
     cout << "(2) Backtracking Algorithm\n";
-    cout << "(3) \n";
+    cout << "(3) Triangular Approximation Heuristic\n";
+    cout << "(4) Ant Colony Optimization\n";
     cout << "(0) Exit\n";
     cout << " > ";
 
@@ -223,7 +224,53 @@ void Menu::MainMenu() {
             getUserInput({7});
             MainMenu();
         case 3:
-
+            for (auto i : data.getGraph().tsp_triangularAproximationHeur()) {
+                cout << i << "\n";
+            }
+            cout << "\n\n";
+            cout << "Press 7 to continue\n";
+            getUserInput({7});
+            MainMenu();
+        case 4:
+            if (!data.getGraph().getNodes().empty()) {
+                int iterations, numAnts;
+                double alpha, beta, evaporationRate;
+                if (data.getGraph().getNodes().size() < 1000) {
+                    iterations = 500;
+                    numAnts = 10;
+                    alpha = 1;
+                    beta = 2;
+                    evaporationRate = 0.5;
+                } else if (data.getGraph().getNodes().size() < 5000) {
+                    iterations = 1000;
+                    numAnts = 20;
+                    alpha = 2;
+                    beta = 4;
+                    evaporationRate = 0.4;
+                } else if (data.getGraph().getNodes().size() < 10000) {
+                    iterations = 3000;
+                    numAnts = 30;
+                    alpha = 3;
+                    beta = 6;
+                    evaporationRate = 0.2;
+                } else {
+                    iterations = 5000;
+                    numAnts = 100;
+                    alpha = 6;
+                    beta = 9;
+                    evaporationRate = 0.1;
+                }
+                cout << "\nPlease wait a bit while the ants do what you told them to: resolve the TSP problem. Tsk, never expected to see this type of animal cruelty\n";
+                vector<int> squirrelsInMyPants = data.getGraph().sosACO(iterations, numAnts, alpha, beta, evaporationRate);
+                for (int i : squirrelsInMyPants) {
+                    cout << i << "\n";
+                }
+                cout << "\nThe distance the travelling salesman travels is " << fixed << data.getGraph().computeTourLength(squirrelsInMyPants);
+                cout << "\n\n";
+                cout << "Press 7 to continue\n";
+                getUserInput({7});
+                MainMenu();
+            }
         case 0:
             exit(0);
         default:
@@ -238,12 +285,11 @@ void Menu::InfoMenu() {
     cout << "\tGraph Information Menu\n";
     cout << "(1) All nodes of a graph\n";
     cout << "(2) Information about a specific node of a graph\n";
-    cout << "(3) TSP problem TAH\n";
-    cout << "(4) Back to the Main Menu\n";
+    cout << "(3) Back to the Main Menu\n";
     cout << "(0) Exit\n";
     cout << " > ";
 
-    int input = getUserInput({0, 1, 2, 3, 4});
+    int input = getUserInput({0, 1, 2, 3});
     switch (input) {
         case 1:
             if (!data.getGraph().getNodes().empty()) {
@@ -363,15 +409,6 @@ void Menu::InfoMenu() {
             getUserInput({7});
             InfoMenu();
         case 3:
-            if (!data.getGraph().getNodes().empty()) {
-                cout << data.getGraph().tsp_triangularAproximationHeur();
-
-            }
-            cout << "\n\n";
-            cout << "Press 7 to continue\n";
-            getUserInput({7});
-            InfoMenu();
-        case 4:
             MainMenu();
         case 0:
             exit(0);

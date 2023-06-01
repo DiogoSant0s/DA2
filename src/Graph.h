@@ -101,6 +101,14 @@ private:
      * @return False otherwise
      */
     bool hamiltonianCycleUtil(Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle);
+
+    /**
+     *
+     * @param node1
+     * @param node2
+     * @return
+     */
+    double computeDistance(int node1, int node2);
 public:
     /**
      * Graph class constructor
