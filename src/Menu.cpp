@@ -237,12 +237,13 @@ void Menu::InfoMenu() {
     cout << "\tGraph Information Menu\n";
     cout << "(1) All nodes of a graph\n";
     cout << "(2) Information about a specific node of a graph\n";
-    cout << "(3) TSP problem\n";
-    cout << "(4) Back to the Main Menu\n";
+    cout << "(3) TSP problem backtracking\n";
+    cout << "(4) TSP problem TAH\n";
+    cout << "(5) Back to the Main Menu\n";
     cout << "(0) Exit\n";
     cout << " > ";
 
-    int input = getUserInput({0, 1, 2, 3, 4});
+    int input = getUserInput({0, 1, 2, 3, 4,5});
     switch (input) {
         case 1:
             if (!data.getGraph().getNodes().empty()) {
@@ -373,8 +374,23 @@ void Menu::InfoMenu() {
             cout << "Press 7 to continue\n";
             getUserInput({7});
             InfoMenu();
+
         case 4:
+            if (!data.getGraph().getNodes().empty()) {
+                vector<int> path = data.getGraph().tsp_triangularAproximationHeur();
+                for(auto i : path){
+                    cout << i<< endl;
+                }
+            }
+            cout << "\n\n";
+            cout << "Press 7 to continue\n";
+            getUserInput({7});
+            InfoMenu();
+
+
+        case 5:
             MainMenu();
+
         case 0:
             exit(0);
         default:

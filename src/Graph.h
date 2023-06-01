@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <unordered_set>
+#include <cmath>
 
 using namespace std;
 
@@ -157,6 +158,22 @@ public:
      * @return
      */
     float tsp_backtracking(int currPos, int count, float distance, float ans);
+
+
+/**
+ * Funtion used to calculate the distance between two stations
+     * @param long1 longitude of the first node
+     * @param lat1 latitude of the first node
+     * @param long2 longitude of the seconde node
+     * @param lat2 latitude of the second node
+
+ */
+
+double distance_between_nodes(double long1, double lat1, double long2, double lat2);
+
+
+vector<int> tsp_triangularAproximationHeur();
+
 };
 
 #endif //DA2_GRAPH_H

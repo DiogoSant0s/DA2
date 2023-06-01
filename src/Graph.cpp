@@ -1,4 +1,5 @@
 #include "Graph.h"
+using namespace std;
 
 Graph::Graph() = default;
 
@@ -104,3 +105,59 @@ float Graph::tsp_backtracking(int currPos, int count, float distance, float ans)
     }
     return 0;
 }
+
+double Graph::distance_between_nodes( double long1 , double lat1 , double long2 , double lat2){
+
+return std::sqrt(std::pow(long1-long2,2) + std::pow(lat1-lat2,2));
+}
+
+vector<int> Graph::tsp_triangularAproximationHeur() {
+    vector<int> path;
+    path.push_back(0);
+    nodes.find(0)->second->visited=true;
+
+    while(path.size() < nodes.size()) {
+        int current_id = path.back();
+
+        int next_node =-1;
+        double min_dist = INFINITY;
+
+        for(auto& n : nodes){
+            if(!n.second->visited){
+                double distance = distance_between_nodes(nodes.find(current_id)->second->longitude,nodes.find(current_id)->second->latitude,
+                                                         n.second->longitude,n.second->latitude);
+// Check if this node satisfies the triangular inequality with all other unvisited nodes
+                for(auto & j : nodes){
+                    if(n.second!=j.second && !j.second->visited ){
+                        if((distance_between_nodes(nodes.find(current_id)->second->longitude,nodes.find(current_id)->second->latitude,
+                                                  j.second->longitude,j.second->latitude) + distance_between_nodes(j.second->longitude,j.second->latitude,
+                                                                                                                   n.second->longitude,n.second->latitude))<distance ){
+                            break;
+                        }
+                    }
+                }
+                // If this node is closer than any other unvisited node seen so far,
+                // mark it as the next node to visit
+                if (distance < min_dist) {
+                    next_node = n.second->Id;
+                    min_dist = distance;
+                }
+            }
+        }
+
+// If no unvisited node satisfies the triangular inequality with all other unvisited nodes,
+                // terminate the algorithm early
+                if (next_node == -1) {
+                    break;
+                }
+
+
+                // Add the next node to the path and mark it as visited
+                path.push_back(next_node);
+        nodes.find(next_node)->second->visited=true;
+            }
+            // Add node 0 back to the end of the path to complete the cycle
+            path.push_back(0);
+            return path;
+        }
+
