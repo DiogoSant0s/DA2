@@ -1,4 +1,8 @@
 #include "Graph.h"
+#include <iostream>
+#include <cmath>
+#include <limits>
+#include <algorithm>
 using namespace std;
 
 Graph::Graph() = default;
@@ -97,47 +101,71 @@ bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, i
     return foundShorterCycle;
 }
 
-double Graph::distance_between_nodes(double long1 , double lat1 , double long2 , double lat2) {
-    return sqrt(pow(long1 - long2,2) + pow(lat1 - lat2,2));
+auto Graph::convert_to_rad(double value){
+    return value*(M_PI/180);
 }
 
-vector<int> Graph::tsp_triangularAproximationHeur() {
+double Graph::distance_between_nodes(double long1 , double lat1 , double long2 , double lat2) {
+    double earth_radius = 6371;
+
+     double delta_latitude = convert_to_rad(lat2-lat1);
+     double delta_longitude = convert_to_rad(long2-long1);
+
+    const auto converted_lat1 = convert_to_rad(lat1);
+    const auto converted_lat2 = convert_to_rad(lat2);
+
+    const auto a = pow(sin(delta_latitude/2),2) + cos(converted_lat1)*cos(converted_lat2)* pow(sin(delta_longitude/2),2);
+    const auto c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    const auto d = c * earth_radius;
+
+    return d;
+
+}
+
+
+double Graph::tsp_triangularAproximationHeur() {
+    int num_vertices = nodes.size();
+    vector<vector<double>> distances(num_vertices, vector<double>(num_vertices, 0.0));
+
+    for (auto& node : nodes) {
+        for (auto& edge : node.second->edgesOut) {
+            int org = edge->origin;
+            int dest = edge->dest;
+            double dist = distance_between_nodes(nodes.find(org)->second->longitude,nodes.find(org)->second->latitude,nodes.find(dest)->second->longitude,nodes.find(org)->second->latitude);
+            distances[org][dest] = dist;
+            distances[dest][org] = dist;
+        }
+    }
+
     vector<int> path;
-    path.push_back(0);
-    nodes.find(0)->second->visited = true;
-    while (path.size() < nodes.size()) {
-        int current_id = path.back();
-        int next_node = -1;
-        double min_dist = INFINITY;
-        for (auto& n : nodes){
-            if (!n.second->visited) {
-                double distance = distance_between_nodes(nodes.find(current_id)->second->longitude,nodes.find(current_id)->second->latitude,n.second->longitude,n.second->latitude);
-                // Check if this node satisfies the triangular inequality with all other unvisited nodes
-                for (auto &j : nodes) {
-                    if (n.second != j.second && !j.second->visited) {
-                        if ((distance_between_nodes(nodes.find(current_id)->second->longitude,nodes.find(current_id)->second->latitude,j.second->longitude,j.second->latitude)
-                        + distance_between_nodes(j.second->longitude,j.second->latitude,n.second->longitude,n.second->latitude)) < distance) {
-                            break;
-                        }
-                    }
-                }
-                // If this node is closer than any other unvisited node seen so far,
-                // mark it as the next node to visit
-                if (distance < min_dist) {
-                    next_node = n.second->Id;
-                    min_dist = distance;
+    double total_distance = 0;
+
+    int curr = 0;
+    nodes.find(curr)->second->visited=true;
+    path.push_back(curr);
+
+    for (int i = 0; i < num_vertices - 1; i++) {
+        int nearest_neighbor = -1;
+        double min_distance =INFINITY;
+
+        for (int neighbor = 0; neighbor < num_vertices; neighbor++) {
+            if (!nodes.find(neighbor)->second->visited) {
+                double lower_bound = distances[curr][neighbor] + distances[neighbor][0];
+                if (lower_bound < min_distance) {
+                    min_distance = lower_bound;
+                    nearest_neighbor = neighbor;
                 }
             }
         }
-        // If no unvisited node satisfies the triangular inequality with all other unvisited nodes, terminate the algorithm early
-        if (next_node == -1) {
-            break;
-        }
-        // Add the next node to the path and mark it as visited
-        path.push_back(next_node);
-        nodes.find(next_node)->second->visited=true;
+
+        curr = nearest_neighbor;
+        nodes.find(curr)->second->visited=true;
+        path.push_back(curr);
+        total_distance += min_distance;
     }
-    // Add node 0 back to the end of the path to complete the cycle
+
     path.push_back(0);
-    return path;
+    total_distance += distances[curr][0];
+
+    return total_distance;
 }

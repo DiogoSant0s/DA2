@@ -161,12 +161,14 @@ public:
      * @param lat2
      * @return
      */
-    static double distance_between_nodes(double long1, double lat1, double long2, double lat2);
+    double distance_between_nodes(double long1, double lat1, double long2, double lat2);
     /**
      *
      * @return
      */
-    vector<int> tsp_triangularAproximationHeur();
+    double tsp_triangularAproximationHeur();
+
+     auto convert_to_rad(double value);
 };
 
 #endif //DA2_GRAPH_H

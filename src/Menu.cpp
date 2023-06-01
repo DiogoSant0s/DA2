@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+using namespace std;
+
 Menu::Menu() : data(Data()) {
     SelectGraphMenu();
 }
@@ -362,10 +364,8 @@ void Menu::InfoMenu() {
             InfoMenu();
         case 3:
             if (!data.getGraph().getNodes().empty()) {
-                vector<int> path = data.getGraph().tsp_triangularAproximationHeur();
-                for(auto i : path){
-                    cout << i<< endl;
-                }
+                cout << data.getGraph().tsp_triangularAproximationHeur();
+
             }
             cout << "\n\n";
             cout << "Press 7 to continue\n";
