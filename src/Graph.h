@@ -7,6 +7,7 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <limits>
 #include <unordered_map>
 #include <unordered_set>
 #include <cmath>
@@ -87,16 +88,19 @@ private:
      */
     unordered_map<int, Node*> nodes;
     /**
-     * Backtacking function used to discover if an Hamiltonion Cycle exists in a graph
+     * Backtacking function used to discover the shortest Hamiltonion Cycle that exists in a graph, if it exists
      * @param currentNode Node the function is currently on
      * @param cycle Integer vector that stores the Id's of the nodes currently in the cycle
      * @param count Integer used to keep count of how many nodes have been visited
+     * @param distance
+     * @param shortestCycle
+     * @param shortestDistance
      * @details Time Complexity - O(E)
      * @details E is the number of edges
      * @return True if the base case has been found
      * @return False otherwise
      */
-    bool hamiltonianCycleUtil(Node *currentNode, vector<int> &cycle, int count);
+    bool hamiltonianCycleUtil(Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle);
 public:
     /**
      * Graph class constructor
@@ -169,7 +173,7 @@ public:
 
  */
 
-double distance_between_nodes(double long1, double lat1, double long2, double lat2);
+static double distance_between_nodes(double long1, double lat1, double long2, double lat2);
 
 
 vector<int> tsp_triangularAproximationHeur();
