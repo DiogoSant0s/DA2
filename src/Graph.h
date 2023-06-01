@@ -8,9 +8,10 @@
 #include <queue>
 #include <algorithm>
 #include <limits>
+#include <cmath>
+#include <random>
 #include <unordered_map>
 #include <unordered_set>
-#include <cmath>
 
 using namespace std;
 
@@ -101,6 +102,22 @@ private:
      * @return False otherwise
      */
     bool hamiltonianCycleUtil(Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle);
+    /**
+     *
+     * @param long1
+     * @param lat1
+     * @param long2
+     * @param lat2
+     * @return
+     */
+    static double distance_between_nodes(double long1, double lat1, double long2, double lat2);
+    /**
+     *
+     * @param node1
+     * @param node2
+     * @return
+     */
+    double computeDistance(int node1, int node2);
 public:
     /**
      * Graph class constructor
@@ -139,13 +156,6 @@ public:
      */
     vector<Edge*> getEdgesOut(int id);
     /**
-     * Function used to do a Depth-First Search (aka DFS)
-     * @details Time Complexity - O(|V| + |E|)
-     * @details V is the number of nodes and E is the number of edges
-     * @param nodeId The Id of the node to be searched
-     */
-    void dfs(int nodeId);
-    /**
      * Funtion used to call the hamiltonianCycleUtil backtracking function after initializing the cycle variable
      * @details Time Complexity - O(V)
      * @details V is the number of nodes
@@ -155,18 +165,25 @@ public:
     vector<int> hamiltonianCycle();
     /**
      *
-     * @param long1
-     * @param lat1
-     * @param long2
-     * @param lat2
-     * @return
-     */
-    static double distance_between_nodes(double long1, double lat1, double long2, double lat2);
-    /**
-     *
      * @return
      */
     vector<int> tsp_triangularAproximationHeur();
+    /**
+     *
+     * @param iterations
+     * @param numAnts
+     * @param alpha
+     * @param beta
+     * @param rho
+     * @return
+     */
+    vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double rho);
+    /**
+     *
+     * @param tour
+     * @return
+     */
+    double computeTourLength(const vector<int> &tour);
 };
 
 #endif //DA2_GRAPH_H

@@ -1,5 +1,4 @@
 #include "Graph.h"
-using namespace std;
 
 Graph::Graph() = default;
 
@@ -35,17 +34,6 @@ unordered_map<int, Graph::Node*> Graph::getNodes() {
 
 vector<Graph::Edge*> Graph::getEdgesOut(int id) {
     return nodes.find(id)->second->edgesOut;
-}
-
-void Graph::dfs(int nodeId) {
-    Node* it = nodes.find(nodeId)->second;
-    it->visited = true;
-    for (Edge* e: it->edgesOut) {
-        Node* target_node = nodes.find(e->dest)->second;
-        if (!target_node->visited) {
-            dfs(e->dest);
-        }
-    }
 }
 
 vector<int> Graph::hamiltonianCycle() {
@@ -140,4 +128,109 @@ vector<int> Graph::tsp_triangularAproximationHeur() {
     // Add node 0 back to the end of the path to complete the cycle
     path.push_back(0);
     return path;
+}
+
+vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta, double rho) {
+    // Get the number of nodes in the graph
+    int numNodes = (int) nodes.size();
+    // Initialize the pheromone matrix with small initial values
+    vector<vector<double>> pheromones(numNodes, vector<double>(numNodes, 0.01));
+    // Create a random number generator
+    random_device rd;
+    mt19937 rng(rd());
+    uniform_real_distribution<double> distribution(0.0, 1.0);
+    // Initialize the best tour and its length
+    vector<int> bestTour;
+    double bestTourLength = numeric_limits<double>::max();
+    // Perform iterations
+    for (int iter = 0; iter < iterations; ++iter) {
+        // Create a vector to store the tours constructed by each ant
+        vector<vector<int>> antTours(numAnts);
+        // Construct tours for each ant
+        for (int ant = 0; ant < numAnts; ++ant) {
+            vector<bool> visited(numNodes, false);  // Track visited nodes
+            int currentNode = 0;  // Start from node 0
+            // Construct the tour
+            for (int i = 0; i < numNodes - 1; ++i) {
+                visited[currentNode] = true;  // Mark the current node as visited
+                antTours[ant].push_back(currentNode);
+                // Compute the selection probabilities for the next node
+                double totalProb = 0.0;
+                vector<double> probabilities(numNodes, 0.0);
+                for (int nextNode = 0; nextNode < numNodes; ++nextNode) {
+                    if (!visited[nextNode]) {
+                        double pheromone = pheromones[currentNode][nextNode];
+                        double distance = computeDistance(currentNode, nextNode);  // Compute the distance between nodes
+                        double heuristic = 1.0 / distance;
+                        double probability = pow(pheromone, alpha) * pow(heuristic, beta);
+                        probabilities[nextNode] = probability;
+                        totalProb += probability;
+                    }
+                }
+                // Select the next node based on the selection probabilities
+                double roulette = distribution(rng) * totalProb;
+                double cumProb = 0.0;
+                int nextNode = -1;
+                for (int j = 0; j < numNodes; ++j) {
+                    if (!visited[j]) {
+                        cumProb += probabilities[j];
+                        if (cumProb >= roulette) {
+                            nextNode = j;
+                            break;
+                        }
+                    }
+                }
+                // Set the next node as the current node for the next iteration
+                currentNode = nextNode;
+            }
+            // Add the last node to complete the tour
+            antTours[ant].push_back(currentNode);
+        }
+        // Update the pheromone levels
+        for (int i = 0; i < numNodes; ++i) {
+            for (int j = 0; j < numNodes; ++j) {
+                pheromones[i][j] *= (1.0 - rho);  // Evaporation
+            }
+        }
+        vector<int> tour;
+        // Update the pheromone levels for each ant's tour
+        for (int ant = 0; ant < numAnts; ++ant) {
+            tour = antTours[ant];
+            double tourLength = computeTourLength(tour);
+            // Update the pheromone levels based on the tour length
+            for (int i = 0; i < numNodes - 1; ++i) {
+                int node1 = tour[i];
+                int node2 = tour[i + 1];
+                pheromones[node1][node2] += (1.0 / tourLength);
+                pheromones[node2][node1] += (1.0 / tourLength);
+            }
+            // Update the best tour if the current tour is better
+            if (tourLength < bestTourLength) {
+                bestTour = tour;
+                bestTourLength = tourLength;
+            }
+        }
+    }
+    // Return the best tour found
+    return bestTour;
+}
+
+// Helper function to compute the distance between two nodes
+double Graph::computeDistance(int node1, int node2) {
+    // Retrieve the coordinates of the nodes from the graph
+    double lat1 = nodes[node1]->latitude;
+    double lon1 = nodes[node1]->longitude;
+    double lat2 = nodes[node2]->latitude;
+    double lon2 = nodes[node2]->longitude;
+    // Compute the Euclidean distance between the coordinates
+    return sqrt(pow(lat2 - lat1, 2) + pow(lon2 - lon1, 2));
+}
+
+// Helper function to compute the length of a tour
+double Graph::computeTourLength(const vector<int>& tour) {
+    double tourLength = 0.0;
+    for (int i = 0; i < tour.size() - 1; ++i) {
+        tourLength += computeDistance(tour[i], tour[i + 1]);
+    }
+    return tourLength;
 }
