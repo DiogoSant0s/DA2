@@ -85,11 +85,7 @@ bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, i
     return foundShorterCycle;
 }
 
-double Graph::distance_between_nodes(double long1 , double lat1 , double long2 , double lat2) {
-    return sqrt(pow(long1 - long2,2) + pow(lat1 - lat2,2));
-}
-
-vector<int> Graph::tsp_triangularAproximationHeur() {
+vector<int> Graph::triangularAproximationHeur() {
     vector<int> path;
     path.push_back(0);
     nodes.find(0)->second->visited = true;
@@ -99,18 +95,16 @@ vector<int> Graph::tsp_triangularAproximationHeur() {
         double min_dist = INFINITY;
         for (auto& n : nodes){
             if (!n.second->visited) {
-                double distance = distance_between_nodes(nodes.find(current_id)->second->longitude,nodes.find(current_id)->second->latitude,n.second->longitude,n.second->latitude);
+                double distance = computeDistance(current_id, n.first);
                 // Check if this node satisfies the triangular inequality with all other unvisited nodes
                 for (auto &j : nodes) {
                     if (n.second != j.second && !j.second->visited) {
-                        if ((distance_between_nodes(nodes.find(current_id)->second->longitude,nodes.find(current_id)->second->latitude,j.second->longitude,j.second->latitude)
-                        + distance_between_nodes(j.second->longitude,j.second->latitude,n.second->longitude,n.second->latitude)) < distance) {
+                        if ((computeDistance(current_id, j.first) + computeDistance(j.first, n.first)) < distance) {
                             break;
                         }
                     }
                 }
-                // If this node is closer than any other unvisited node seen so far,
-                // mark it as the next node to visit
+                // If this node is closer than any other unvisited node seen so far, mark it as the next node to visit
                 if (distance < min_dist) {
                     next_node = n.second->Id;
                     min_dist = distance;
@@ -130,7 +124,7 @@ vector<int> Graph::tsp_triangularAproximationHeur() {
     return path;
 }
 
-vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta, double rho) {
+vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate) {
     // Get the number of nodes in the graph
     int numNodes = (int) nodes.size();
     // Initialize the pheromone matrix with small initial values
@@ -159,22 +153,18 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
                 vector<double> probabilities(numNodes, 0.0);
                 for (int nextNode = 0; nextNode < numNodes; ++nextNode) {
                     if (!visited[nextNode]) {
-                        double pheromone = pheromones[currentNode][nextNode];
-                        double distance = computeDistance(currentNode, nextNode);  // Compute the distance between nodes
-                        double heuristic = 1.0 / distance;
-                        double probability = pow(pheromone, alpha) * pow(heuristic, beta);
+                        double probability = pow(pheromones[currentNode][nextNode], alpha) * pow(1.0 / computeDistance(currentNode, nextNode), beta);
                         probabilities[nextNode] = probability;
                         totalProb += probability;
                     }
                 }
                 // Select the next node based on the selection probabilities
-                double roulette = distribution(rng) * totalProb;
                 double cumProb = 0.0;
                 int nextNode = -1;
                 for (int j = 0; j < numNodes; ++j) {
                     if (!visited[j]) {
                         cumProb += probabilities[j];
-                        if (cumProb >= roulette) {
+                        if (cumProb >= distribution(rng) * totalProb) {
                             nextNode = j;
                             break;
                         }
@@ -189,7 +179,7 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
         // Update the pheromone levels
         for (int i = 0; i < numNodes; ++i) {
             for (int j = 0; j < numNodes; ++j) {
-                pheromones[i][j] *= (1.0 - rho);  // Evaporation
+                pheromones[i][j] *= (1.0 - evaporationRate);  // Evaporation
             }
         }
         vector<int> tour;
@@ -227,7 +217,7 @@ double Graph::computeDistance(int node1, int node2) {
 }
 
 // Helper function to compute the length of a tour
-double Graph::computeTourLength(const vector<int>& tour) {
+double Graph::computeTourLength(vector<int> tour) {
     double tourLength = 0.0;
     for (int i = 0; i < tour.size() - 1; ++i) {
         tourLength += computeDistance(tour[i], tour[i + 1]);

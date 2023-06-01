@@ -222,7 +222,7 @@ void Menu::MainMenu() {
             getUserInput({7});
             MainMenu();
         case 3:
-            for (auto i : data.getGraph().tsp_triangularAproximationHeur()) {
+            for (auto i : data.getGraph().triangularAproximationHeur()) {
                 cout << i << "\n";
             }
             cout << "\n\n";

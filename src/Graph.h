@@ -104,15 +104,6 @@ private:
     bool hamiltonianCycleUtil(Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle);
     /**
      *
-     * @param long1
-     * @param lat1
-     * @param long2
-     * @param lat2
-     * @return
-     */
-    static double distance_between_nodes(double long1, double lat1, double long2, double lat2);
-    /**
-     *
      * @param node1
      * @param node2
      * @return
@@ -167,23 +158,23 @@ public:
      *
      * @return
      */
-    vector<int> tsp_triangularAproximationHeur();
+    vector<int> triangularAproximationHeur();
     /**
      *
      * @param iterations
      * @param numAnts
      * @param alpha
      * @param beta
-     * @param rho
+     * @param evaporationRate
      * @return
      */
-    vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double rho);
+    vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate);
     /**
      *
      * @param tour
      * @return
      */
-    double computeTourLength(const vector<int> &tour);
+    double computeTourLength(vector<int> tour);
 };
 
 #endif //DA2_GRAPH_H
