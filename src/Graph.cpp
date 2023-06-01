@@ -67,6 +67,36 @@ vector<int> Graph::hamiltonianCycle() {
     return {};
 }
 
+bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle) {
+    if (count == nodes.size() && !currentNode->edgesOut.empty() && currentNode->edgesOut[0]->dest == 0) {
+        // Update the distance traveled for the last edge
+        distance += currentNode->edgesOut[0]->distance;
+        currentNode->distanceSrc = distance;
+        if (distance < shortestDistance) {
+            shortestDistance = distance;
+            shortestCycle = cycle;
+            return true;  // A shorter cycle was found
+        }
+        return false;  // No shorter cycle found
+    }
+    bool foundShorterCycle = false;
+    for (Edge* edge : currentNode->edgesOut) {
+        Node* nextNode = nodes[edge->dest];
+        if (!nextNode->visited) {
+            nextNode->visited = true;
+            cycle.push_back(nextNode->Id);
+            if (distance + edge->distance < shortestDistance) {
+                foundShorterCycle = hamiltonianCycleUtil(nextNode, cycle, count + 1, distance + edge->distance, shortestDistance, shortestCycle);
+                if (foundShorterCycle)
+                    break;  // Exit early if a shorter cycle was found
+            }
+            nextNode->visited = false;
+            cycle.pop_back();
+        }
+    }
+    return foundShorterCycle;
+}
+
 float Graph::tsp_backtracking(int currPos, int count, float distance, float ans) {
     if (count == nodes.size()) {
         for (Edge* e : nodes.find(currPos)->second->edgesOut) {
@@ -131,34 +161,4 @@ vector<int> Graph::tsp_triangularAproximationHeur() {
     // Add node 0 back to the end of the path to complete the cycle
     path.push_back(0);
     return path;
-}
-
-bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle) {
-    if (count == nodes.size() && !currentNode->edgesOut.empty() && currentNode->edgesOut[0]->dest == 0) {
-        // Update the distance traveled for the last edge
-        distance += currentNode->edgesOut[0]->distance;
-        currentNode->distanceSrc = distance;
-        if (distance < shortestDistance) {
-            shortestDistance = distance;
-            shortestCycle = cycle;
-            return true;  // A shorter cycle was found
-        }
-        return false;  // No shorter cycle found
-    }
-    bool foundShorterCycle = false;
-    for (Edge* edge : currentNode->edgesOut) {
-        Node* nextNode = nodes[edge->dest];
-        if (!nextNode->visited) {
-            nextNode->visited = true;
-            cycle.push_back(nextNode->Id);
-            if (distance + edge->distance < shortestDistance) {
-                foundShorterCycle = hamiltonianCycleUtil(nextNode, cycle, count + 1, distance + edge->distance, shortestDistance, shortestCycle);
-                if (foundShorterCycle)
-                    break;  // Exit early if a shorter cycle was found
-            }
-            nextNode->visited = false;
-            cycle.pop_back();
-        }
-    }
-    return foundShorterCycle;
 }

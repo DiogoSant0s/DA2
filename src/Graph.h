@@ -92,9 +92,9 @@ private:
      * @param currentNode Node the function is currently on
      * @param cycle Integer vector that stores the Id's of the nodes currently in the cycle
      * @param count Integer used to keep count of how many nodes have been visited
-     * @param distance
-     * @param shortestCycle
-     * @param shortestDistance
+     * @param distance Double used to keep track of the distance travelled
+     * @param shortestCycle Integer vector that stores the Id's of the nodes currently in the shortestCycle
+     * @param shortestDistance Double used to keep track of the shortestDistance travelled
      * @details Time Complexity - O(E)
      * @details E is the number of edges
      * @return True if the base case has been found
@@ -162,22 +162,20 @@ public:
      * @return
      */
     float tsp_backtracking(int currPos, int count, float distance, float ans);
-
-
-/**
- * Funtion used to calculate the distance between two stations
-     * @param long1 longitude of the first node
-     * @param lat1 latitude of the first node
-     * @param long2 longitude of the seconde node
-     * @param lat2 latitude of the second node
-
- */
-
-static double distance_between_nodes(double long1, double lat1, double long2, double lat2);
-
-
-vector<int> tsp_triangularAproximationHeur();
-
+    /**
+     *
+     * @param long1
+     * @param lat1
+     * @param long2
+     * @param lat2
+     * @return
+     */
+    static double distance_between_nodes(double long1, double lat1, double long2, double lat2);
+    /**
+     *
+     * @return
+     */
+    vector<int> tsp_triangularAproximationHeur();
 };
 
 #endif //DA2_GRAPH_H
