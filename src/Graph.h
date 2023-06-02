@@ -147,13 +147,6 @@ public:
      */
     vector<Edge*> getEdgesOut(int id);
     /**
-     * Function used to do a Depth-First Search (aka DFS)
-     * @details Time Complexity - O(|V| + |E|)
-     * @details V is the number of nodes and E is the number of edges
-     * @param nodeId The Id of the node to be searched
-     */
-    void dfs(int nodeId);
-    /**
      * Funtion used to call the hamiltonianCycleUtil backtracking function after initializing the cycle variable
      * @details Time Complexity - O(V)
      * @details V is the number of nodes
@@ -169,9 +162,20 @@ public:
      * @param lat2
      * @return
      */
-    double distance_between_nodes(double long1, double lat1, double long2, double lat2);
     /**
      *
+     * @param iterations
+     * @param numAnts
+     * @param alpha
+     * @param beta
+     * @param evaporationRate
+     * @return
+     */
+    double distance_between_nodes(double long1, double lat1, double long2, double lat2);
+    vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate);
+    /**
+     *
+     * @param tour
      * @return
      */
     double tsp_triangularAproximationHeur();
@@ -179,6 +183,7 @@ public:
      auto convert_to_rad(double value);
 
     double tsp_triangularAproximationHeuristic_toy();
+    double computeTourLength(vector<int> tour);
 };
 
 #endif //DA2_GRAPH_H

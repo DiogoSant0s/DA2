@@ -207,7 +207,7 @@ void Menu::MainMenu() {
     cout << "(0) Exit\n";
     cout << " > ";
 
-    int input = getUserInput({0, 1, 2, 3});
+    int input = getUserInput({0, 1, 2, 3, 4});
     switch (input) {
         case 1:
             InfoMenu();
@@ -236,7 +236,7 @@ void Menu::MainMenu() {
             getUserInput({7});
             MainMenu();
         case 4:
-           /* if (!data.getGraph().getNodes().empty()) {
+            if (!data.getGraph().getNodes().empty()) {
                 int iterations, numAnts;
                 double alpha, beta, evaporationRate;
                 if (data.getGraph().getNodes().size() < 1000) {
@@ -274,7 +274,7 @@ void Menu::MainMenu() {
                 cout << "Press 7 to continue\n";
                 getUserInput({7});
                 MainMenu();
-            }*/
+            }
         case 0:
             exit(0);
         default:

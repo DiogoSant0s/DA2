@@ -33,8 +33,8 @@ public:
      */
     static int getUserInput(vector<int> inputs);
     /**
-     * Complexity: O(1)
      * Void method that clears the screen
+     * @details Complexity: O(1)
      */
     static void clearScreen();
     /**

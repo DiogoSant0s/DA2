@@ -41,17 +41,6 @@ vector<Graph::Edge*> Graph::getEdgesOut(int id) {
     return nodes.find(id)->second->edgesOut;
 }
 
-void Graph::dfs(int nodeId) {
-    Node* it = nodes.find(nodeId)->second;
-    it->visited = true;
-    for (Edge* e: it->edgesOut) {
-        Node* target_node = nodes.find(e->dest)->second;
-        if (!target_node->visited) {
-            dfs(e->dest);
-        }
-    }
-}
-
 vector<int> Graph::hamiltonianCycle() {
     vector<int> cycle;
     cycle.push_back(nodes[0]->Id);
@@ -215,4 +204,11 @@ double Graph::tsp_triangularAproximationHeuristic_toy(){
 
     return totalDistance;
 
+// Helper function to compute the length of a tour
+double Graph::computeTourLength(const vector<int>& tour) {
+    double tourLength = 0.0;
+    for (int i = 0; i < tour.size() - 1; ++i) {
+        tourLength += computeDistance(tour[i], tour[i + 1]);
+    }
+    return tourLength;
 }
