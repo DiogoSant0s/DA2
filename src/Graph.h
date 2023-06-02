@@ -66,10 +66,6 @@ private:
          */
         vector<Edge*> edgesOut = {};
         /**
-         * List of edges incoming from adjacent nodes
-         */
-        vector<Edge*> edgesIn = {};
-        /**
          * Verifies if the node has been visited on a previous search
          * @details This variable set to True means that the node has been visited and False otherwise
          */

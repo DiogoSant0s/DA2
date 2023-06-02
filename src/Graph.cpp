@@ -22,8 +22,6 @@ void Graph::addEdge(int org, int destination, float dist, const string& distance
     if (itSrc == nodes.end() || itTar == nodes.end() || itSrc == itTar) {
         return;
     }
-    itSrc->second->edgesIn.push_back(new Edge{destination, org, dist, distance});
-    itTar->second->edgesIn.push_back(new Edge{org, destination, dist, distance});
     itSrc->second->edgesOut.push_back(new Edge{org, destination, dist, distance});
     itTar->second->edgesOut.push_back(new Edge{destination, org, dist, distance});
 }
