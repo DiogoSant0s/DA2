@@ -113,6 +113,14 @@ private:
      * @return Distance between the two nodes
      */
     double distanceBetweenNodes(int origin, int destination);
+    /**
+     * Function used to determine the total distance travelled in a cycle
+     * @param cycle Provided cycle
+     * @details Time Complexity - O(N)
+     * @details N is the size of the vector
+     * @return Distance travelled in the cycle
+     */
+    double computeTourLength(vector<int> cycle);
 public:
     /**
      * Graph class constructor
@@ -151,13 +159,13 @@ public:
      */
     vector<Edge*> getEdgesOut(int id);
     /**
-     * Function used to determine the total distance travelled in a cycle
-     * @param cycle Provided cycle
+     * Function used to determine the total distance travelled in a cycle for the toy and extra graphs
+     * @param path Provided cycle
      * @details Time Complexity - O(N)
      * @details N is the size of the vector
      * @return Distance travelled in the cycle
      */
-    double computeTourLength(vector<int> cycle);
+    double toyAndExtraComputeDistance(vector<int> path);
     /**
      * Funtion used to call the hamiltonianCycleUtil backtracking function after initializing the cycle variable
      * @details Time Complexity - O(V)
@@ -183,15 +191,19 @@ public:
      */
     double triangularAproximationHeurToy(vector<int> &path);
     /**
-     *
-     * @param iterations
-     * @param numAnts
-     * @param alpha
-     * @param beta
-     * @param evaporationRate
-     * @return
+     * Self-Organizing System based Ant Colony Optimization function to resolve the TSP
+     * @param iterations The number of iterations or generations of the SOS-ACO algorithm
+     * @param numAnts The number of ants used in each iteration of the ACO algorithm
+     * @param alpha The alpha parameter controls the influence of the pheromone levels on the ant's decision-making process
+     * @param beta The beta parameter controls the influence of the heuristic information (e.g: distance) on the ant's decision-making process
+     * @param evaporationRate The evaporation rate determines the rate at which the pheromone levels evaporate or decay over time
+     * @param bestTourLength Total distance travelled in the path
+     * @param realGraph Boolean used to know if the graph we are currently working on is a real graph or not
+     * @details Time Complexity - O(N * I * V^2)
+     * @details V is the number of nodes, N is the numAnts and I is the iterations
+     * @return Integer vector 'uniqueTour' that stores the Id's of the nodes in cycle
      */
-    vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate);
+    vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate, double &bestTourLength, bool realGraph);
 };
 
 #endif //DA2_GRAPH_H

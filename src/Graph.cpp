@@ -54,10 +54,23 @@ double Graph::computeTourLength(vector<int> cycle) {
     return totalDistance;
 }
 
+double Graph::toyAndExtraComputeDistance(vector<int> path) {
+    double totalDistance = 0.0;
+    for (int i = 0; i < path.size() - 1; ++i) {
+        for (Edge* edge : nodes[path[i]]->edgesOut) {
+            if (edge->dest == nodes[path[i + 1]]->Id) {
+                totalDistance += edge->distance;
+                break;
+            }
+        }
+    }
+    return totalDistance;
+}
+
 vector<int> Graph::hamiltonianCycle() {
     for (auto node : nodes) {
         node.second->visited = false;
-        node.second->distanceSrc = 0;
+        node.second->distanceSrc = numeric_limits<double>::max();
     }
     vector<int> cycle;
     cycle.push_back(nodes[0]->Id);
@@ -188,41 +201,50 @@ double Graph::triangularAproximationHeurToy(vector<int> &path) {
     return totalDistance;
 }
 
-vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta, double rho) {
-    for (auto node : nodes) {
-        node.second->visited = false;
-        node.second->distanceSrc = 0;
+vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate, double& bestTourLength, bool realGraph) {
+    int numNodes = static_cast<int>(nodes.size());
+    vector<vector<double>> distances(numNodes, vector<double>(numNodes, 0.0));
+    for (auto& node : nodes) {
+        for (Edge* edge : node.second->edgesOut) {
+            int origin = edge->origin;
+            int destination = edge->dest;
+            double distance = distanceBetweenNodes(origin, destination);
+            distances[origin][destination] = distance;
+            distances[destination][origin] = distance;
+        }
     }
-    int numNodes = (int) nodes.size();
-    vector<vector<double>> pheromones(numNodes, vector<double>(numNodes, 0.01));
     random_device rd;
     mt19937 rng(rd());
     uniform_real_distribution<double> distribution(0.0, 1.0);
+
+    vector<vector<double>> pheromones(numNodes, vector<double>(numNodes, 0.01));
     vector<int> bestTour;
-    double bestTourLength = numeric_limits<double>::max();
+    vector<bool> visited(numNodes, false);
+    vector<double> probabilities(numNodes, 0.0);
+
     for (int iter = 0; iter < iterations; ++iter) {
         vector<vector<int>> antTours(numAnts);
         for (int ant = 0; ant < numAnts; ++ant) {
-            vector<bool> visited(numNodes, false);
             int currentNode = 0;
             for (int i = 0; i < numNodes - 1; ++i) {
                 visited[currentNode] = true;
                 antTours[ant].push_back(currentNode);
                 double totalProb = 0.0;
-                vector<double> probabilities(numNodes, 0.0);
-                for (int nextNode = 0; nextNode < numNodes; ++nextNode) {
-                    if (!visited[nextNode]) {
-                        double pheromone = pheromones[currentNode][nextNode];
-                        double distance = distanceBetweenNodes(currentNode, nextNode);
-                        double heuristic = 1.0 / distance;
-                        double probability = pow(pheromone, alpha) * pow(heuristic, beta);
-                        probabilities[nextNode] = probability;
+                int nextNode = 0;
+                double minProbability = numeric_limits<double>::max();
+                for (int j = 0; j < numNodes; ++j) {
+                    if (!visited[j]) {
+                        double probability = pow(pheromones[currentNode][j], alpha) * pow(1.0 / distances[currentNode][j], beta);
+                        probabilities[j] = probability;
                         totalProb += probability;
+                        if (probability < minProbability) {
+                            minProbability = probability;
+                            nextNode = j;
+                        }
                     }
                 }
                 double roulette = distribution(rng) * totalProb;
                 double cumProb = 0.0;
-                int nextNode = -1;
                 for (int j = 0; j < numNodes; ++j) {
                     if (!visited[j]) {
                         cumProb += probabilities[j];
@@ -238,13 +260,18 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
         }
         for (int i = 0; i < numNodes; ++i) {
             for (int j = 0; j < numNodes; ++j) {
-                pheromones[i][j] *= (1.0 - rho);
+                pheromones[i][j] *= (1.0 - evaporationRate);
             }
         }
         vector<int> tour;
         for (int ant = 0; ant < numAnts; ++ant) {
             tour = antTours[ant];
-            double tourLength = computeTourLength(tour);
+            double tourLength;
+            if (realGraph) {
+                tourLength = computeTourLength(tour);
+            } else {
+                tourLength = toyAndExtraComputeDistance(tour);
+            }
             for (int i = 0; i < numNodes - 1; ++i) {
                 int node1 = tour[i];
                 int node2 = tour[i + 1];
@@ -266,10 +293,11 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
             visitedNodes.insert(node);
         }
     }
-    for (auto node : nodes) {
+    for (auto& node : nodes) {
         if (visitedNodes.find(node.first) == visitedNodes.end()) {
             uniqueTour.push_back(node.first);
         }
     }
+    uniqueTour.push_back(nodes[0]->Id);
     return uniqueTour;
 }

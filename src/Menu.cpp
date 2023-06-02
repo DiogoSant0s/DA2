@@ -235,20 +235,13 @@ void Menu::MainMenu() {
                 double dist;
                 if (data.getRealGraph()) {
                     dist = data.getGraph().triangularAproximationHeur(path);
-                    for (int i = 0; i < path.size(); i++) {
-                        print(to_string(path[i]), 6, false);
-                        if (i % 25 == 0 and i != 0) {
-                            cout << "\n";
-                        }
-                    }
-                }
-                else {
+                } else {
                     dist = data.getGraph().triangularAproximationHeurToy(path);
-                    for (int i = 0; i < path.size(); i++) {
-                        print(to_string(path[i]), 6, false);
-                        if (i % 25 == 0 and i != 0) {
-                            cout << "\n";
-                        }
+                }
+                for (int i = 0; i < path.size(); i++) {
+                    print(to_string(path[i]), 6, false);
+                    if (i % 25 == 0 and i != 0) {
+                        cout << "\n";
                     }
                 }
                 cout << "\nThe distance the travelling salesman travels is " << fixed << dist << "\n";
@@ -268,33 +261,34 @@ void Menu::MainMenu() {
                     beta = 2;
                     evaporationRate = 0.5;
                 } else if (data.getGraph().getNodes().size() < 5000) {
-                    iterations = 1000;
-                    numAnts = 20;
+                    iterations = 100;
+                    numAnts = 15;
+                    alpha = 1;
+                    beta = 2;
+                    evaporationRate = 0.3;
+                } else if (data.getGraph().getNodes().size() < 10000) {
+                    iterations = 500;
+                    numAnts = 40;
                     alpha = 2;
                     beta = 4;
                     evaporationRate = 0.4;
-                } else if (data.getGraph().getNodes().size() < 10000) {
-                    iterations = 3000;
-                    numAnts = 30;
-                    alpha = 3;
-                    beta = 6;
-                    evaporationRate = 0.2;
                 } else {
-                    iterations = 5000;
-                    numAnts = 100;
-                    alpha = 6;
-                    beta = 9;
-                    evaporationRate = 0.1;
+                    iterations = 1000;
+                    numAnts = 70;
+                    alpha = 4;
+                    beta = 7;
+                    evaporationRate = 0.5;
                 }
+                double bestTourLength = numeric_limits<double>::max();
                 cout << "\nPlease wait a bit while the ants do what you told them to: resolve the TSP problem. Tsk, never expected to see this type of animal cruelty\n";
-                vector<int> squirrelsInMyPants = data.getGraph().sosACO(iterations, numAnts, alpha, beta, evaporationRate);
+                vector<int> squirrelsInMyPants = data.getGraph().sosACO(iterations, numAnts, alpha, beta, evaporationRate, bestTourLength, data.getRealGraph());
                 for (int i = 0; i < squirrelsInMyPants.size(); i++) {
                     print(to_string(squirrelsInMyPants[i]), 6, false);
                     if (i % 25 == 0 and i != 0) {
                         cout << "\n";
                     }
                 }
-                cout << "\nThe distance the travelling salesman travels is " << fixed << data.getGraph().computeTourLength(squirrelsInMyPants);
+                cout << "\nThe distance the travelling salesman travels is " << fixed << bestTourLength;
                 cout << "\n\n";
                 cout << "Press 7 to continue\n";
                 getUserInput({7});
