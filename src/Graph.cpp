@@ -122,50 +122,97 @@ double Graph::distance_between_nodes(double long1 , double lat1 , double long2 ,
 
 }
 
-
 double Graph::tsp_triangularAproximationHeur() {
-    int num_vertices = nodes.size();
-    vector<vector<double>> distances(num_vertices, vector<double>(num_vertices, 0.0));
+    vector<vector<double>> distances(nodes.size(), vector<double>(nodes.size(), 0.0));
 
     for (auto& node : nodes) {
         for (auto& edge : node.second->edgesOut) {
-            int org = edge->origin;
-            int dest = edge->dest;
-            double dist = distance_between_nodes(nodes.find(org)->second->longitude,nodes.find(org)->second->latitude,nodes.find(dest)->second->longitude,nodes.find(org)->second->latitude);
-            distances[org][dest] = dist;
-            distances[dest][org] = dist;
+            int origin = edge->origin;
+            int destination = edge->dest;
+            double distance = distance_between_nodes(nodes.find(origin)->second->longitude, nodes.find(origin)->second->latitude, nodes.find(destination)->second->longitude, nodes.find(destination)->second->latitude);
+            distances[origin][destination] = distance;
+            distances[destination][origin] = distance;
         }
     }
 
     vector<int> path;
-    double total_distance = 0;
+    double totalDistance = 0;
 
-    int curr = 0;
-    nodes.find(curr)->second->visited=true;
-    path.push_back(curr);
+    int current_node_id = 0;
+    nodes.find(current_node_id)->second->visited = true;
+    path.push_back(current_node_id);
 
-    for (int i = 0; i < num_vertices - 1; i++) {
-        int nearest_neighbor = -1;
-        double min_distance =INFINITY;
+    for (int i = 0; i < nodes.size() - 1; i++) {
+        int nearestNeighbor = -1;
+        double minDistance = INT_MAX;
 
-        for (int neighbor = 0; neighbor < num_vertices; neighbor++) {
-            if (!nodes.find(neighbor)->second->visited) {
-                double lower_bound = distances[curr][neighbor] + distances[neighbor][0];
-                if (lower_bound < min_distance) {
-                    min_distance = lower_bound;
-                    nearest_neighbor = neighbor;
+        for (int next = 0; next < nodes.size(); next++) {
+            if (!nodes.find(next)->second->visited) {
+                double lowerBound = distances[current_node_id][next] + distances[next][0];
+                if (lowerBound < minDistance) {
+                    minDistance = lowerBound;
+                    nearestNeighbor = next;
                 }
             }
         }
 
-        curr = nearest_neighbor;
-        nodes.find(curr)->second->visited=true;
-        path.push_back(curr);
-        total_distance += min_distance;
+        current_node_id = nearestNeighbor;
+        nodes.find(current_node_id)->second->visited = true;
+        path.push_back(current_node_id);
+        totalDistance += minDistance;
     }
 
     path.push_back(0);
-    total_distance += distances[curr][0];
+    totalDistance += distances[current_node_id][0];
 
-    return total_distance;
+    return totalDistance;
+
+}
+
+double Graph::tsp_triangularAproximationHeuristic_toy(){
+    vector<int> path;
+    double totalDistance = 0;
+    double lowerBound =0;
+
+    int current_node_id = 0;
+    nodes.find(current_node_id)->second->visited = true;
+    path.push_back(current_node_id);
+
+    for (int i = 0; i < nodes.size() - 1; i++) {
+        int nearestNeighbor = -1;
+        double minDistance = INT_MAX;
+
+        for (int next = 0; next < nodes.size(); next++) {
+            if (!nodes.find(next)->second->visited) {
+                for(auto& e: nodes.find(current_node_id)->second->edgesOut){
+                    if(e->dest==next){
+
+                         lowerBound =e->distance;
+                        for(auto& edge: nodes.find(next)->second->edgesOut){
+                                if(edge->dest==0){
+                                    lowerBound+=edge->distance;
+                                }
+                        }
+                } }
+                if (lowerBound < minDistance) {
+                    minDistance = lowerBound;
+                    nearestNeighbor = next;
+                }
+
+            }
+        }
+
+        current_node_id = nearestNeighbor;
+        nodes.find(current_node_id)->second->visited = true;
+        path.push_back(current_node_id);
+        totalDistance += minDistance;
+    }
+
+    path.push_back(0);
+    for(auto & edges:nodes.find(current_node_id)->second->edgesOut){
+        if(edges->dest==0) totalDistance+=edges->distance;
+    }
+
+    return totalDistance;
+
 }

@@ -177,6 +177,8 @@ public:
     double tsp_triangularAproximationHeur();
 
      auto convert_to_rad(double value);
+
+    double tsp_triangularAproximationHeuristic_toy();
 };
 
 #endif //DA2_GRAPH_H

@@ -223,16 +223,20 @@ void Menu::MainMenu() {
             cout << "Press 7 to continue\n";
             getUserInput({7});
             MainMenu();
-        case 3:
-            for (auto i : data.getGraph().tsp_triangularAproximationHeur()) {
-                cout << i << "\n";
-            }
+        case 3: if (!data.getGraph().getNodes().empty()) {
+                if (data.getRealGraph()) {
+                    cout << data.getGraph().tsp_triangularAproximationHeur();
+                }
+                else{
+                    cout << data.getGraph().tsp_triangularAproximationHeuristic_toy();
+                }
+        }
             cout << "\n\n";
             cout << "Press 7 to continue\n";
             getUserInput({7});
             MainMenu();
         case 4:
-            if (!data.getGraph().getNodes().empty()) {
+           /* if (!data.getGraph().getNodes().empty()) {
                 int iterations, numAnts;
                 double alpha, beta, evaporationRate;
                 if (data.getGraph().getNodes().size() < 1000) {
@@ -270,7 +274,7 @@ void Menu::MainMenu() {
                 cout << "Press 7 to continue\n";
                 getUserInput({7});
                 MainMenu();
-            }
+            }*/
         case 0:
             exit(0);
         default:
