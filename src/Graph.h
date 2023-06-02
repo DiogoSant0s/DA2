@@ -8,9 +8,10 @@
 #include <queue>
 #include <algorithm>
 #include <limits>
+#include <cmath>
+#include <random>
 #include <unordered_map>
 #include <unordered_set>
-#include <cmath>
 
 using namespace std;
 
@@ -74,10 +75,6 @@ private:
          */
         bool visited = false;
         /**
-         * Path from src to this node
-         */
-        Edge* path = nullptr;
-        /**
          * Distance between this node and the src
          */
         double distanceSrc;
@@ -101,14 +98,21 @@ private:
      * @return False otherwise
      */
     bool hamiltonianCycleUtil(Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle);
-
     /**
-     *
-     * @param node1
-     * @param node2
-     * @return
+     * Auxiliary function used to convert degrees to radians
+     * @param value Value to be converted to radians
+     * @details Time Complexity - O(1)
+     * @return Radian equivalent to the provided degree
      */
-    double computeDistance(int node1, int node2);
+    static double convertToRad(double value);
+    /**
+     * Auxiliary function used to determine the distance between to nodes using the Haversine formula
+     * @param origin Id of the origin node
+     * @param destination Id of the destination node
+     * @details Time Complexity - O(1)
+     * @return Distance between the two nodes
+     */
+    double distanceBetweenNodes(int origin, int destination);
 public:
     /**
      * Graph class constructor
@@ -117,20 +121,20 @@ public:
     Graph();
     /**
      * Add a node to the Graph
-     * @details Time Complexity - O(V)
-     * @details V is the number of nodes
      * @param id The node's id
      * @param lon The node's longitude
      * @param lat The node's latitude
+     * @details Time Complexity - O(V)
+     * @details V is the number of nodes
      */
     void addNode(int id, double lon, double lat);
     /**
      * Add an edge from a source node to a target node
-     * @details Time Complexity - O(1)
      * @param org The source node
      * @param destination The target node
      * @param dist Distance between the source and target nodes
      * @param distance Distance between the source and target nodes as a string
+     * @details Time Complexity - O(1)
      */
     void addEdge(int org, int destination, float dist, const string& distance);
     /**
@@ -141,11 +145,19 @@ public:
     unordered_map<int, Node*> getNodes();
     /**
      * Getter for the outgoing edges of a certain node
-     * @details Time Complexity: O(1)
      * @param id Id of the node that has the edges you are looking for
+     * @details Time Complexity: O(1)
      * @return The object edgesOut of said node
      */
     vector<Edge*> getEdgesOut(int id);
+    /**
+     * Function used to determine the total distance travelled in a cycle
+     * @param cycle Provided cycle
+     * @details Time Complexity - O(N)
+     * @details N is the size of the vector
+     * @return Distance travelled in the cycle
+     */
+    double computeTourLength(vector<int> cycle);
     /**
      * Funtion used to call the hamiltonianCycleUtil backtracking function after initializing the cycle variable
      * @details Time Complexity - O(V)
@@ -155,13 +167,21 @@ public:
      */
     vector<int> hamiltonianCycle();
     /**
-     *
-     * @param long1
-     * @param lat1
-     * @param long2
-     * @param lat2
-     * @return
+     * Triangular Approximation Heuristic function to resolve the TSP
+     * @param path Vector that is passed by reference so the function can update it. Contains the path travelled
+     * @details Time Complexity - O(V^2)
+     * @details V is the number of nodes
+     * @return Total distance travelled in the path
      */
+    double triangularAproximationHeur(vector<int> &path);
+    /**
+     * Triangular Approximation Heuristic function to resolve the TSP in the Toy graphs
+     * @param path Vector that is passed by reference so the function can update it. Contains the path travelled
+     * @details Time Complexity - O(V^2 * E^2)
+     * @details V is the number of nodes and E is the number of edges
+     * @return Total distance travelled in the path
+     */
+    double triangularAproximationHeurToy(vector<int> &path);
     /**
      *
      * @param iterations
@@ -171,19 +191,7 @@ public:
      * @param evaporationRate
      * @return
      */
-    double distance_between_nodes(double long1, double lat1, double long2, double lat2);
     vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate);
-    /**
-     *
-     * @param tour
-     * @return
-     */
-    double tsp_triangularAproximationHeur();
-
-     auto convert_to_rad(double value);
-
-    double tsp_triangularAproximationHeuristic_toy();
-    double computeTourLength(vector<int> tour);
 };
 
 #endif //DA2_GRAPH_H

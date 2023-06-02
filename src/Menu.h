@@ -2,7 +2,6 @@
 #define DA2_MENU_H
 
 #include <iomanip>
-#include <cfloat>
 #include "Data.h"
 
 /**
@@ -43,7 +42,14 @@ public:
      * @param s String to print
      * @param length Space given to the string in the table
      */
-    static void Print(const string &s, int length);
+    static void print(const string &s, int length);
+    /**
+     * Void method that outputs the path of a cycle
+     * @details Complexity: O(1)
+     * @param s String to print
+     * @param length Space given to the string in the terminal
+     */
+    static void printPath(const string &s, int length);
     /**
      * Void method used to choose which graph to read from the datasets
      * @details Complexity: O(1)

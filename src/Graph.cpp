@@ -1,9 +1,4 @@
 #include "Graph.h"
-#include <iostream>
-#include <cmath>
-#include <limits>
-#include <algorithm>
-using namespace std;
 
 Graph::Graph() = default;
 
@@ -41,7 +36,29 @@ vector<Graph::Edge*> Graph::getEdgesOut(int id) {
     return nodes.find(id)->second->edgesOut;
 }
 
+double Graph::convertToRad(double value) {
+    return value * (M_PI / 180);
+}
+
+double Graph::distanceBetweenNodes(int origin, int destination) {
+    double a = pow(sin(convertToRad(nodes[destination]->latitude - nodes[origin]->latitude) / 2), 2) + cos(convertToRad(nodes[origin]->latitude)) *
+            cos(convertToRad(nodes[destination]->latitude)) * pow(sin(convertToRad(nodes[destination]->longitude - nodes[origin]->longitude) / 2), 2);
+    return 2 * atan2(sqrt(a), sqrt(1 - a)) * 6371;
+}
+
+double Graph::computeTourLength(vector<int> cycle) {
+    double totalDistance = 0.0;
+    for (int i = 0; i < cycle.size() - 1; ++i) {
+        totalDistance += distanceBetweenNodes(cycle[i], cycle[i + 1]);
+    }
+    return totalDistance;
+}
+
 vector<int> Graph::hamiltonianCycle() {
+    for (auto node : nodes) {
+        node.second->visited = false;
+        node.second->distanceSrc = 0;
+    }
     vector<int> cycle;
     cycle.push_back(nodes[0]->Id);
     //nodes[0]->visited = true;
@@ -53,24 +70,19 @@ vector<int> Graph::hamiltonianCycle() {
         nodes[0]->distanceSrc = shortestDistance;
         return shortestCycle;
     }
-    for (auto node : nodes) {
-        node.second->visited = false;
-        node.second->distanceSrc = 0;
-    }
     return {};
 }
 
 bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle) {
     if (count == nodes.size() && !currentNode->edgesOut.empty() && currentNode->edgesOut[0]->dest == 0) {
-        // Update the distance traveled for the last edge
         distance += currentNode->edgesOut[0]->distance;
         currentNode->distanceSrc = distance;
         if (distance < shortestDistance) {
             shortestDistance = distance;
             shortestCycle = cycle;
-            return true;  // A shorter cycle was found
+            return true;
         }
-        return false;  // No shorter cycle found
+        return false;
     }
     bool foundShorterCycle = false;
     for (Edge* edge : currentNode->edgesOut) {
@@ -81,7 +93,7 @@ bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, i
             if (distance + edge->distance < shortestDistance) {
                 foundShorterCycle = hamiltonianCycleUtil(nextNode, cycle, count + 1, distance + edge->distance, shortestDistance, shortestCycle);
                 if (foundShorterCycle)
-                    break;  // Exit early if a shorter cycle was found
+                    break;
             }
             nextNode->visited = false;
             cycle.pop_back();
@@ -90,51 +102,28 @@ bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, i
     return foundShorterCycle;
 }
 
-auto Graph::convert_to_rad(double value){
-    return value*(M_PI/180);
-}
-
-double Graph::distance_between_nodes(double long1 , double lat1 , double long2 , double lat2) {
-    double earth_radius = 6371;
-
-     double delta_latitude = convert_to_rad(lat2-lat1);
-     double delta_longitude = convert_to_rad(long2-long1);
-
-    const auto converted_lat1 = convert_to_rad(lat1);
-    const auto converted_lat2 = convert_to_rad(lat2);
-
-    const auto a = pow(sin(delta_latitude/2),2) + cos(converted_lat1)*cos(converted_lat2)* pow(sin(delta_longitude/2),2);
-    const auto c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    const auto d = c * earth_radius;
-
-    return d;
-
-}
-
-double Graph::tsp_triangularAproximationHeur() {
+double Graph::triangularAproximationHeur(vector<int> &path) {
+    for (auto node : nodes) {
+        node.second->visited = false;
+        node.second->distanceSrc = 0;
+    }
     vector<vector<double>> distances(nodes.size(), vector<double>(nodes.size(), 0.0));
-
-    for (auto& node : nodes) {
-        for (auto& edge : node.second->edgesOut) {
+    for (auto node : nodes) {
+        for (Edge* edge : node.second->edgesOut) {
             int origin = edge->origin;
             int destination = edge->dest;
-            double distance = distance_between_nodes(nodes.find(origin)->second->longitude, nodes.find(origin)->second->latitude, nodes.find(destination)->second->longitude, nodes.find(destination)->second->latitude);
+            double distance = distanceBetweenNodes(origin, destination);
             distances[origin][destination] = distance;
             distances[destination][origin] = distance;
         }
     }
-
-    vector<int> path;
     double totalDistance = 0;
-
     int current_node_id = 0;
     nodes.find(current_node_id)->second->visited = true;
     path.push_back(current_node_id);
-
     for (int i = 0; i < nodes.size() - 1; i++) {
         int nearestNeighbor = -1;
         double minDistance = INT_MAX;
-
         for (int next = 0; next < nodes.size(); next++) {
             if (!nodes.find(next)->second->visited) {
                 double lowerBound = distances[current_node_id][next] + distances[next][0];
@@ -144,71 +133,129 @@ double Graph::tsp_triangularAproximationHeur() {
                 }
             }
         }
-
         current_node_id = nearestNeighbor;
         nodes.find(current_node_id)->second->visited = true;
         path.push_back(current_node_id);
         totalDistance += minDistance;
     }
-
     path.push_back(0);
     totalDistance += distances[current_node_id][0];
-
     return totalDistance;
-
 }
 
-double Graph::tsp_triangularAproximationHeuristic_toy(){
-    vector<int> path;
+double Graph::triangularAproximationHeurToy(vector<int> &path) {
+    for (auto node : nodes) {
+        node.second->visited = false;
+        node.second->distanceSrc = 0;
+    }
     double totalDistance = 0;
-    double lowerBound =0;
-
+    double lowerBound = 0;
     int current_node_id = 0;
     nodes.find(current_node_id)->second->visited = true;
     path.push_back(current_node_id);
-
     for (int i = 0; i < nodes.size() - 1; i++) {
         int nearestNeighbor = -1;
         double minDistance = INT_MAX;
-
         for (int next = 0; next < nodes.size(); next++) {
             if (!nodes.find(next)->second->visited) {
-                for(auto& e: nodes.find(current_node_id)->second->edgesOut){
-                    if(e->dest==next){
-
-                         lowerBound =e->distance;
-                        for(auto& edge: nodes.find(next)->second->edgesOut){
-                                if(edge->dest==0){
-                                    lowerBound+=edge->distance;
-                                }
+                for (auto &e: nodes.find(current_node_id)->second->edgesOut) {
+                    if (e->dest == next) {
+                        lowerBound = e->distance;
+                        for (Edge* edge: nodes.find(next)->second->edgesOut) {
+                            if (edge->dest == 0) {
+                                lowerBound += edge->distance;
+                            }
                         }
-                } }
+                    }
+                }
                 if (lowerBound < minDistance) {
                     minDistance = lowerBound;
                     nearestNeighbor = next;
                 }
-
             }
         }
-
         current_node_id = nearestNeighbor;
         nodes.find(current_node_id)->second->visited = true;
         path.push_back(current_node_id);
         totalDistance += minDistance;
     }
-
     path.push_back(0);
-    for(auto & edges:nodes.find(current_node_id)->second->edgesOut){
-        if(edges->dest==0) totalDistance+=edges->distance;
+    for (Edge* edges: nodes.find(current_node_id)->second->edgesOut) {
+        if (edges->dest == 0) {
+            totalDistance += edges->distance;
+        }
     }
-
     return totalDistance;
+}
 
-// Helper function to compute the length of a tour
-double Graph::computeTourLength(const vector<int>& tour) {
-    double tourLength = 0.0;
-    for (int i = 0; i < tour.size() - 1; ++i) {
-        tourLength += computeDistance(tour[i], tour[i + 1]);
+vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta, double rho) {
+    for (auto node : nodes) {
+        node.second->visited = false;
+        node.second->distanceSrc = 0;
     }
-    return tourLength;
+    int numNodes = (int) nodes.size();
+    vector<vector<double>> pheromones(numNodes, vector<double>(numNodes, 0.01));
+    random_device rd;
+    mt19937 rng(rd());
+    uniform_real_distribution<double> distribution(0.0, 1.0);
+    vector<int> bestTour;
+    double bestTourLength = numeric_limits<double>::max();
+    for (int iter = 0; iter < iterations; ++iter) {
+        vector<vector<int>> antTours(numAnts);
+        for (int ant = 0; ant < numAnts; ++ant) {
+            vector<bool> visited(numNodes, false);
+            int currentNode = 0;
+            for (int i = 0; i < numNodes - 1; ++i) {
+                visited[currentNode] = true;
+                antTours[ant].push_back(currentNode);
+                double totalProb = 0.0;
+                vector<double> probabilities(numNodes, 0.0);
+                for (int nextNode = 0; nextNode < numNodes; ++nextNode) {
+                    if (!visited[nextNode]) {
+                        double pheromone = pheromones[currentNode][nextNode];
+                        double distance = distanceBetweenNodes(currentNode, nextNode);
+                        double heuristic = 1.0 / distance;
+                        double probability = pow(pheromone, alpha) * pow(heuristic, beta);
+                        probabilities[nextNode] = probability;
+                        totalProb += probability;
+                    }
+                }
+                double roulette = distribution(rng) * totalProb;
+                double cumProb = 0.0;
+                int nextNode = -1;
+                for (int j = 0; j < numNodes; ++j) {
+                    if (!visited[j]) {
+                        cumProb += probabilities[j];
+                        if (cumProb >= roulette) {
+                            nextNode = j;
+                            break;
+                        }
+                    }
+                }
+                currentNode = nextNode;
+            }
+            antTours[ant].push_back(currentNode);
+        }
+        for (int i = 0; i < numNodes; ++i) {
+            for (int j = 0; j < numNodes; ++j) {
+                pheromones[i][j] *= (1.0 - rho);
+            }
+        }
+        vector<int> tour;
+        for (int ant = 0; ant < numAnts; ++ant) {
+            tour = antTours[ant];
+            double tourLength = computeTourLength(tour);
+            for (int i = 0; i < numNodes - 1; ++i) {
+                int node1 = tour[i];
+                int node2 = tour[i + 1];
+                pheromones[node1][node2] += (1.0 / tourLength);
+                pheromones[node2][node1] += (1.0 / tourLength);
+            }
+            if (tourLength < bestTourLength) {
+                bestTour = tour;
+                bestTourLength = tourLength;
+            }
+        }
+    }
+    return bestTour;
 }
