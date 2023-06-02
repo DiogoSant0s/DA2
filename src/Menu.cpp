@@ -14,24 +14,13 @@ ____  ____  _  _ ___ ___  _  _  _____      ____  _    _____  ____  ____  ___ ___
     )" << "\n";
 }
 
-void Menu::print(const string& s, int length) {
+void Menu::print(const string& s, int length, bool tableOrPath) {
     int spaces;
     bool uneven = false;
     if ((length - int(s.size())) % 2 == 1) uneven = true;
     spaces = (length - int(s.size())) / 2;
-    cout << "|";
-    if (spaces > 0) cout << string(spaces, ' ');
-    cout << s;
-    if (spaces > 0) cout << string(spaces, ' ');
-    if (uneven) cout << " ";
-}
-
-void Menu::printPath(const string& s, int length) {
-    int spaces;
-    bool uneven = false;
-    if ((length - int(s.size())) % 2 == 1) uneven = true;
-    spaces = (length - int(s.size())) / 2;
-    cout << "->";
+    if (tableOrPath) cout << "|";
+    else cout << "->";
     if (spaces > 0) cout << string(spaces, ' ');
     cout << s;
     if (spaces > 0) cout << string(spaces, ' ');
@@ -59,7 +48,7 @@ int Menu::getUserInput(vector<int> inputs) {
         }
         cin.clear();
         cin.ignore();
-        cerr << "\nNot a valid input<, please input one of the shown options: ";
+        cerr << "\nNot a valid input, please input one of the shown options: ";
         cin >> input;
     }
     cin.ignore(100, '\n');
@@ -228,12 +217,12 @@ void Menu::MainMenu() {
                 cout << "\nFinding Hamiltonian cycle in the graph. Please wait\n\n";
                 vector<int> cycle = data.getGraph().hamiltonianCycle();
                 for (int i = 0; i < cycle.size(); i++) {
-                    printPath(to_string(cycle[i]), 6);
+                    print(to_string(cycle[i]), 6, false);
                     if (i % 25 == 0 and i != 0) {
                         cout << "\n";
                     }
                 }
-                cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().computeTourLength(cycle);
+                cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getNodes()[0]->distanceSrc;
                 cout << "\n\n";
                 cout << "Press 7 to continue\n";
                 getUserInput({7});
@@ -247,7 +236,7 @@ void Menu::MainMenu() {
                 if (data.getRealGraph()) {
                     dist = data.getGraph().triangularAproximationHeur(path);
                     for (int i = 0; i < path.size(); i++) {
-                        printPath(to_string(path[i]), 6);
+                        print(to_string(path[i]), 6, false);
                         if (i % 25 == 0 and i != 0) {
                             cout << "\n";
                         }
@@ -256,7 +245,7 @@ void Menu::MainMenu() {
                 else {
                     dist = data.getGraph().triangularAproximationHeurToy(path);
                     for (int i = 0; i < path.size(); i++) {
-                        printPath(to_string(path[i]), 6);
+                        print(to_string(path[i]), 6, false);
                         if (i % 25 == 0 and i != 0) {
                             cout << "\n";
                         }
@@ -273,7 +262,7 @@ void Menu::MainMenu() {
                 int iterations, numAnts;
                 double alpha, beta, evaporationRate;
                 if (data.getGraph().getNodes().size() < 1000) {
-                    iterations = 500;
+                    iterations = 200;
                     numAnts = 10;
                     alpha = 1;
                     beta = 2;
@@ -300,7 +289,7 @@ void Menu::MainMenu() {
                 cout << "\nPlease wait a bit while the ants do what you told them to: resolve the TSP problem. Tsk, never expected to see this type of animal cruelty\n";
                 vector<int> squirrelsInMyPants = data.getGraph().sosACO(iterations, numAnts, alpha, beta, evaporationRate);
                 for (int i = 0; i < squirrelsInMyPants.size(); i++) {
-                    printPath(to_string(squirrelsInMyPants[i]), 6);
+                    print(to_string(squirrelsInMyPants[i]), 6, false);
                     if (i % 25 == 0 and i != 0) {
                         cout << "\n";
                     }
@@ -342,14 +331,14 @@ void Menu::InfoMenu() {
                     cout << "\n\n";
                     for (int i = 0; i < 56; i++) cout << "-";
                     cout << "\n";
-                    print("Node Id", 10);
-                    print("Longitude", 21);
-                    print("Latitude", 21);
+                    print("Node Id", 10, true);
+                    print("Longitude", 21, true);
+                    print("Latitude", 21, true);
                     cout << "|\n";
                     for (int i = 0; i < 56; i++) cout << "-";
                     cout << "\n";
                     for (int i = 0; i < size; i++) {
-                        print(to_string(data.getGraph().getNodes().at(i)->Id), 10);
+                        print(to_string(data.getGraph().getNodes().at(i)->Id), 10, true);
                         cout << "| " << fixed << setprecision(15) << data.getGraph().getNodes().at(i)->longitude << " ";
                         cout << "| " << fixed << setprecision(15) << data.getGraph().getNodes().at(i)->latitude << " ";
                         cout << "|\n";
@@ -368,12 +357,12 @@ void Menu::InfoMenu() {
                     cout << "\n\n";
                     for (int i = 0; i < 12; i++) cout << "-";
                     cout << "\n";
-                    print("Node Id", 10);
+                    print("Node Id", 10, true);
                     cout << "|\n";
                     for (int i = 0; i < 12; i++) cout << "-";
                     cout << "\n";
                     for (int i = 0; i < size; i++) {
-                        print(to_string(data.getGraph().getNodes().at(i)->Id), 10);
+                        print(to_string(data.getGraph().getNodes().at(i)->Id), 10, true);
                         cout << "|\n";
                     }
                     for (int i = 0; i < 12; i++) cout << "-";
@@ -382,14 +371,14 @@ void Menu::InfoMenu() {
                         cout << "\n\n";
                         for (int i = 0; i < 23; i++) cout << "-";
                         cout << "\n";
-                        print("Node Id", 9);
-                        print("Node Name", 11);
+                        print("Node Id", 9, true);
+                        print("Node Name", 11, true);
                         cout << "|\n";
                         for (int i = 0; i < 23; i++) cout << "-";
                         cout << "\n";
                         for (int i = 0; i < data.getGraph().getNodes().size(); i++) {
-                            print(to_string(data.getGraph().getNodes().at(i)->Id), 9);
-                            print(data.getGraph().getNodes().at(i)->name, 11);
+                            print(to_string(data.getGraph().getNodes().at(i)->Id), 9, true);
+                            print(data.getGraph().getNodes().at(i)->name, 11, true);
                             cout << "|\n";
                         }
                         for (int i = 0; i < 23; i++) cout << "-";
@@ -397,12 +386,12 @@ void Menu::InfoMenu() {
                         cout << "\n\n";
                         for (int i = 0; i < 12; i++) cout << "-";
                         cout << "\n";
-                        print("Node Id", 10);
+                        print("Node Id", 10, true);
                         cout << "|\n";
                         for (int i = 0; i < 12; i++) cout << "-";
                         cout << "\n";
                         for (int i = 0; i < data.getGraph().getNodes().size(); i++) {
-                            print(to_string(data.getGraph().getNodes().at(i)->Id), 10);
+                            print(to_string(data.getGraph().getNodes().at(i)->Id), 10, true);
                             cout << "|\n";
                         }
                         for (int i = 0; i < 12; i++) cout << "-";
@@ -430,16 +419,16 @@ void Menu::InfoMenu() {
                 cout << "\n\n";
                 for (int i = 0; i < 35; i++) cout << "-";
                 cout << "\n";
-                print("Origin", 8);
-                print("Destination", 13);
-                print("Distance", 10);
+                print("Origin", 8, true);
+                print("Destination", 13, true);
+                print("Distance", 10, true);
                 cout << "|\n";
                 for (int i = 0; i < 35; i++) cout << "-";
                 cout << "\n";
                 for (int i = 0; i < size; i++) {
-                    print(to_string(data.getGraph().getEdgesOut(Id).at(i)->origin), 8);
-                    print(to_string(data.getGraph().getEdgesOut(Id).at(i)->dest), 13);
-                    print(data.getGraph().getEdgesOut(Id).at(i)->distanceStr, 10);
+                    print(to_string(data.getGraph().getEdgesOut(Id).at(i)->origin), 8, true);
+                    print(to_string(data.getGraph().getEdgesOut(Id).at(i)->dest), 13, true);
+                    print(data.getGraph().getEdgesOut(Id).at(i)->distanceStr, 10, true);
                     cout << "|\n";
                 }
                 for (int i = 0; i < 35; i++) cout << "-";

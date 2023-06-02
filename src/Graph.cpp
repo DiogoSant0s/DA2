@@ -61,7 +61,7 @@ vector<int> Graph::hamiltonianCycle() {
     }
     vector<int> cycle;
     cycle.push_back(nodes[0]->Id);
-    //nodes[0]->visited = true;
+    nodes[0]->visited = true;
     nodes[0]->distanceSrc = 0;
     vector<int> shortestCycle;
     double shortestDistance = numeric_limits<double>::max();
@@ -257,5 +257,19 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
             }
         }
     }
-    return bestTour;
+    bestTour.push_back(bestTour[0]);
+    vector<int> uniqueTour;
+    unordered_set<int> visitedNodes;
+    for (int node : bestTour) {
+        if (visitedNodes.find(node) == visitedNodes.end()) {
+            uniqueTour.push_back(node);
+            visitedNodes.insert(node);
+        }
+    }
+    for (auto node : nodes) {
+        if (visitedNodes.find(node.first) == visitedNodes.end()) {
+            uniqueTour.push_back(node.first);
+        }
+    }
+    return uniqueTour;
 }

@@ -37,19 +37,13 @@ public:
      */
     static void clearScreen();
     /**
-     * Void method that outputs a string in a table block
+     * Void method that outputs a string in a table block or in a path
      * @details Complexity: O(1)
      * @param s String to print
      * @param length Space given to the string in the table
+     * @param tableOrPath Bool used to determine if we're printing a Table or a Path
      */
-    static void print(const string &s, int length);
-    /**
-     * Void method that outputs the path of a cycle
-     * @details Complexity: O(1)
-     * @param s String to print
-     * @param length Space given to the string in the terminal
-     */
-    static void printPath(const string &s, int length);
+    static void print(const string &s, int length, bool tableOrPath);
     /**
      * Void method used to choose which graph to read from the datasets
      * @details Complexity: O(1)
