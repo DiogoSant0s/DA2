@@ -298,10 +298,10 @@ void Menu::MainMenu() {
             if (!data.getGraph().getNodes().empty()) {
                 cout << "\nFinding cycle in the graph using this Heuristic. Please wait\n";
                 if (data.getRealGraph()) {
-                    vector<int> visitedVertices = data.getGraph().primMST();
-                    double tourDistance = data.getGraph().getTourDistance(visitedVertices);
-                    for (int i = 0; i < visitedVertices.size(); i++) {
-                        print(to_string(visitedVertices[i]), 6, false);
+                    vector<int> visitedNodes = data.getGraph().primMST();
+                    double tourDistance = data.getGraph().getTourDistance(visitedNodes);
+                    for (int i = 0; i < visitedNodes.size(); i++) {
+                        print(to_string(visitedNodes[i]), 6, false);
                         if (i % 25 == 0 and i != 0) {
                             cout << "\n";
                         }

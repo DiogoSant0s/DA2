@@ -193,12 +193,12 @@ public:
     vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate, bool realGraph);
     /**
      * Function used to determine the total distance travelled in a cycle
-     * @param visitedVertices Provided cycle
+     * @param visitedNodes Provided cycle
      * @details Time Complexity - O(N)
      * @details N is the size of the vector
      * @return Distance travelled in the cycle
      */
-    double getTourDistance(vector<int> visitedVertices);
+    double getTourDistance(vector<int> visitedNodes);
     /**
      * Finds the minimum spanning tree of a graph using Prim's algorithm
      * @details Time Complexity - O(V^2)

@@ -44,12 +44,12 @@ double Graph::distanceBetweenNodes(int origin, int destination) {
     return 2 * atan2(sqrt(a), sqrt(1 - a)) * 6371;
 }
 
-double Graph::getTourDistance(vector<int> visitedVertices) {
+double Graph::getTourDistance(vector<int> visitedNodes) {
     double totalDistance = 0;
-    for (int i = 0; i < visitedVertices.size() - 1; ++i) {
-        totalDistance += distanceBetweenNodes(visitedVertices[i],visitedVertices[i + 1]);
+    for (int i = 0; i < visitedNodes.size() - 1; ++i) {
+        totalDistance += distanceBetweenNodes(visitedNodes[i],visitedNodes[i + 1]);
     }
-    totalDistance += distanceBetweenNodes(visitedVertices.back(),visitedVertices.front());
+    totalDistance += distanceBetweenNodes(visitedNodes.back(),visitedNodes.front());
     return totalDistance;
 }
 
@@ -303,22 +303,22 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
 }
 
 vector<int> Graph::primMST() {
-    int V = (int) nodes.size();
-    vector<int> key(V, INT_MAX);
-    vector<int> parent(V, -1);
-    vector<bool> inMST(V, false);
+    int numNodes = (int) nodes.size();
+    vector<int> key(numNodes, INT_MAX);
+    vector<int> parent(numNodes, -1);
+    vector<bool> inMST(numNodes, false);
     key[0] = 0;
-    for (int count = 0; count < V - 1; ++count) {
+    for (int count = 0; count < numNodes - 1; ++count) {
         int minKey = INT_MAX;
         int u;
-        for (int v = 0; v < V; ++v) {
+        for (int v = 0; v < numNodes; ++v) {
             if (!inMST[v] && key[v] < minKey) {
                 minKey = key[v];
                 u = v;
             }
         }
         inMST[u] = true;
-        for (int v = 0; v < V; ++v) {
+        for (int v = 0; v < numNodes; ++v) {
             int weight = (int) distanceBetweenNodes(u,v);
             if (weight && !inMST[v] && key[v] > weight) {
                 key[v] = weight;
@@ -326,10 +326,10 @@ vector<int> Graph::primMST() {
             }
         }
     }
-    vector<int> visitedVertices;
-    for (int i = 1; i < V; ++i) {
-        visitedVertices.push_back(parent[i]);
-        visitedVertices.push_back(i);
+    vector<int> visitedNodes;
+    for (int i = 1; i < numNodes; ++i) {
+        visitedNodes.push_back(parent[i]);
+        visitedNodes.push_back(i);
     }
-    return visitedVertices;
+    return visitedNodes;
 }
