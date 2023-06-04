@@ -1,0 +1,13 @@
+digraph "Data::readRealGraphs"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Data::readRealGraphs",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Graph::addEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_graph.html#ac6528d4b2fbf4d4be51d71174ba4a962",tooltip=" "];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Graph::addNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_graph.html#a121c271a2ab9570d77b17be8a032c8a0",tooltip=" "];
+}

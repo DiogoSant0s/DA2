@@ -1,0 +1,126 @@
+\hypertarget{class_menu}{}\doxysection{Menu Class Reference}
+\label{class_menu}\index{Menu@{Menu}}
+
+
+{\ttfamily \#include $<$Menu.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_menu_ad466dd83355124a6ed958430450bfe94}{Menu}} ()
+\item 
+void \mbox{\hyperlink{class_menu_af3706574de6e8dc100b5796854b72dfd}{Select\+Graph\+Menu}} ()
+\item 
+void \mbox{\hyperlink{class_menu_a3b8b00715336601914f644ab6dbe17af}{Main\+Menu}} ()
+\item 
+void \mbox{\hyperlink{class_menu_af26d5b3a651bf421626f408b68536790}{Info\+Menu}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_menu_a8f97d9f899ffefdd2e9860adf4c86c39}{print\+Title}} ()
+\item 
+static int \mbox{\hyperlink{class_menu_a5ddb2e9403391596669bba5f64bea959}{get\+User\+Input}} (vector$<$ int $>$ inputs)
+\item 
+static void \mbox{\hyperlink{class_menu_ae3a5edcb580112ec449d12d9eb5a3e7c}{clear\+Screen}} ()
+\item 
+static void \mbox{\hyperlink{class_menu_aa29fe7f5d092b2cf3bb486154642c7b3}{print}} (const string \&s, int length, bool table\+Or\+Path)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_menu}{Menu}} class configures the User Interface, dealing with all inputs and outputs, and connects to the project\textquotesingle{}s data through the object data 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_menu_ad466dd83355124a6ed958430450bfe94}\label{class_menu_ad466dd83355124a6ed958430450bfe94}} 
+\index{Menu@{Menu}!Menu@{Menu}}
+\index{Menu@{Menu}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{Menu()}{Menu()}}
+{\footnotesize\ttfamily Menu\+::\+Menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_menu}{Menu}} class constructor
+
+Complexity\+: O(1)
+
+Calls the \mbox{\hyperlink{class_data}{Data}} class constructor and the Select\+Graph\+Menu function 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_menu_ae3a5edcb580112ec449d12d9eb5a3e7c}\label{class_menu_ae3a5edcb580112ec449d12d9eb5a3e7c}} 
+\index{Menu@{Menu}!clearScreen@{clearScreen}}
+\index{clearScreen@{clearScreen}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{clearScreen()}{clearScreen()}}
+{\footnotesize\ttfamily void Menu\+::clear\+Screen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Void method that clears the screen
+
+Complexity\+: O(1) \mbox{\Hypertarget{class_menu_a5ddb2e9403391596669bba5f64bea959}\label{class_menu_a5ddb2e9403391596669bba5f64bea959}} 
+\index{Menu@{Menu}!getUserInput@{getUserInput}}
+\index{getUserInput@{getUserInput}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{getUserInput()}{getUserInput()}}
+{\footnotesize\ttfamily int Menu\+::get\+User\+Input (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{inputs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Void method that ensures the user\textquotesingle{}s input integer is valid
+
+Complexity\+: O(1) 
+\begin{DoxyParams}{Parameters}
+{\em inputs} & Integer vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The integer provided by the user, verified to be valid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_menu_af26d5b3a651bf421626f408b68536790}\label{class_menu_af26d5b3a651bf421626f408b68536790}} 
+\index{Menu@{Menu}!InfoMenu@{InfoMenu}}
+\index{InfoMenu@{InfoMenu}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{InfoMenu()}{InfoMenu()}}
+{\footnotesize\ttfamily void Menu\+::\+Info\+Menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Void method used to continue the interaction between the user and this projects\textquotesingle{} data
+
+Complexity\+: O(1) \mbox{\Hypertarget{class_menu_a3b8b00715336601914f644ab6dbe17af}\label{class_menu_a3b8b00715336601914f644ab6dbe17af}} 
+\index{Menu@{Menu}!MainMenu@{MainMenu}}
+\index{MainMenu@{MainMenu}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{MainMenu()}{MainMenu()}}
+{\footnotesize\ttfamily void Menu\+::\+Main\+Menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Void method used to start the interaction between the user and this projects\textquotesingle{} data
+
+Complexity\+: O(1) \mbox{\Hypertarget{class_menu_aa29fe7f5d092b2cf3bb486154642c7b3}\label{class_menu_aa29fe7f5d092b2cf3bb486154642c7b3}} 
+\index{Menu@{Menu}!print@{print}}
+\index{print@{print}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void Menu\+::print (\begin{DoxyParamCaption}\item[{const string \&}]{s,  }\item[{int}]{length,  }\item[{bool}]{table\+Or\+Path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Void method that outputs a string in a table block or in a path
+
+Complexity\+: O(1) 
+\begin{DoxyParams}{Parameters}
+{\em s} & String to print \\
+\hline
+{\em length} & Space given to the string in the table \\
+\hline
+{\em table\+Or\+Path} & Bool used to determine if we\textquotesingle{}re printing a Table or a Path \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_menu_a8f97d9f899ffefdd2e9860adf4c86c39}\label{class_menu_a8f97d9f899ffefdd2e9860adf4c86c39}} 
+\index{Menu@{Menu}!printTitle@{printTitle}}
+\index{printTitle@{printTitle}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{printTitle()}{printTitle()}}
+{\footnotesize\ttfamily void Menu\+::print\+Title (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Void method that shows the projects\textquotesingle{} title
+
+Complexity\+: O(1) \mbox{\Hypertarget{class_menu_af3706574de6e8dc100b5796854b72dfd}\label{class_menu_af3706574de6e8dc100b5796854b72dfd}} 
+\index{Menu@{Menu}!SelectGraphMenu@{SelectGraphMenu}}
+\index{SelectGraphMenu@{SelectGraphMenu}!Menu@{Menu}}
+\doxysubsubsection{\texorpdfstring{SelectGraphMenu()}{SelectGraphMenu()}}
+{\footnotesize\ttfamily void Menu\+::\+Select\+Graph\+Menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Void method used to choose which graph to read from the datasets
+
+Complexity\+: O(1) 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Diogo/\+Desktop/\+DA/\+DA2/src/\mbox{\hyperlink{_menu_8h}{Menu.\+h}}\item 
+C\+:/\+Users/\+Diogo/\+Desktop/\+DA/\+DA2/src/\mbox{\hyperlink{_menu_8cpp}{Menu.\+cpp}}\end{DoxyCompactItemize}

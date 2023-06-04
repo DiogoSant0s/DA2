@@ -1,0 +1,15 @@
+digraph "Graph::addEdge"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Graph::addEdge",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Data::readExtraGraphs",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_data.html#a0451282f40566a041bc6d29ee17ff94c",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Data::readRealGraphs",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_data.html#a42de7271c057de5d1a14c455722a1381",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="Data::readToyGraphs",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_data.html#ac9c997be3ec47840884a190bf40c0b79",tooltip=" "];
+}

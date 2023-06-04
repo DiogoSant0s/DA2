@@ -1,0 +1,233 @@
+\hypertarget{class_graph}{}\doxysection{Graph Class Reference}
+\label{class_graph}\index{Graph@{Graph}}
+
+
+{\ttfamily \#include $<$Graph.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_graph_ae4c72b8ac4d693c49800a4c7e273654f}{Graph}} ()
+\item 
+void \mbox{\hyperlink{class_graph_a121c271a2ab9570d77b17be8a032c8a0}{add\+Node}} (int id, double lon, double lat)
+\item 
+void \mbox{\hyperlink{class_graph_ac6528d4b2fbf4d4be51d71174ba4a962}{add\+Edge}} (int org, int destination, float dist, const string \&distance)
+\item 
+unordered\+\_\+map$<$ int, Node $\ast$ $>$ \mbox{\hyperlink{class_graph_a4e09ba677d50defaab9a4157c11c8a82}{get\+Nodes}} ()
+\item 
+vector$<$ Edge $\ast$ $>$ \mbox{\hyperlink{class_graph_afca91901cc6f62ad19bb9828397570c4}{get\+Edges\+Out}} (int id)
+\item 
+double \mbox{\hyperlink{class_graph_a25625661de9d494ba129596cb85d65e1}{toy\+And\+Extra\+Compute\+Distance}} (vector$<$ int $>$ path)
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{class_graph_a98b2dc1fa8d0c62bee99ba790adf1385}{hamiltonian\+Cycle}} ()
+\item 
+double \mbox{\hyperlink{class_graph_a7216c180e720a5680a696758f7df1b36}{triangular\+Approximation\+Heur}} (vector$<$ int $>$ \&path)
+\item 
+double \mbox{\hyperlink{class_graph_a9f0525908ce1242bc0383ec883420f73}{triangular\+Approximation\+Heur\+Toy}} (vector$<$ int $>$ \&path)
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{class_graph_af49a09f251a449d61851323a1f1bcb8e}{sos\+ACO}} (int iterations, int num\+Ants, double alpha, double beta, double evaporation\+Rate, bool real\+Graph)
+\item 
+double \mbox{\hyperlink{class_graph_a472f38fba0a902a6b35796a917cc5ca9}{get\+Tour\+Distance}} (vector$<$ int $>$ visited\+Vertices)
+\item 
+vector$<$ int $>$ \mbox{\hyperlink{class_graph_a1ac1d098c331fa73e17fc1ce012b411e}{prim\+MST}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{class_graph}{Graph}} class configures the attributes of a graph and the more complicated functions developed 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_graph_ae4c72b8ac4d693c49800a4c7e273654f}\label{class_graph_ae4c72b8ac4d693c49800a4c7e273654f}} 
+\index{Graph@{Graph}!Graph@{Graph}}
+\index{Graph@{Graph}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{Graph()}{Graph()}}
+{\footnotesize\ttfamily Graph\+::\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+\mbox{\hyperlink{class_graph}{Graph}} class constructor
+
+Creates a default \mbox{\hyperlink{class_graph}{Graph}} 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_graph_ac6528d4b2fbf4d4be51d71174ba4a962}\label{class_graph_ac6528d4b2fbf4d4be51d71174ba4a962}} 
+\index{Graph@{Graph}!addEdge@{addEdge}}
+\index{addEdge@{addEdge}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addEdge()}{addEdge()}}
+{\footnotesize\ttfamily void Graph\+::add\+Edge (\begin{DoxyParamCaption}\item[{int}]{org,  }\item[{int}]{destination,  }\item[{float}]{dist,  }\item[{const string \&}]{distance }\end{DoxyParamCaption})}
+
+Add an edge from a source node to a target node 
+\begin{DoxyParams}{Parameters}
+{\em org} & The source node \\
+\hline
+{\em destination} & The target node \\
+\hline
+{\em dist} & Distance between the source and target nodes \\
+\hline
+{\em distance} & Distance between the source and target nodes as a string\\
+\hline
+\end{DoxyParams}
+Time Complexity -\/ O(1) \mbox{\Hypertarget{class_graph_a121c271a2ab9570d77b17be8a032c8a0}\label{class_graph_a121c271a2ab9570d77b17be8a032c8a0}} 
+\index{Graph@{Graph}!addNode@{addNode}}
+\index{addNode@{addNode}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addNode()}{addNode()}}
+{\footnotesize\ttfamily void Graph\+::add\+Node (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{double}]{lon,  }\item[{double}]{lat }\end{DoxyParamCaption})}
+
+Add a node to the \mbox{\hyperlink{class_graph}{Graph}} 
+\begin{DoxyParams}{Parameters}
+{\em id} & The node\textquotesingle{}s id \\
+\hline
+{\em lon} & The node\textquotesingle{}s longitude \\
+\hline
+{\em lat} & The node\textquotesingle{}s latitude\\
+\hline
+\end{DoxyParams}
+Time Complexity -\/ O(\+V)
+
+V is the number of nodes \mbox{\Hypertarget{class_graph_afca91901cc6f62ad19bb9828397570c4}\label{class_graph_afca91901cc6f62ad19bb9828397570c4}} 
+\index{Graph@{Graph}!getEdgesOut@{getEdgesOut}}
+\index{getEdgesOut@{getEdgesOut}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getEdgesOut()}{getEdgesOut()}}
+{\footnotesize\ttfamily vector$<$ Graph\+::\+Edge $\ast$ $>$ Graph\+::get\+Edges\+Out (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})}
+
+Getter for the outgoing edges of a certain node 
+\begin{DoxyParams}{Parameters}
+{\em id} & Id of the node that has the edges you are looking for\\
+\hline
+\end{DoxyParams}
+Time Complexity\+: O(1) \begin{DoxyReturn}{Returns}
+The object edges\+Out of said node 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a4e09ba677d50defaab9a4157c11c8a82}\label{class_graph_a4e09ba677d50defaab9a4157c11c8a82}} 
+\index{Graph@{Graph}!getNodes@{getNodes}}
+\index{getNodes@{getNodes}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getNodes()}{getNodes()}}
+{\footnotesize\ttfamily unordered\+\_\+map$<$ int, Graph\+::\+Node $\ast$ $>$ Graph\+::get\+Nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Getter for the object nodes
+
+Time Complexity\+: O(1) \begin{DoxyReturn}{Returns}
+The object nodes 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a472f38fba0a902a6b35796a917cc5ca9}\label{class_graph_a472f38fba0a902a6b35796a917cc5ca9}} 
+\index{Graph@{Graph}!getTourDistance@{getTourDistance}}
+\index{getTourDistance@{getTourDistance}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getTourDistance()}{getTourDistance()}}
+{\footnotesize\ttfamily double Graph\+::get\+Tour\+Distance (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{visited\+Vertices }\end{DoxyParamCaption})}
+
+Function used to determine the total distance travelled in a cycle 
+\begin{DoxyParams}{Parameters}
+{\em visited\+Vertices} & Provided cycle\\
+\hline
+\end{DoxyParams}
+Time Complexity -\/ O(\+N)
+
+N is the size of the vector \begin{DoxyReturn}{Returns}
+Distance travelled in the cycle 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a98b2dc1fa8d0c62bee99ba790adf1385}\label{class_graph_a98b2dc1fa8d0c62bee99ba790adf1385}} 
+\index{Graph@{Graph}!hamiltonianCycle@{hamiltonianCycle}}
+\index{hamiltonianCycle@{hamiltonianCycle}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{hamiltonianCycle()}{hamiltonianCycle()}}
+{\footnotesize\ttfamily vector$<$ int $>$ Graph\+::hamiltonian\+Cycle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Funtion used to call the hamiltonian\+Cycle\+Util backtracking function after initializing the cycle variable
+
+Time Complexity -\/ O(\+V)
+
+V is the number of nodes \begin{DoxyReturn}{Returns}
+Integer vector \textquotesingle{}cycle\textquotesingle{} that stores the Id\textquotesingle{}s of the nodes in the Hamiltonian cycle if one was found 
+
+An empty vector otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a1ac1d098c331fa73e17fc1ce012b411e}\label{class_graph_a1ac1d098c331fa73e17fc1ce012b411e}} 
+\index{Graph@{Graph}!primMST@{primMST}}
+\index{primMST@{primMST}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{primMST()}{primMST()}}
+{\footnotesize\ttfamily vector$<$ int $>$ Graph\+::prim\+MST (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Finds the minimum spanning tree of a graph using Prim\textquotesingle{}s algorithm
+
+Time Complexity -\/ O(\+V$^\wedge$2)
+
+V is the number of nodes \begin{DoxyReturn}{Returns}
+The visited\+Vertices vector that contains the MST 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_af49a09f251a449d61851323a1f1bcb8e}\label{class_graph_af49a09f251a449d61851323a1f1bcb8e}} 
+\index{Graph@{Graph}!sosACO@{sosACO}}
+\index{sosACO@{sosACO}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{sosACO()}{sosACO()}}
+{\footnotesize\ttfamily vector$<$ int $>$ Graph\+::sos\+ACO (\begin{DoxyParamCaption}\item[{int}]{iterations,  }\item[{int}]{num\+Ants,  }\item[{double}]{alpha,  }\item[{double}]{beta,  }\item[{double}]{evaporation\+Rate,  }\item[{bool}]{real\+Graph }\end{DoxyParamCaption})}
+
+Self-\/\+Organizing System based Ant Colony Optimization function to resolve the TSP 
+\begin{DoxyParams}{Parameters}
+{\em iterations} & The number of iterations or generations of the SOS-\/\+ACO algorithm \\
+\hline
+{\em num\+Ants} & The number of ants used in each iteration of the ACO algorithm \\
+\hline
+{\em alpha} & The alpha parameter controls the influence of the pheromone levels on the ant\textquotesingle{}s decision-\/making process \\
+\hline
+{\em beta} & The beta parameter controls the influence of the heuristic information (e.\+g\+: distance) on the ant\textquotesingle{}s decision-\/making process \\
+\hline
+{\em evaporation\+Rate} & The evaporation rate determines the rate at which the pheromone levels evaporate or decay over time \\
+\hline
+{\em real\+Graph} & Boolean used to know if the graph we are currently working on is a real graph or not\\
+\hline
+\end{DoxyParams}
+Time Complexity -\/ O(\+N $\ast$ I $\ast$ V$^\wedge$2)
+
+V is the number of nodes, N is the num\+Ants and I is the iterations \begin{DoxyReturn}{Returns}
+Integer vector \textquotesingle{}unique\+Tour\textquotesingle{} that stores the Id\textquotesingle{}s of the nodes in cycle 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a25625661de9d494ba129596cb85d65e1}\label{class_graph_a25625661de9d494ba129596cb85d65e1}} 
+\index{Graph@{Graph}!toyAndExtraComputeDistance@{toyAndExtraComputeDistance}}
+\index{toyAndExtraComputeDistance@{toyAndExtraComputeDistance}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{toyAndExtraComputeDistance()}{toyAndExtraComputeDistance()}}
+{\footnotesize\ttfamily double Graph\+::toy\+And\+Extra\+Compute\+Distance (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{path }\end{DoxyParamCaption})}
+
+Function used to determine the total distance travelled in a cycle for the toy and extra graphs 
+\begin{DoxyParams}{Parameters}
+{\em path} & Provided cycle\\
+\hline
+\end{DoxyParams}
+Time Complexity -\/ O(\+N)
+
+N is the size of the vector \begin{DoxyReturn}{Returns}
+Distance travelled in the cycle 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a7216c180e720a5680a696758f7df1b36}\label{class_graph_a7216c180e720a5680a696758f7df1b36}} 
+\index{Graph@{Graph}!triangularApproximationHeur@{triangularApproximationHeur}}
+\index{triangularApproximationHeur@{triangularApproximationHeur}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{triangularApproximationHeur()}{triangularApproximationHeur()}}
+{\footnotesize\ttfamily double Graph\+::triangular\+Approximation\+Heur (\begin{DoxyParamCaption}\item[{vector$<$ int $>$ \&}]{path }\end{DoxyParamCaption})}
+
+Nearest Neighbour Heuristic function to resolve the TSP 
+\begin{DoxyParams}{Parameters}
+{\em path} & Vector that is passed by reference so the function can update it. Contains the path travelled\\
+\hline
+\end{DoxyParams}
+Time Complexity -\/ O(\+V$^\wedge$2)
+
+V is the number of nodes \begin{DoxyReturn}{Returns}
+Total distance travelled in the path 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_graph_a9f0525908ce1242bc0383ec883420f73}\label{class_graph_a9f0525908ce1242bc0383ec883420f73}} 
+\index{Graph@{Graph}!triangularApproximationHeurToy@{triangularApproximationHeurToy}}
+\index{triangularApproximationHeurToy@{triangularApproximationHeurToy}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{triangularApproximationHeurToy()}{triangularApproximationHeurToy()}}
+{\footnotesize\ttfamily double Graph\+::triangular\+Approximation\+Heur\+Toy (\begin{DoxyParamCaption}\item[{vector$<$ int $>$ \&}]{path }\end{DoxyParamCaption})}
+
+Triangular Approximation Heuristic function to resolve the TSP in the Toy graphs 
+\begin{DoxyParams}{Parameters}
+{\em path} & Vector that is passed by reference so the function can update it. Contains the path travelled\\
+\hline
+\end{DoxyParams}
+Time Complexity -\/ O(\+V$^\wedge$2 $\ast$ E$^\wedge$2)
+
+V is the number of nodes and E is the number of edges \begin{DoxyReturn}{Returns}
+Total distance travelled in the path 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Diogo/\+Desktop/\+DA/\+DA2/src/\mbox{\hyperlink{_graph_8h}{Graph.\+h}}\item 
+C\+:/\+Users/\+Diogo/\+Desktop/\+DA/\+DA2/src/\mbox{\hyperlink{_graph_8cpp}{Graph.\+cpp}}\end{DoxyCompactItemize}

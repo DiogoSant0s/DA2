@@ -1,0 +1,31 @@
+\hypertarget{_data_8h_source}{}\doxysection{Data.\+h}
+\label{_data_8h_source}\index{C:/Users/Diogo/Desktop/DA/DA2/src/Data.h@{C:/Users/Diogo/Desktop/DA/DA2/src/Data.h}}
+\mbox{\hyperlink{_data_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef DA2\_DATA\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define DA2\_DATA\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_graph_8h}{Graph.h}}"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{11 \textcolor{keyword}{class }\mbox{\hyperlink{class_data}{Data}} \{}
+\DoxyCodeLine{12 \textcolor{keyword}{private}:}
+\DoxyCodeLine{16     \mbox{\hyperlink{class_graph}{Graph}} graph;}
+\DoxyCodeLine{20     \textcolor{keywordtype}{bool} realGraph;}
+\DoxyCodeLine{24     \textcolor{keywordtype}{bool} hasName;}
+\DoxyCodeLine{28     \textcolor{keywordtype}{bool} extraGraph;}
+\DoxyCodeLine{29 \textcolor{keyword}{public}:}
+\DoxyCodeLine{34     \mbox{\hyperlink{class_data_af11f741cb7f587e2e495452a8905a22a}{Data}}();}
+\DoxyCodeLine{41     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_data_a42de7271c057de5d1a14c455722a1381}{readRealGraphs}}(\textcolor{keywordtype}{int} graphNumber);}
+\DoxyCodeLine{48     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_data_ac9c997be3ec47840884a190bf40c0b79}{readToyGraphs}}(\textcolor{keyword}{const} \textcolor{keywordtype}{string}\& graphName);}
+\DoxyCodeLine{55     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_data_a0451282f40566a041bc6d29ee17ff94c}{readExtraGraphs}}(\textcolor{keywordtype}{int} graphNumber);}
+\DoxyCodeLine{60     \mbox{\hyperlink{class_graph}{Graph}} \mbox{\hyperlink{class_data_a22cf38f823d468873cbdabb81923bf3c}{getGraph}}();}
+\DoxyCodeLine{65     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_data_a251d0f3917eede5a505ea0a4ca36a9c5}{getRealGraph}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{70     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_data_ac96469543c58c7c4f50f3100e5a189e9}{getExtraGraph}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{75     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_data_aecf5bcdd6b05d64accdf4518daaa8c6b}{getHasName}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{76 \};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//DA2\_DATA\_H}}
+
+\end{DoxyCode}

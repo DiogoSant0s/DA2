@@ -16,7 +16,7 @@ public:
     /**
      * Menu class constructor
      * @details Complexity: O(1)
-     * @details Calls the Data class constructor and initializes the Main Menu
+     * @details Calls the Data class constructor and the SelectGraphMenu function
      */
     Menu();
     /**
