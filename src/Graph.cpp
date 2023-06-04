@@ -44,19 +44,20 @@ double Graph::distanceBetweenNodes(int origin, int destination) {
     return 2 * atan2(sqrt(a), sqrt(1 - a)) * 6371;
 }
 
-double Graph::computeTourLength(vector<int> cycle) {
-    double totalDistance = 0.0;
-    for (int i = 0; i < cycle.size() - 1; ++i) {
-        totalDistance += distanceBetweenNodes(cycle[i], cycle[i + 1]);
+double Graph::getTourDistance(vector<int> visitedVertices) {
+    double totalDistance = 0;
+    for (int i = 0; i < visitedVertices.size() - 1; ++i) {
+        totalDistance += distanceBetweenNodes(visitedVertices[i],visitedVertices[i + 1]);
     }
+    totalDistance += distanceBetweenNodes(visitedVertices.back(),visitedVertices.front());
     return totalDistance;
 }
 
 double Graph::toyAndExtraComputeDistance(vector<int> path) {
     double totalDistance = 0.0;
     for (int i = 0; i < path.size() - 1; ++i) {
-        for (Edge* edge : nodes[path[i]]->edgesOut) {
-            if (edge->dest == nodes[path[i + 1]]->Id) {
+        for (Edge* edge : nodes.find(path[i])->second->edgesOut) {
+            if (edge->dest == path[i + 1]) {
                 totalDistance += edge->distance;
                 break;
             }
@@ -84,7 +85,7 @@ vector<int> Graph::hamiltonianCycle() {
     return {};
 }
 
-bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle) {
+bool Graph::hamiltonianCycleUtil(Node* currentNode, vector<int>& cycle, int count, double distance, double& shortestDistance, vector<int>& shortestCycle) {
     if (count == nodes.size() && !currentNode->edgesOut.empty() && currentNode->edgesOut[0]->dest == 0) {
         distance += currentNode->edgesOut[0]->distance;
         currentNode->distanceSrc = distance;
@@ -113,7 +114,7 @@ bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, i
     return foundShorterCycle;
 }
 
-double Graph::nearestNeighbourHeur(vector<int> &path) {
+double Graph::triangularApproximationHeur(vector<int> &path) {
     for (auto node : nodes) {
         node.second->visited = false;
         node.second->distanceSrc = 0;
@@ -154,7 +155,7 @@ double Graph::nearestNeighbourHeur(vector<int> &path) {
     return totalDistance;
 }
 
-double Graph::nearestNeighbourToy(vector<int> &path) {
+double Graph::triangularApproximationHeurToy(vector<int> &path) {
     for (auto& node : nodes) {
         node.second->visited = false;
         node.second->distanceSrc = 0;
@@ -199,7 +200,7 @@ double Graph::nearestNeighbourToy(vector<int> &path) {
     return totalDistance;
 }
 
-vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate, double& bestTourLength, bool realGraph) {
+vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate, bool realGraph) {
     int numNodes = static_cast<int>(nodes.size());
     vector<vector<double>> distances(numNodes, vector<double>(numNodes, 0.0));
     for (auto& node : nodes) {
@@ -217,6 +218,7 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
 
     vector<vector<double>> pheromones(numNodes, vector<double>(numNodes, 0.01));
     vector<int> bestTour;
+    double bestTourLength;
     vector<bool> visited(numNodes, false);
     vector<double> probabilities(numNodes, 0.0);
 
@@ -266,7 +268,7 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
             tour = antTours[ant];
             double tourLength;
             if (realGraph) {
-                tourLength = computeTourLength(tour);
+                tourLength = getTourDistance(tour);
             } else {
                 tourLength = toyAndExtraComputeDistance(tour);
             }
@@ -301,13 +303,11 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
 }
 
 vector<int> Graph::primMST() {
-    int V = nodes.size();
+    int V = (int) nodes.size();
     vector<int> key(V, INT_MAX);
     vector<int> parent(V, -1);
     vector<bool> inMST(V, false);
-
     key[0] = 0;
-
     for (int count = 0; count < V - 1; ++count) {
         int minKey = INT_MAX;
         int u;
@@ -317,36 +317,19 @@ vector<int> Graph::primMST() {
                 u = v;
             }
         }
-
         inMST[u] = true;
-
         for (int v = 0; v < V; ++v) {
-            int weight = distanceBetweenNodes(u,v);
-
+            int weight = (int) distanceBetweenNodes(u,v);
             if (weight && !inMST[v] && key[v] > weight) {
                 key[v] = weight;
                 parent[v] = u;
             }
         }
     }
-
     vector<int> visitedVertices;
     for (int i = 1; i < V; ++i) {
         visitedVertices.push_back(parent[i]);
         visitedVertices.push_back(i);
     }
-
     return visitedVertices;
-}
-
-double Graph::getTourDistance( vector<int> visitedVertices) {
-    double totalDistance = 0;
-    for (int i = 0; i < visitedVertices.size() - 1; ++i) {
-        int u = visitedVertices[i];
-        int v = visitedVertices[i + 1];
-        totalDistance += distanceBetweenNodes(u,v);
-    }
-    totalDistance += distanceBetweenNodes(visitedVertices.back(),visitedVertices.front());
-
-    return totalDistance;
 }

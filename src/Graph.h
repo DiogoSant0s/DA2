@@ -109,14 +109,6 @@ private:
      * @return Distance between the two nodes
      */
     double distanceBetweenNodes(int origin, int destination);
-    /**
-     * Function used to determine the total distance travelled in a cycle
-     * @param cycle Provided cycle
-     * @details Time Complexity - O(N)
-     * @details N is the size of the vector
-     * @return Distance travelled in the cycle
-     */
-    double computeTourLength(vector<int> cycle);
 public:
     /**
      * Graph class constructor
@@ -177,7 +169,7 @@ public:
      * @details V is the number of nodes
      * @return Total distance travelled in the path
      */
-    double nearestNeighbourHeur(vector<int> &path);
+    double triangularApproximationHeur(vector<int> &path);
     /**
      * Triangular Approximation Heuristic function to resolve the TSP in the Toy graphs
      * @param path Vector that is passed by reference so the function can update it. Contains the path travelled
@@ -185,7 +177,7 @@ public:
      * @details V is the number of nodes and E is the number of edges
      * @return Total distance travelled in the path
      */
-    double nearestNeighbourToy(vector<int> &path);
+    double triangularApproximationHeurToy(vector<int> &path);
     /**
      * Self-Organizing System based Ant Colony Optimization function to resolve the TSP
      * @param iterations The number of iterations or generations of the SOS-ACO algorithm
@@ -193,17 +185,26 @@ public:
      * @param alpha The alpha parameter controls the influence of the pheromone levels on the ant's decision-making process
      * @param beta The beta parameter controls the influence of the heuristic information (e.g: distance) on the ant's decision-making process
      * @param evaporationRate The evaporation rate determines the rate at which the pheromone levels evaporate or decay over time
-     * @param bestTourLength Total distance travelled in the path
      * @param realGraph Boolean used to know if the graph we are currently working on is a real graph or not
      * @details Time Complexity - O(N * I * V^2)
      * @details V is the number of nodes, N is the numAnts and I is the iterations
      * @return Integer vector 'uniqueTour' that stores the Id's of the nodes in cycle
      */
-    vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate, double &bestTourLength, bool realGraph);
-
-
+    vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate, bool realGraph);
+    /**
+     * Function used to determine the total distance travelled in a cycle
+     * @param visitedVertices Provided cycle
+     * @details Time Complexity - O(N)
+     * @details N is the size of the vector
+     * @return Distance travelled in the cycle
+     */
     double getTourDistance(vector<int> visitedVertices);
-
+    /**
+     * Finds the minimum spanning tree of a graph using Prim's algorithm
+     * @details Time Complexity - O(V^2)
+     * @details V is the number of nodes
+     * @return The visitedVertices vector that contains the MST
+     */
     vector<int> primMST();
 };
 

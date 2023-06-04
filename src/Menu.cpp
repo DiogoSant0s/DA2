@@ -201,9 +201,9 @@ void Menu::MainMenu() {
     cout << "\tMain Menu\n";
     cout << "(1) Graph Information\n";
     cout << "(2) Backtracking Algorithm\n";
-    cout << "(3) Nearest Neighbour Heuristic\n";
+    cout << "(3) Triangular Approximation Heuristic\n";
     cout << "(4) Ant Colony Optimization\n";
-    cout << "(5) Triangular Approximation Heuristic\n\n";
+    cout << "(5) Minimum Spanning Tree\n\n";
     cout << "(0) Exit\n";
     cout << " > ";
 
@@ -223,7 +223,7 @@ void Menu::MainMenu() {
                         cout << "\n";
                     }
                 }
-                cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getNodes()[0]->distanceSrc;
+                cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getTourDistance(cycle);
                 cout << "\n\n";
                 cout << "Press 7 to continue\n";
                 getUserInput({7});
@@ -235,9 +235,9 @@ void Menu::MainMenu() {
                 cout << "\nFinding cycle in the graph using this Heuristic. Please wait\n";
                 double dist;
                 if (data.getRealGraph()) {
-                    dist = data.getGraph().nearestNeighbourHeur(path);
+                    dist = data.getGraph().triangularApproximationHeur(path);
                 } else {
-                    dist = data.getGraph().nearestNeighbourToy(path);
+                    dist = data.getGraph().triangularApproximationHeurToy(path);
                 }
                 for (int i = 0; i < path.size(); i++) {
                     print(to_string(path[i]), 6, false);
@@ -256,11 +256,11 @@ void Menu::MainMenu() {
                 int iterations, numAnts;
                 double alpha, beta, evaporationRate;
                 if (data.getGraph().getNodes().size() < 1000) {
-                    iterations = 200;
-                    numAnts = 10;
-                    alpha = 1;
-                    beta = 2;
-                    evaporationRate = 0.5;
+                    iterations = 50;
+                    numAnts = 7;
+                    alpha = 0.5;
+                    beta = 1;
+                    evaporationRate = 0.2;
                 } else if (data.getGraph().getNodes().size() < 5000) {
                     iterations = 100;
                     numAnts = 15;
@@ -280,16 +280,15 @@ void Menu::MainMenu() {
                     beta = 7;
                     evaporationRate = 0.5;
                 }
-                double bestTourLength = numeric_limits<double>::max();
                 cout << "\nPlease wait a bit while the ants do what you told them to: resolve the TSP problem. Tsk, never expected to see this type of animal cruelty\n";
-                vector<int> squirrelsInMyPants = data.getGraph().sosACO(iterations, numAnts, alpha, beta, evaporationRate, bestTourLength, data.getRealGraph());
+                vector<int> squirrelsInMyPants = data.getGraph().sosACO(iterations, numAnts, alpha, beta, evaporationRate, data.getRealGraph());
                 for (int i = 0; i < squirrelsInMyPants.size(); i++) {
                     print(to_string(squirrelsInMyPants[i]), 6, false);
                     if (i % 25 == 0 and i != 0) {
                         cout << "\n";
                     }
                 }
-                cout << "\nThe distance the travelling salesman travels is " << fixed << bestTourLength;
+                cout << "\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getTourDistance(squirrelsInMyPants);
                 cout << "\n\n";
                 cout << "Press 7 to continue\n";
                 getUserInput({7});
@@ -301,13 +300,19 @@ void Menu::MainMenu() {
                 if (data.getRealGraph()) {
                     vector<int> visitedVertices = data.getGraph().primMST();
                     double tourDistance = data.getGraph().getTourDistance(visitedVertices);
+                    for (int i = 0; i < visitedVertices.size(); i++) {
+                        print(to_string(visitedVertices[i]), 6, false);
+                        if (i % 25 == 0 and i != 0) {
+                            cout << "\n";
+                        }
+                    }
                     cout << "\nThe distance the travelling salesman travels is " << fixed << tourDistance;
                 }
-                }
-            cout << "\n\n";
-            cout << "Press 7 to continue\n";
-            getUserInput({7});
-            MainMenu();
+                cout << "\n\n";
+                cout << "Press 7 to continue\n";
+                getUserInput({7});
+                MainMenu();
+            }
         case 0:
             exit(0);
         default:
