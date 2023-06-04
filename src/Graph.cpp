@@ -113,7 +113,7 @@ bool Graph::hamiltonianCycleUtil(Graph::Node* currentNode, vector<int>& cycle, i
     return foundShorterCycle;
 }
 
-double Graph::triangularAproximationHeur(vector<int> &path) {
+double Graph::nearestNeighbourHeur(vector<int> &path) {
     for (auto node : nodes) {
         node.second->visited = false;
         node.second->distanceSrc = 0;
@@ -154,8 +154,8 @@ double Graph::triangularAproximationHeur(vector<int> &path) {
     return totalDistance;
 }
 
-double Graph::triangularAproximationHeurToy(vector<int> &path) {
-    for (auto node : nodes) {
+double Graph::nearestNeighbourToy(vector<int> &path) {
+    for (auto& node : nodes) {
         node.second->visited = false;
         node.second->distanceSrc = 0;
     }
@@ -298,4 +298,55 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
     }
     uniqueTour.push_back(nodes[0]->Id);
     return uniqueTour;
+}
+
+vector<int> Graph::primMST() {
+    int V = nodes.size();
+    vector<int> key(V, INT_MAX);
+    vector<int> parent(V, -1);
+    vector<bool> inMST(V, false);
+
+    key[0] = 0;
+
+    for (int count = 0; count < V - 1; ++count) {
+        int minKey = INT_MAX;
+        int u;
+        for (int v = 0; v < V; ++v) {
+            if (!inMST[v] && key[v] < minKey) {
+                minKey = key[v];
+                u = v;
+            }
+        }
+
+        inMST[u] = true;
+
+        for (int v = 0; v < V; ++v) {
+            int weight = distanceBetweenNodes(u,v);
+
+            if (weight && !inMST[v] && key[v] > weight) {
+                key[v] = weight;
+                parent[v] = u;
+            }
+        }
+    }
+
+    vector<int> visitedVertices;
+    for (int i = 1; i < V; ++i) {
+        visitedVertices.push_back(parent[i]);
+        visitedVertices.push_back(i);
+    }
+
+    return visitedVertices;
+}
+
+double Graph::getTourDistance( vector<int> visitedVertices) {
+    double totalDistance = 0;
+    for (int i = 0; i < visitedVertices.size() - 1; ++i) {
+        int u = visitedVertices[i];
+        int v = visitedVertices[i + 1];
+        totalDistance += distanceBetweenNodes(u,v);
+    }
+    totalDistance += distanceBetweenNodes(visitedVertices.back(),visitedVertices.front());
+
+    return totalDistance;
 }

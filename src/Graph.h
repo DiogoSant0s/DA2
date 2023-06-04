@@ -171,13 +171,13 @@ public:
      */
     vector<int> hamiltonianCycle();
     /**
-     * Triangular Approximation Heuristic function to resolve the TSP
+     * Nearest Neighbour Heuristic function to resolve the TSP
      * @param path Vector that is passed by reference so the function can update it. Contains the path travelled
      * @details Time Complexity - O(V^2)
      * @details V is the number of nodes
      * @return Total distance travelled in the path
      */
-    double triangularAproximationHeur(vector<int> &path);
+    double nearestNeighbourHeur(vector<int> &path);
     /**
      * Triangular Approximation Heuristic function to resolve the TSP in the Toy graphs
      * @param path Vector that is passed by reference so the function can update it. Contains the path travelled
@@ -185,7 +185,7 @@ public:
      * @details V is the number of nodes and E is the number of edges
      * @return Total distance travelled in the path
      */
-    double triangularAproximationHeurToy(vector<int> &path);
+    double nearestNeighbourToy(vector<int> &path);
     /**
      * Self-Organizing System based Ant Colony Optimization function to resolve the TSP
      * @param iterations The number of iterations or generations of the SOS-ACO algorithm
@@ -200,6 +200,11 @@ public:
      * @return Integer vector 'uniqueTour' that stores the Id's of the nodes in cycle
      */
     vector<int> sosACO(int iterations, int numAnts, double alpha, double beta, double evaporationRate, double &bestTourLength, bool realGraph);
+
+
+    double getTourDistance(vector<int> visitedVertices);
+
+    vector<int> primMST();
 };
 
 #endif //DA2_GRAPH_H

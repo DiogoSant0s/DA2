@@ -201,12 +201,13 @@ void Menu::MainMenu() {
     cout << "\tMain Menu\n";
     cout << "(1) Graph Information\n";
     cout << "(2) Backtracking Algorithm\n";
-    cout << "(3) Triangular Approximation Heuristic\n";
+    cout << "(3) Nearest Neighbour Heuristic\n";
     cout << "(4) Ant Colony Optimization\n";
+    cout << "(5) Triangular Approximation Heuristic\n\n";
     cout << "(0) Exit\n";
     cout << " > ";
 
-    int input = getUserInput({0, 1, 2, 3, 4});
+    int input = getUserInput({0, 1, 2, 3, 4,5});
     switch (input) {
         case 1:
             InfoMenu();
@@ -234,9 +235,9 @@ void Menu::MainMenu() {
                 cout << "\nFinding cycle in the graph using this Heuristic. Please wait\n";
                 double dist;
                 if (data.getRealGraph()) {
-                    dist = data.getGraph().triangularAproximationHeur(path);
+                    dist = data.getGraph().nearestNeighbourHeur(path);
                 } else {
-                    dist = data.getGraph().triangularAproximationHeurToy(path);
+                    dist = data.getGraph().nearestNeighbourToy(path);
                 }
                 for (int i = 0; i < path.size(); i++) {
                     print(to_string(path[i]), 6, false);
@@ -294,6 +295,19 @@ void Menu::MainMenu() {
                 getUserInput({7});
                 MainMenu();
             }
+        case 5:
+            if (!data.getGraph().getNodes().empty()) {
+                cout << "\nFinding cycle in the graph using this Heuristic. Please wait\n";
+                if (data.getRealGraph()) {
+                    vector<int> visitedVertices = data.getGraph().primMST();
+                    double tourDistance = data.getGraph().getTourDistance(visitedVertices);
+                    cout << "\nThe distance the travelling salesman travels is " << fixed << tourDistance;
+                }
+                }
+            cout << "\n\n";
+            cout << "Press 7 to continue\n";
+            getUserInput({7});
+            MainMenu();
         case 0:
             exit(0);
         default:
