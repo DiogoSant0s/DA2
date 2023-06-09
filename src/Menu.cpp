@@ -223,7 +223,11 @@ void Menu::MainMenu() {
                         cout << "\n";
                     }
                 }
-                cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getTourDistance(cycle);
+                if (data.getRealGraph()) {
+                    cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getTourDistance(cycle);
+                } else {
+                    cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().toyAndExtraComputeDistance(cycle);
+                }
                 cout << "\n\n";
                 cout << "Press 7 to continue\n";
                 getUserInput({7});
@@ -245,7 +249,7 @@ void Menu::MainMenu() {
                         cout << "\n";
                     }
                 }
-                cout << "\nThe distance the travelling salesman travels is " << fixed << dist << "\n";
+                cout << "\nThe distance the travelling salesman travels is " << fixed << dist;
                 cout << "\n\n";
                 cout << "Press 7 to continue\n";
                 getUserInput({7});
@@ -288,7 +292,11 @@ void Menu::MainMenu() {
                         cout << "\n";
                     }
                 }
-                cout << "\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getTourDistance(squirrelsInMyPants);
+                if (data.getRealGraph()) {
+                    cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getTourDistance(squirrelsInMyPants);
+                } else {
+                    cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().toyAndExtraComputeDistance(squirrelsInMyPants);
+                }
                 cout << "\n\n";
                 cout << "Press 7 to continue\n";
                 getUserInput({7});
@@ -297,16 +305,17 @@ void Menu::MainMenu() {
         case 5:
             if (!data.getGraph().getNodes().empty()) {
                 cout << "\nFinding cycle in the graph using this Heuristic. Please wait\n";
-                if (data.getRealGraph()) {
-                    vector<int> visitedNodes = data.getGraph().primMST();
-                    double tourDistance = data.getGraph().getTourDistance(visitedNodes);
-                    for (int i = 0; i < visitedNodes.size(); i++) {
-                        print(to_string(visitedNodes[i]), 6, false);
-                        if (i % 25 == 0 and i != 0) {
-                            cout << "\n";
-                        }
+                vector<int> visitedNodes = data.getGraph().primMST(data.getRealGraph());
+                for (int i = 0; i < visitedNodes.size(); i++) {
+                    print(to_string(visitedNodes[i]), 6, false);
+                    if (i % 25 == 0 and i != 0) {
+                        cout << "\n";
                     }
-                    cout << "\nThe distance the travelling salesman travels is " << fixed << tourDistance;
+                }
+                if (data.getRealGraph()) {
+                    cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().getTourDistance(visitedNodes);
+                } else {
+                    cout << "\n\nThe distance the travelling salesman travels is " << fixed << data.getGraph().toyAndExtraComputeDistance(visitedNodes);
                 }
                 cout << "\n\n";
                 cout << "Press 7 to continue\n";

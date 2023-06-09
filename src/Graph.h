@@ -201,11 +201,12 @@ public:
     double getTourDistance(vector<int> visitedNodes);
     /**
      * Finds the minimum spanning tree of a graph using Prim's algorithm
+     * @param realGraph Boolean used to know if the graph we are currently working on is a real graph or not
      * @details Time Complexity - O(V^2)
      * @details V is the number of nodes
      * @return The visitedVertices vector that contains the MST
      */
-    vector<int> primMST();
+    vector<int> primMST(bool realGraph);
 };
 
 #endif //DA2_GRAPH_H

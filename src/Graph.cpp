@@ -49,7 +49,6 @@ double Graph::getTourDistance(vector<int> visitedNodes) {
     for (int i = 0; i < visitedNodes.size() - 1; ++i) {
         totalDistance += distanceBetweenNodes(visitedNodes[i],visitedNodes[i + 1]);
     }
-    totalDistance += distanceBetweenNodes(visitedNodes.back(),visitedNodes.front());
     return totalDistance;
 }
 
@@ -302,7 +301,7 @@ vector<int> Graph::sosACO(int iterations, int numAnts, double alpha, double beta
     return uniqueTour;
 }
 
-vector<int> Graph::primMST() {
+vector<int> Graph::primMST(bool realGraph) {
     int numNodes = (int) nodes.size();
     vector<int> key(numNodes, INT_MAX);
     vector<int> parent(numNodes, -1);
@@ -319,7 +318,16 @@ vector<int> Graph::primMST() {
         }
         inMST[u] = true;
         for (int v = 0; v < numNodes; ++v) {
-            int weight = (int) distanceBetweenNodes(u,v);
+            int weight = INT_MAX;
+            if (realGraph) {
+                weight = (int) distanceBetweenNodes(u,v);
+            } else {
+                for (Edge* edge : nodes.find(u)->second->edgesOut) {
+                    if (edge->dest == v) {
+                        weight = (int) edge->distance;
+                    }
+                }
+            }
             if (weight && !inMST[v] && key[v] > weight) {
                 key[v] = weight;
                 parent[v] = u;
